@@ -10,5 +10,4 @@ public class TheCommonRoomApplication {
 		//Este es un comentario de prueba
 		SpringApplication.run(TheCommonRoomApplication.class, args);
 	}
-
 }
