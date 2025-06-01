@@ -13,14 +13,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     // Atributos
-
     private final UserService userService;
 
     // Metodos
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void register(@Valid @RequestBody UserRequestDTO userRequestDTO){
-//        userService.
+        userService.createUser(userRequestDTO);
     }
 }
