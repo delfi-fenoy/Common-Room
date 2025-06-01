@@ -25,43 +25,43 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/login", "/logout", "/auth/**", "/users").permitAll() // Público
-                .anyRequest().authenticated()//log
+                    .requestMatchers("/login", "/logout", "/auth/**", "/users/**").permitAll() // Rutas públicas
+                    .anyRequest().authenticated() // Para las demas rutas se requiere autenticacion
                 .and()
                 .formLogin()
-                .loginProcessingUrl("/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .successHandler((request, response, authentication) ->
-                {
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    response.getWriter().write("Successful login");
-                })
-                .failureHandler((request, response, exception) ->
-                {
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    response.getWriter().write("Incorrect user or password");
-                })
+                    .loginProcessingUrl("/login") // Ruta que recibe POST con username y password
+                    // Nombre de los parametros que van a venir en el POST
+                    .usernameParameter("username")
+                    .passwordParameter("password")
+                    // En caso de login exitoso
+                    .successHandler((request, response, authentication) -> {
+                        response.setStatus(HttpServletResponse.SC_OK);
+                        response.getWriter().write("Successful login");
+                    })
+                    // En caso de login fallido
+                    .failureHandler((request, response, exception) -> {
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        response.getWriter().write("Incorrect user or password");
+                    })
                 .and()
                 .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessHandler((request, response, authentication) ->
-                {
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    response.getWriter().write("Successful logout");
-                });
+                    .logoutUrl("/logout") // Ruta para cerrar sesión
+                    // En caso de logout exitoso
+                    .logoutSuccessHandler((request, response, authentication) -> {
+                        response.setStatus(HttpServletResponse.SC_OK);
+                        response.getWriter().write("Successful logout");
+                    });
 
         return http.build();
     }
 
-    // Encripto contraseña
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); // Encriptar contraseña
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+        return authenticationConfiguration.getAuthenticationManager(); // Administrar proceso de login
     }
 }

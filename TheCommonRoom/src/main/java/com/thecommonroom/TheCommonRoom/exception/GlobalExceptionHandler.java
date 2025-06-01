@@ -1,6 +1,7 @@
 package com.thecommonroom.TheCommonRoom.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -37,6 +38,14 @@ public class GlobalExceptionHandler {
     public Map<String, String> handleEmailAlreadyExists(EmailAlreadyExistsException ex){
         Map<String, String> error = new HashMap<>();
         error.put("email", ex.getMessage());
+        return error;
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, String> handleUsernameNotFound(UsernameNotFoundException ex){
+        Map<String, String> error = new HashMap<>();
+        error.put("username", ex.getMessage());
         return error;
     }
 }
