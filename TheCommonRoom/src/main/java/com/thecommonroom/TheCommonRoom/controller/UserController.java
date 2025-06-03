@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -18,16 +17,15 @@ public class UserController {
     private final UserService userService;
 
     // Metodos
-    @PostMapping
+    @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public void register(@Valid @RequestBody UserRequestDTO userRequestDTO){
         userService.createUser(userRequestDTO);
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/users/{username}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<UserResponseDTO> getUserByUsername(@PathVariable String username){
-        UserResponseDTO userResponseDTO = userService.findUserByUsername(username);
-        return ResponseEntity.ok(userResponseDTO);
+    public UserResponseDTO getUserByUsername(@PathVariable String username){
+        return userService.findUserByUsername(username);
     }
 }
