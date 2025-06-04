@@ -1,23 +1,24 @@
-<!-- templates/sidebar.html -->
-<aside class="sidebar">
-  <!-- Ícono de listas -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<body>
+<aside class="sidebar" th:fragment="sidebar">
   <div class="sidebar-item" data-label="Listas" title="Movie List">
-    <a href="moviesheet.html">
-      <img src="/static/img/list.png" class="icon" alt="Listas" />
+    <a th:href="@{/moviesheet}">
+      <img th:src="@{/img/list.png}" class="icon" alt="Listas" />
     </a>
   </div>
 
-  <!-- Ícono de películas -->
   <div class="sidebar-item" data-label="Películas" title="Movies">
-    <a href="#">
-      <img src="/static/img/movies.png" class="icon" alt="Películas" />
+    <a th:href="@{/movies}">
+      <img th:src="@{/img/movies.png}" class="icon" alt="Películas" />
     </a>
   </div>
 
-  <!-- Ícono de usuarios -->
   <div class="sidebar-item" data-label="Usuarios" title="Users">
-    <a href="#">
-      <img src="/static/img/users.png" class="icon" alt="Usuarios" />
+    <a th:href="@{/users}">
+      <img th:src="@{/img/users.png}" class="icon" alt="Usuarios" />
     </a>
   </div>
 </aside>
+</body>
+</html>

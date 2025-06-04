@@ -1,28 +1,25 @@
-document.getElementById("form-registro").addEventListener("submit", function (e) {
+document.getElementById("form-register").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const username = e.target.username.value;
-  const email = e.target.email.value;
-  const password = e.target.password.value;
+  const data = {
+    username: document.getElementById("new-username").value,
+    email: document.getElementById("new-email").value,
+    password: document.getElementById("new-password").value,
+    profilePictureUrl: document.getElementById("new-profilePictureUrl").value || null
+  };
 
-  fetch("http://localhost:8080/users", {
+  fetch("/auth/register", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ username, email, password })
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
   })
-  .then(response => {
-    if (!response.ok) {
-      return response.text().then(text => { throw new Error(text) });
-    }
-    return "Usuario registrado correctamente";
-  })
-  .then(msg => {
-    document.getElementById("mensaje").innerText = msg;
-    e.target.reset();
-  })
-  .catch(error => {
-    document.getElementById("mensaje").innerText = "Error: " + error.message;
-  });
+    .then(res => {
+      if (!res.ok) throw new Error("Error en el registro");
+      return res.text(); // o .json() si devolvés un objeto
+    })
+    .then(msg => {
+      alert("Registrado con éxito");
+      window.location.href = "/login.html"; // o redirigir al home
+    })
+    .catch(err => alert(err.message));
 });

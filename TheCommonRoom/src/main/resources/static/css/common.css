@@ -97,10 +97,12 @@ body {
 }
 
 /*---------Foto Usuario---------*/
-.user-img {
-    width: 30px;
-    height: 30px;
+.user-photo {
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
 }
 
 /* ------------------ Sidebar ------------------ */

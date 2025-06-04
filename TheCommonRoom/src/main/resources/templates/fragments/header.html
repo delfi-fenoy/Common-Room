@@ -1,19 +1,32 @@
-<!-- templates/header.html -->
-<header class="top-header">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<body>
+<header class="top-header" th:fragment="header">
   <div class="logo-container">
-    <a href="index.html" class="logo-link" title="Home">
-      <img src="/static/img/iconLetter.png" alt="Logo" class="logo-img" />
+    <a th:href="@{/home}" class="logo-link" title="Home">
+      <img th:src="@{/img/iconLetter.png}" alt="Logo" class="logo-img" />
     </a>
   </div>
 
   <input type="text" class="search-bar" placeholder="Buscar..." />
 
-  <div class="user-buttons">
-    <a href="signin.html" class="user-section" title="Sign In">
+  <div class="user-buttons" th:if="${usuarioLogueado == null}">
+    <a th:href="@{/signin}" class="user-section" title="Sign In">
       <span class="sign-in-text">Sign in</span>
     </a>
-    <a href="signin.html?register=true" class="user-section" title="Register">
+
+    <a th:href="@{/signin(register=true)}" class="user-section" title="Register">
       <span class="sign-in-text">Register</span>
     </a>
   </div>
+
+  <div class="user-buttons" th:if="${usuarioLogueado != null}">
+    <a th:href="@{/profile}" class="user-section" title="Perfil de usuario">
+      <img th:src="@{${usuarioLogueado.foto}}" alt="Foto Usuario" class="user-photo" />
+      <span th:text="${usuarioLogueado.nombre}">Nombre Usuario</span>
+    </a>
+  </div>
+
 </header>
+</body>
+</html>

@@ -1,30 +1,29 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movie Details | Common Room</title>
-    <link rel="icon" href="/static/img/iconLetter.png" type="image/png" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/static/css/common.css" />
-    <link rel="stylesheet" href="/static/css/movie-details.css" />
+    <link rel="icon" href="/img/iconLetter.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/movie-details.css" />
   </head>
   <body>
     <!--Header-->
-    <div id="header-placeholder"></div>
+    <div th:insert="fragments/header :: header"></div>
 
     <!--Sidebar-->
-    <div id="sidebar-placeholder"></div>
+    <div th:insert="fragments/sidebar :: sidebar"></div>
 
-    <!-- =========================================== Detalles de Película =========================================== -->
+    <!-- =========================================== Main =========================================== -->
     <div class="main-layout">
+      <!--Panel Izquierdo | Pelicula-->
       <div class="left-panel-wrapper">
         <div class="left-panel">
           <img
-            src="/static/img/movie.png"
+            src="/img/movie.png"
             alt="Poster de la película"
             class="movie-poster"
           />
@@ -34,16 +33,18 @@
         </div>
       </div>
 
+      <!--Detalles | Pelicula-->
       <main class="movie-detail">
+
         <!-- Center Panel -->
         <section class="center-panel">
+          <!--Botones Tab-->
           <div class="tabs">
-            <button class="tab selected" data-tab="description">
-              Description
-            </button>
+            <button class="tab selected" data-tab="description"> Description </button>
             <button class="tab" data-tab="details">Details</button>
           </div>
-
+          
+          <!--Descripcion/Sinopsis | Pelicula-->
           <div id="description" class="description-box">
             <p>
               <em>
@@ -56,7 +57,7 @@
               </em>
             </p>
           </div>
-
+          <!--Informacion | Pelicula-->
           <div id="details" class="description-box" style="display: none">
             <p>
               <em
@@ -65,13 +66,14 @@
               >
             </p>
           </div>
-
+          <!--Reseñas | Titulo-->
           <button class="review-btn">Reviews</button>
 
+          <!--Reseñas | Apartado-->
           <div class="reviews">
             <div class="review">
               <div class="review-header">
-                <img src="/static/img/user.png" class="review-avatar" />
+                <img src="/img/user.png" class="review-avatar" />
                 <div>
                   <strong>Review by MangelRogel</strong>
                   <span class="stars">★★★★★</span>
@@ -92,7 +94,7 @@
     <footer>© 2025 | The Common Room | Fenoy, Francano y Perez</footer>
 
     <!-- =========================================== JavaScript =========================================== -->
-    <script src="/static/js/alternateTabs.js"></script>
+    <script src="/js/alternateTabs.js"></script>
 
     <!--Conexion con el Header y Sidebar-->
     <script>
@@ -108,6 +110,6 @@
           document.getElementById("sidebar-placeholder").innerHTML = data;
         });
     </script>
-    
+
   </body>
 </html>

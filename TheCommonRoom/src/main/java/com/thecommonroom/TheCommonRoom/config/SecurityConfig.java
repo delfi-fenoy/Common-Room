@@ -19,7 +19,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    // Manejo de login y logout
+    // Manejo de login y logout | Version Original
+    /*
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -51,6 +52,37 @@ public class SecurityConfig {
                         response.setStatus(HttpServletResponse.SC_OK);
                         response.getWriter().write("Successful logout");
                     });
+
+        return http.build();
+    }
+     */
+
+    // Manejo de login y logout | Version Ian :D
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeHttpRequests()
+                .requestMatchers(
+                        "/", "/index", "/index.html", "/home", "/moviesheet", "/signin",
+                        "/css/**", "/js/**", "/img/**",
+                        "/login", "/logout", "/auth/**", "/users/**"
+                ).permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/signin")
+                .loginProcessingUrl("/login")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/home", true)
+                .failureUrl("/signin?error=true")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/signin?logout=true")
+                .permitAll();
 
         return http.build();
     }
