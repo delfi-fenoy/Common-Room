@@ -25,7 +25,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                    .requestMatchers("/login", "/logout", "/auth/**", "/users/**").permitAll() // Rutas públicas
+                    .requestMatchers("/login", "/logout", "/auth/**", "/users/**", "/movie/**").permitAll() // Rutas públicas
                     .anyRequest().authenticated() // Para las demas rutas se requiere autenticacion
                 .and()
                 .formLogin()
