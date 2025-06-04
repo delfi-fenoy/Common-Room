@@ -1,0 +1,203 @@
+/* ------------------ Reinicio de márgenes, paddings y modelo de caja ------------------ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ------------------ Estilos generales del cuerpo de la página ------------------ */
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom right, #9cab86, #3b5445);
+  color: #f0f0f0;
+  overflow-x: hidden;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ------------------ LAYOUT GENERAL ------------------ */
+.main-layout {
+  display: flex;
+  min-height: 100vh;
+  margin-left: 300px;
+  margin-right: 300px;
+  margin-top: 90px;
+}
+
+/* ------------------ DETALLE DE PELÍCULA ------------------ */
+.movie-detail {
+  flex-grow: 1;
+  padding: 40px;
+  display: flex;
+  gap: 30px;
+}
+
+/* --------- Panel izquierdo --------- */
+.left-panel {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.left-panel-wrapper {
+  background-color: #5a4e42;
+  width: 270px;
+  padding: 30px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: sticky;
+  top: 90px;
+  height: calc(100vh - 90px);
+}
+
+/* --------- Pelicula --------- */
+.movie-poster {
+  width: 100%;
+  border: 3px solid black;
+}
+
+.movie-title {
+  margin-top: 10px;
+  background: rgb(53, 29, 9);
+  padding: 6px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* --------- Rating | Puntaje --------- */
+.rating-box {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.rating-graph {
+  width: 100%;
+}
+
+.score {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* --------- Panel del centro --------- */
+.center-panel {
+  flex-grow: 1;
+}
+
+/* --------- Tabs --------- */
+.tabs {
+  display: flex;
+  gap: 5px;
+}
+
+.tab {
+  padding: 10px 20px;
+  background: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.tab.selected {
+  background: black;
+  color: white;
+}
+
+/* --------- Descripcion --------- */
+.description-box {
+  margin-top: 10px;
+  padding: 20px;
+  background: #353636;
+  border: 5px solid black;
+  font-style: italic;
+}
+
+/* Titulo de reseñas */
+.review-btn {
+  margin-top: 20px;
+  background: #00ffff;
+  border: none;
+  padding: 10px 40px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ------------------ RESEÑAS ------------------ */
+/* Lista de reseñas */
+.reviews {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.review {
+  background: #1d1d1d;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.review-header {
+  display: flex;
+  gap: 15px;
+}
+
+.review-avatar {
+  width: 40px;
+  height: 40px;
+  background: #a2b18a;
+  /*Test*/
+  border-radius: 100%;
+}
+
+.stars {
+  color: #38e79e;
+  margin-left: 10px;
+}
+
+.likes {
+  margin-left: 10px;
+}
+
+.review-title,
+.review-text {
+  margin-top: 10px;
+}
+
+/* ------------------ UTILIDADES ------------------ */
+.text-center {
+  text-align: center;
+}
+
+.mt-3 {
+  margin-top: 3rem;
+}
+
+.mb-2 {
+  margin-bottom: 2rem;
+}
+
+.p-1 {
+  padding: 1rem;
+}
+
+.rounded-full {
+  border-radius: 50%;
+}
+
+.bg-dark {
+  background-color: #2c2c2c;
+}
+
+.text-muted {
+  color: #aaa;
+}
+
+.fs-small {
+  font-size: 0.9rem;
+}

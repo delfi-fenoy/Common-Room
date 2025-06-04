@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | Common Room</title>
+    <link rel="icon" href="/static/img/iconLetter.png" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/css/common.css" />
+    <link rel="stylesheet" href="/static/css/home.css" />
+  </head>
+
+  <body>
+    <!--Header-->
+    <div id="header-placeholder"></div>
+
+    <!--Sidebar-->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- =========================================== Contenido Principal =========================================== -->
+    <main class="main-content">
+      <!-- Logo y nombre -->
+      <section class="logo-section">
+        <img src="/static/img/title.png" alt="Logo" class="main-logo" />
+      </section>
+
+      <!-- CARRUSEL ÚLTIMOS ESTRENOS -->
+      <div class="carousel-section">
+        <h3>Últimos estrenos</h3>
+        <div class="carousel-wrapper">
+          <button class="carousel-btn" onclick="retroceder('latest-carousel')">
+            &#9664;
+          </button>
+          <div class="carousel" id="latest-carousel"></div>
+          <button class="carousel-btn" onclick="avanzar('latest-carousel')">
+            &#9654;
+          </button>
+        </div>
+      </div>
+
+      <!-- CARRUSEL RECOMENDADAS -->
+      <div class="carousel-section">
+        <h3>Películas recomendadas</h3>
+        <div class="carousel-wrapper">
+          <button
+            class="carousel-btn"
+            onclick="retroceder('recommended-carousel')"
+          >
+            &#9664;
+          </button>
+          <div class="carousel" id="recommended-carousel"></div>
+          <button
+            class="carousel-btn"
+            onclick="avanzar('recommended-carousel')"
+          >
+            &#9654;
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- =========================================== Pie de página =========================================== -->
+    <footer>© 2025 | The Common Room | Fenoy, Francano y Perez</footer>
+
+    <!-- =========================================== JavaScript ===========================================-->
+    <script type="module" src="/static/js/main.js"></script>
+
+    <!--Conexion con el Header y Sidebar-->
+    <script>
+      fetch("fragments/header.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("header-placeholder").innerHTML = data;
+        });
+
+      fetch("fragments/sidebar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("sidebar-placeholder").innerHTML = data;
+        });
+    </script>
+  </body>
+</html>

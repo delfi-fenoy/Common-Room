@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | Common Room</title>
+    <link rel="icon" href="/static/img/iconLetter.png" type="image/png" />
+    <link rel="stylesheet" href="/static/css/signin.css" />
+  </head>
+  <body>
+    <!-- =========================================== Fondo de estrellas =========================================== -->
+    <div class="stars"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+
+    <!-- =========================================== Botón de regreso al index =========================================== -->
+    <a href="index.html" class="back-button" title="CommonRoom">
+      <img src="/static/img/iconLetter.png" alt="Inicio" />
+    </a>
+
+    <!-- =========================================== Contenedor con perspectiva =========================================== -->
+    <div class="flip-container" id="flipContainer">
+      <div class="card">
+        <!-- =========================================== Lado login =========================================== -->
+        <div class="login-container front">
+          <form class="login-box">
+            <h2>Hello There</h2>
+
+            <label for="username">Username</label>
+            <input
+              type="username"
+              id="username"
+              placeholder="Anakin"
+              required
+            />
+
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Skywalker"
+              required
+            />
+
+            <button type="submit">Sign in</button>
+
+            <p class="signup-text">
+              Don't have an account?
+              <a href="#" onclick="flipCard()">Register</a>
+            </p>
+          </form>
+        </div>
+
+        <!-- =========================================== Lado registro =========================================== -->
+        <div class="login-container back">
+          <form id= "form-register" class="login-box">
+            <h2>Register</h2>
+
+            <label for="new-username">Username</label>
+            <input
+              type="user"
+              id="new-username"
+              placeholder="Username"
+              required
+            />
+
+            <label for="new-email">Email</label>
+            <input
+              type="email"
+              id="new-email"
+              placeholder="you@example.com"
+              required
+            />
+
+            <label for="new-password">Password</label>
+            <input
+              type="password"
+              id="new-password"
+              placeholder="Password"
+              required
+            />
+
+            <button type="submit">Register</button>
+
+            <p class="signup-text">
+              Already have an account?
+              <a href="#" onclick="flipCard()">Sign In</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================== JavaScript ===========================================-->
+    <script src="/static/js/register.js"></script>
+    <script>
+      function flipCard() {
+        document.getElementById("flipContainer").classList.toggle("flipped");
+      }
+
+      // Si la URL contiene ?register=true, girar la tarjeta automáticamente
+      window.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("register") === "true") {
+          flipCard();
+        }
+      });
+    </script>
+  </body>
+</html>
