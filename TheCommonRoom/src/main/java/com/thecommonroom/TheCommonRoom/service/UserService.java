@@ -5,6 +5,7 @@ import com.thecommonroom.TheCommonRoom.dto.UserResponseDTO;
 import com.thecommonroom.TheCommonRoom.exception.EmailAlreadyExistsException;
 import com.thecommonroom.TheCommonRoom.exception.UsernameAlreadyExistsException;
 import com.thecommonroom.TheCommonRoom.mapper.UserMapper;
+import com.thecommonroom.TheCommonRoom.model.CustomUserDetails;
 import com.thecommonroom.TheCommonRoom.model.Role;
 import com.thecommonroom.TheCommonRoom.model.User;
 import com.thecommonroom.TheCommonRoom.repository.UserRepository;
@@ -46,15 +47,12 @@ public class UserService implements UserDetailsService {
     // Autentica al usuario al hacer login
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-       User user = userRepository.findByUsername(username)
-               .orElseThrow(()-> new UsernameNotFoundException("User not found"));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                Collections.singleton(new SimpleGrantedAuthority(user.getRole().toString()))
-        );
+        return new CustomUserDetails(user);
     }
+
 
     public UserResponseDTO findUserByUsername(String username){
         User user = userRepository.findByUsername(username)
