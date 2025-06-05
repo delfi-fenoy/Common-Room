@@ -19,7 +19,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    // Manejo de login y logout
+    // SecurityChain de API REST | Version Original
+    /*
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -54,6 +55,42 @@ public class SecurityConfig {
 
         return http.build();
     }
+     */
+
+    // SecurityChain con HTML | Version Ian :D
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeHttpRequests()
+                .requestMatchers(
+                        "/", "/index", "/index.html", "/signin", "/register",
+                        "/css/**", "/js/**", "/img/**",
+                        "/movies/**", "/reviews/**" // TODO lo que se ve sin estar logueado
+                ).permitAll()
+                .requestMatchers(
+                        "/profile/**", "/favorites/**", "/like/**", "/comment/**"
+                ).authenticated() // Acciones privadas
+                .anyRequest().permitAll() // Por si queda algo suelto
+                .and()
+                .formLogin()
+                .loginPage("/signin")
+                .loginProcessingUrl("/index")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/home", true)
+                .failureUrl("/signin?error=true")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/signin?logout=true")
+                .permitAll();
+
+        return http.build();
+    }
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {

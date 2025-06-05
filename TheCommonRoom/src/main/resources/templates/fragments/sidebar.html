@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<body>
+<aside class="sidebar" th:fragment="sidebar">
+  <div class="sidebar-item" data-label="Listas" title="Movie List">
+    <a th:href="@{/moviesheet}">
+      <img th:src="@{/img/list.png}" class="icon" alt="Listas" />
+    </a>
+  </div>
+
+  <div class="sidebar-item" data-label="Películas" title="Movies">
+    <a th:href="@{/movies}">
+      <img th:src="@{/img/movies.png}" class="icon" alt="Películas" />
+    </a>
+  </div>
+
+  <div class="sidebar-item" data-label="Usuarios" title="Users">
+    <a th:href="@{/users}">
+      <img th:src="@{/img/users.png}" class="icon" alt="Usuarios" />
+    </a>
+  </div>
+</aside>
+</body>
+</html>
