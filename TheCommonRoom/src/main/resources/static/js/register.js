@@ -8,7 +8,7 @@ document.getElementById("form-register").addEventListener("submit", function (e)
     profilePictureUrl: document.getElementById("new-profilePictureUrl").value || null
   };
 
-  fetch("/users", {
+  fetch("/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
@@ -19,7 +19,7 @@ document.getElementById("form-register").addEventListener("submit", function (e)
     })
     .then(msg => {
       alert("Registrado con éxito");
-      window.location.href = "/login.html"; // o redirigir al home
+      window.location.href = "/home"; // o redirigir al home
     })
     .catch(err => alert(err.message));
 });
