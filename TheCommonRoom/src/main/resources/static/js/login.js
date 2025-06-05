@@ -12,9 +12,15 @@ form.addEventListener('submit', e => {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data),
+        credentials: 'include'  // muy importante para que la sesión se mantenga
     })
-        .then(res => res.json())
-        .then(response => {
-            // manejar respuesta
+        .then(res => {
+            if(res.ok) {
+                window.location.href = '/home'; // redirigir para que se vea el header actualizado
+            } else {
+                return res.json().then(err => {
+                    alert(err.message || 'Error en login');
+                });
+            }
         });
 });

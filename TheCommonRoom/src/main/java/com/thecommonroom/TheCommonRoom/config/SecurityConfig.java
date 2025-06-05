@@ -75,7 +75,7 @@ public class SecurityConfig {
                 .and()
                 .formLogin()
                 .loginPage("/signin")
-                .loginProcessingUrl("/index")
+                .loginProcessingUrl("/auth/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/home", true)

@@ -25,6 +25,9 @@
       <img th:src="@{${usuarioLogueado.profilePictureUrl}}" alt="Foto Usuario" class="user-photo" />
       <span th:text="${usuarioLogueado.nombre}">Nombre Usuario</span>
     </a>
+    <form th:action="@{/logout}" method="post" class="logout-form" style="display:inline;">
+      <button type="submit" class="logout-button">Cerrar sesión</button>
+    </form>
   </div>
 
 </header>
