@@ -8,7 +8,7 @@ document.getElementById("form-register").addEventListener("submit", function (e)
     profilePictureUrl: document.getElementById("new-profilePictureUrl").value || null
   };
 
-  fetch("/auth/register", {
+  fetch("/users", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
