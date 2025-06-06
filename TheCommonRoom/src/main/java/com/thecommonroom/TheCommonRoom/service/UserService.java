@@ -2,6 +2,7 @@ package com.thecommonroom.TheCommonRoom.service;
 
 import com.thecommonroom.TheCommonRoom.dto.UserPreviewDTO;
 import com.thecommonroom.TheCommonRoom.dto.UserRequestDTO;
+import com.thecommonroom.TheCommonRoom.dto.UserResponseDTO;
 import com.thecommonroom.TheCommonRoom.exception.EmailAlreadyExistsException;
 import com.thecommonroom.TheCommonRoom.exception.NoUsersFoundException;
 import com.thecommonroom.TheCommonRoom.exception.UsernameAlreadyExistsException;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -44,30 +45,33 @@ public class UserService implements UserDetailsService {
         userRepository.save(user); // Guardar en la base de datos
     }
 
-    ///Autentica al usuario al acer login
+    // Autentica al usuario al hacer login
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
-    {
-       User user= userRepository.findByUsername(username)
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+       User user = userRepository.findByUsername(username)
                .orElseThrow(()-> new UsernameNotFoundException("User not found"));
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                Collections.singleton(new SimpleGrantedAuthority("ROLE_"+ user.getRole()))
+                Collections.singleton(new SimpleGrantedAuthority(user.getRole().toString()))
         );
     }
 
     ///Obtiene todos los usuarios guardados en la base de datos y si no hay ninguno lanza la exception
     ///Si hay usuarios los convierte en una lista de DTOs
-    public List<UserPreviewDTO> getAllUsers()
-    {
+    public List<UserPreviewDTO> getAllUsers(){
         List<User> users = userRepository.findAll();
 
-        if(users.isEmpty())
-        {
-            throw new NoUsersFoundException("No registred users found");
+        if(users.isEmpty()){
+            throw new NoUsersFoundException("No registered users found");
         }
         return UserMapper.toPreviewDTOList(users);
+    }    
+        
+    public UserResponseDTO findUserByUsername(String username){
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        return UserMapper.toDTO(user);
     }
 }

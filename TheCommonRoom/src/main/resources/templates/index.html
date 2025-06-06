@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | Common Room</title>
+    <link rel="icon" href="/img/iconLetter.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+  </head>
+
+  <body>
+    <!--Header-->
+    <div th:insert="fragments/header :: header"></div>
+
+    <!--Sidebar-->
+    <div th:insert="fragments/sidebar :: sidebar"></div>
+
+    <!-- =========================================== Contenido Principal =========================================== -->
+    <main class="main-content">
+      <!-- Logo y nombre -->
+      <section class="logo-section">
+        <img src="/img/title.png" alt="Logo" class="main-logo" />
+      </section>
+
+      <!-- Carrusel Ultimos Estrenos -->
+      <div class="carousel-section">
+        <h3>Últimos estrenos</h3>
+        <div class="carousel-wrapper">
+          <button class="carousel-btn" onclick="retroceder('latest-carousel')">
+            &#9664;
+          </button>
+          <div class="carousel" id="latest-carousel"></div>
+          <button class="carousel-btn" onclick="avanzar('latest-carousel')">
+            &#9654;
+          </button>
+        </div>
+      </div>
+
+      <!-- Carrusel Recomendados -->
+      <div class="carousel-section">
+        <h3>Películas recomendadas</h3>
+        <div class="carousel-wrapper">
+          <button
+            class="carousel-btn"
+            onclick="retroceder('recommended-carousel')"
+          >
+            &#9664;
+          </button>
+          <div class="carousel" id="recommended-carousel"></div>
+          <button
+            class="carousel-btn"
+            onclick="avanzar('recommended-carousel')"
+          >
+            &#9654;
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- =========================================== Pie de página =========================================== -->
+    <footer>© 2025 | The Common Room | Fenoy, Francano y Perez</footer>
+
+    <!-- =========================================== JavaScript ===========================================-->
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>

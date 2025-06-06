@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in | Common Room</title>
+    <link rel="icon" href="/img/iconLetter.png" type="image/png" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/signin.css" />
+  </head>
+  <body>
+    <!-- =========================================== Fondo de estrellas =========================================== -->
+    <div class="stars"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+
+    <!-- =========================================== Botón de regreso al index =========================================== -->
+    <a th:href="@{/home}" class="back-button" title="Home">
+      <img th:src="@{/img/iconLetter.png}" alt="Inicio" class="logo-img" />
+    </a>
+
+    <!-- =========================================== Contenedor con perspectiva =========================================== -->
+    <div class="flip-container" id="flipContainer">
+      <div class="card">
+        <!-- =========================================== Lado login =========================================== -->
+        <div class="login-container front">
+
+          <form class="login-box">
+            <!-- Titulo -->
+            <h2>Sign in</h2>
+            
+            <!-- Nombre de Usuario -->
+            <label for="username">Username</label>
+            <input type="username" id="username" placeholder="Anakin" required/>
+            
+            <!-- Contraseña -->
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Skywalker" required/>
+
+            <!-- Boton de Sign In -->
+            <button type="submit">Sign in</button>
+
+            <!-- Flip -->
+            <p class="signup-text">
+              Don't have an account?
+              <a href="#" onclick="flipCard()">Register</a>
+            </p>
+          </form>
+
+        </div>
+
+        <!-- =========================================== Lado registro =========================================== -->
+        <div class="login-container back">
+
+          <form id="form-register" class="login-box">
+            <!-- Titulo -->
+            <h2>Register</h2>
+
+            <!-- Nombre de Usuario -->
+            <label for="new-username">Username</label>
+            <input
+              type="user"
+              id="new-username"
+              placeholder="Username"
+              required
+            />
+
+            <!-- Email -->
+            <label for="new-email">Email</label>
+            <input
+              type="email"
+              id="new-email"
+              placeholder="you@example.com"
+              required
+            />
+
+            <!-- Contraseña -->
+            <label for="new-password">Password</label>
+            <input
+              type="password"
+              id="new-password"
+              placeholder="Password"
+              required
+            />
+
+            <label for="new-password">Profile Picture</label>
+            <input type="url" id="new-profilePictureUrl" placeholder="Foto de perfil (opcional)" />
+
+
+            <!-- Boton de Register -->
+            <button type="submit">Register</button>
+
+            <!-- Flip -->
+            <p class="signup-text">
+              Already have an account?
+              <a href="#" onclick="flipCard()">Sign In</a>
+            </p>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================== JavaScript ===========================================-->
+    <script src="/js/register.js"></script>
+
+    <!--Funcion Flip y Aparecer en register-->
+    <script>
+      function flipCard() {
+        document.getElementById("flipContainer").classList.toggle("flipped");
+      }
+
+      // Si la URL contiene ?register=true, girar la tarjeta automáticamente
+      window.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("register") === "true") {
+          flipCard();
+        }
+      });
+    </script>
+    
+  </body>
+</html>

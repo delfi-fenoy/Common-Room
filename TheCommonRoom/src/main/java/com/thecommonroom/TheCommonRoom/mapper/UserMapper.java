@@ -3,6 +3,7 @@ package com.thecommonroom.TheCommonRoom.mapper;
 import com.thecommonroom.TheCommonRoom.dto.UserPreviewDTO;
 import com.thecommonroom.TheCommonRoom.dto.UserRequestDTO;
 import com.thecommonroom.TheCommonRoom.model.Role;
+import com.thecommonroom.TheCommonRoom.dto.UserResponseDTO;
 import com.thecommonroom.TheCommonRoom.model.User;
 
 import java.util.List;
@@ -31,10 +32,19 @@ public class UserMapper {
     }
 
     ///Convierte una lista de User a una lista de UserPreviewDTO
-    public static List<UserPreviewDTO> toPreviewDTOList(List<User> users)
-    {
+    public static List<UserPreviewDTO> toPreviewDTOList(List<User> users){
         return users.stream()
                 .map(UserMapper::toPreviewDTO)
                 .collect(Collectors.toList());
+    }
+  
+    public static UserResponseDTO toDTO(User user){
+        return UserResponseDTO.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .createdAt(user.getCreatedAt())
+                .profilePictureUrl(user.getProfilePictureUrl())
+                .build();
     }
 }
