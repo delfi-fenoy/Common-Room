@@ -1,7 +1,6 @@
 package com.thecommonroom.TheCommonRoom.controller;
 
 import com.thecommonroom.TheCommonRoom.dto.MovieDetailsDTO;
-import com.thecommonroom.TheCommonRoom.dto.RawMovieDTO;
 import com.thecommonroom.TheCommonRoom.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

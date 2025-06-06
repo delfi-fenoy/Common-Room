@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <body>
+  <!--
+    Fragmento header reutilizable para la barra superior de la aplicación.
+
+    Incluye:
+    - Logo que linkea a la página de inicio (/home)
+    - Barra de búsqueda (input sin funcionalidad aún)
+    - Botones de usuario que cambian según si hay usuario logueado o no:
+      * Si no hay usuario logueado muestra opciones "Sign in" y "Register"
+      * Si hay usuario logueado muestra foto, nombre y botón para cerrar sesión
+
+    Para incluirlo en otras plantillas utilizar:
+    <div th:insert="fragments/header :: header"></div>
+  -->
+
 <header class="top-header" th:fragment="header">
   <div class="logo-container">
     <a th:href="@{/home}" class="logo-link" title="Home">

@@ -1,9 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <body>
+  <!--
+    Fragmento sidebar reutilizable para la barra lateral del sitio.
+    Contiene enlaces con íconos hacia secciones importantes:
+    - Listas (ejemplo: película con id 550)
+    - Películas
+    - Usuarios
+
+    Para incluir este fragmento en otras plantillas se utiliza
+    <div th:insert="fragments/sidebar :: sidebar"></div>
+  -->
+
 <aside class="sidebar" th:fragment="sidebar">
   <div class="sidebar-item" data-label="Listas" title="Movie List">
-    <a th:href="@{/moviesheet}">
+    <a th:href="@{/moviesheet/550}">
       <img th:src="@{/img/list.png}" class="icon" alt="Listas" />
     </a>
   </div>

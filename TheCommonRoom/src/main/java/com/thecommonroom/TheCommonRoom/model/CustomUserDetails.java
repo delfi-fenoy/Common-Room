@@ -4,9 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.Collections;
+
+/**
+ * Implementación personalizada de UserDetails para Spring Security,
+ * que adapta la clase User del sistema a los requerimientos del framework.
+ * <p>
+ * Proporciona la información de usuario necesaria para la autenticación y autorización,
+ * incluyendo roles, credenciales y estado de la cuenta.
+ * Además, ofrece métodos útiles para mostrar datos en las vistas (Thymeleaf|Front).
+ */
 
 @AllArgsConstructor
 @Getter

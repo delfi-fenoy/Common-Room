@@ -3,6 +3,16 @@ package com.thecommonroom.TheCommonRoom.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * Controlador que maneja las rutas principales estáticas de la aplicación,
+ * como la página de inicio, la ficha general de películas y la página de inicio de sesión. (por ahora)
+ * <p>
+ * - @Controller se usa para devolver vistas (HTML, plantillas) y requiere que los métodos retornen
+ *   nombres de plantillas para renderizar. <p>
+ * - @RestController es una combinación de @Controller y @ResponseBody, usada para APIs REST,
+ *   devuelve directamente datos (como JSON) en lugar de vistas.
+ */
+
 @Controller
 public class HomeController {
 
@@ -22,4 +32,3 @@ public class HomeController {
     }
 
 }
-
