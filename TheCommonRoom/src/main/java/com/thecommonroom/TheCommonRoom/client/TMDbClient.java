@@ -1,6 +1,7 @@
 package com.thecommonroom.TheCommonRoom.client;
 
 import com.thecommonroom.TheCommonRoom.dto.RawMovieDTO;
+import com.thecommonroom.TheCommonRoom.dto.RawMovieListDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -26,4 +27,11 @@ public class TMDbClient {
         String url = String.format("%s/movie/%d?api_key=%s", baseUrl, id, key);
         return restTemplate.getForObject(url, RawMovieDTO.class);
     }
+
+    ///  PAGINACION DE PELICULAS | Llama a la API de TMDb y devuelve películas populares (paginadas)
+    public RawMovieListDTO getPopularMovies(int page) {
+        String url = String.format("%s/movie/popular?api_key=%s&page=%d", baseUrl, key, page);
+        return restTemplate.getForObject(url, RawMovieListDTO.class);
+    }
+
 }

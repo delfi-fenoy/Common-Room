@@ -1,7 +1,12 @@
 package com.thecommonroom.TheCommonRoom.controller;
 
+import com.thecommonroom.TheCommonRoom.client.TMDbClient;
+import com.thecommonroom.TheCommonRoom.dto.RawMovieListDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Controlador que maneja las rutas principales estáticas de la aplicación,
@@ -14,21 +19,31 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 
 @Controller
+@RequiredArgsConstructor
 public class HomeController {
 
+    private final TMDbClient tmdbClient;
+
     @GetMapping("/home")
-    public String index() {
-        return "index"; // templates/index.html
+    public String index(@RequestParam(defaultValue = "1") int page, Model model) {
+        RawMovieListDTO movieList = tmdbClient.getPopularMovies(page);
+        model.addAttribute("movies", movieList.getResults());
+        model.addAttribute("currentPage", page);
+        return "index";
     }
 
     @GetMapping("/moviesheet")
     public String moviesheet() {
-        return "moviesheet"; // templates/moviesheet.html
+        return "moviesheet";
     }
 
     @GetMapping("/signin")
     public String signin() {
-        return "signin"; // templates/signin.html
+        return "signin";
     }
-
 }
+
+
+
+
+

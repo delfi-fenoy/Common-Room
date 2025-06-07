@@ -1,35 +1,30 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
-<body>
-  <!--
-    Fragmento sidebar reutilizable para la barra lateral del sitio.
-    Contiene enlaces con íconos hacia secciones importantes:
-    - Listas (ejemplo: película con id 550)
-    - Películas
-    - Usuarios
+<!--
+  Fragmento sidebar reutilizable para la barra lateral del sitio.
+  Contiene enlaces con íconos hacia secciones importantes:
+  - Listas (ejemplo: película con id 550)
+  - Películas
+  - Usuarios
 
-    Para incluir este fragmento en otras plantillas se utiliza
-    <div th:insert="fragments/sidebar :: sidebar"></div>
-  -->
+  Para incluir este fragmento en otras plantillas se utiliza:
+  <div th:insert="fragments/sidebar :: sidebar"></div>
+-->
 
 <aside class="sidebar" th:fragment="sidebar">
   <div class="sidebar-item" data-label="Listas" title="Movie List">
     <a th:href="@{/moviesheet/550}">
-      <img th:src="@{/img/list.png}" class="icon" alt="Listas" />
+      <img th:src="@{/img/list.png}" class="icon" alt="Ir a listas" />
     </a>
   </div>
 
   <div class="sidebar-item" data-label="Películas" title="Movies">
     <a th:href="@{/movies}">
-      <img th:src="@{/img/movies.png}" class="icon" alt="Películas" />
+      <img th:src="@{/img/movies.png}" class="icon" alt="Ir a películas" />
     </a>
   </div>
 
   <div class="sidebar-item" data-label="Usuarios" title="Users">
     <a th:href="@{/users}">
-      <img th:src="@{/img/users.png}" class="icon" alt="Usuarios" />
+      <img th:src="@{/img/users.png}" class="icon" alt="Ir a usuarios" />
     </a>
   </div>
 </aside>
-</body>
-</html>

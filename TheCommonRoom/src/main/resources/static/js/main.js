@@ -1,22 +1,28 @@
 import { iniciarCarrusel, avanzar, retroceder } from './carruseles.js';
+import { obtenerPeliculasUltimos } from './api.js'; // nuevo import
 
-// Dos arrays con diferentes imágenes para diferenciar
-const peliculasUltimos = Array.from({ length: 12 }, (_, i) => ({
-  img: "/img/movie.png",
-  titulo: `Peli_Ult ${i + 1}`,
-  fecha: `0${i + 1}/01/2025`,
-}));
-
+// Versión de prueba para recomendadas (sigue usando datos locales)
 const peliculasRecomendadas = Array.from({ length: 12 }, (_, i) => ({
   img: "/img/movie2.png",
   titulo: `Peli_Reco ${i + 1}`,
   fecha: `0${i + 1}/01/2025`,
 }));
 
-document.addEventListener("DOMContentLoaded", () => {
-  iniciarCarrusel("latest-carousel", peliculasUltimos);
-  iniciarCarrusel("recommended-carousel", peliculasRecomendadas);
+document.addEventListener("DOMContentLoaded", async () => {
+  // Carga del backend para "últimos estrenos"
+  const peliculasUltimos = await obtenerPeliculasUltimos();
+
+  // Mapear para adaptarlo al formato del carrusel
+  const formateadas = peliculasUltimos.map(peli => ({
+    img: peli.posterUrl,
+    titulo: peli.title,
+    fecha: peli.releaseDate,
+  }));
+
+  iniciarCarrusel("latest-carousel", formateadas);
+  iniciarCarrusel("recommended-carousel", peliculasRecomendadas); // local por ahora
 
   window.avanzar = avanzar;
   window.retroceder = retroceder;
 });
+
