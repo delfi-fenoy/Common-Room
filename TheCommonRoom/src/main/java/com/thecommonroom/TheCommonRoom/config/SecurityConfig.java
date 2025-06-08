@@ -66,7 +66,7 @@ public class SecurityConfig {
                 .requestMatchers(
                         "/", "/index", "/index.html", "/signin", "/register",
                         "/css/**", "/js/**", "/img/**",
-                        "/movies/**", "/reviews/**" // TODO lo que se ve sin estar logueado
+                        "/movie/**", "/reviews/**" // TODO lo que se ve sin estar logueado
                 ).permitAll()
                 .requestMatchers(
                         "/profile/**", "/favorites/**", "/like/**", "/comment/**"

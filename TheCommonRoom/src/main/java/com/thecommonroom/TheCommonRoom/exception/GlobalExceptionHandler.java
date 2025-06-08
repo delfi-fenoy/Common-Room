@@ -11,6 +11,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import javax.xml.transform.sax.SAXResult;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,6 +93,16 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex){
         Map<String, String> error = new HashMap<>();
         error.put("error", "Invalid parameter");
+        error.put("message", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
+
+    @ExceptionHandler(PageOutOfBoundsException.class)
+    public ResponseEntity<Map<String, String>> handlePageOutOfBounds(PageOutOfBoundsException ex){
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Invalid page number");
         error.put("message", ex.getMessage());
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
