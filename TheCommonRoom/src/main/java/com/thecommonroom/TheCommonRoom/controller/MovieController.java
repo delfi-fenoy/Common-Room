@@ -31,5 +31,4 @@ public class MovieController {
         return movieService.getPaginatedMovies(page, size);
     }
 
-
 }

@@ -30,7 +30,7 @@ public class TMDbClient {
 
     ///  PAGINACION DE PELICULAS | Llama a la API de TMDb y devuelve películas populares (paginadas)
     public RawMovieListDTO getPopularMovies(int page) {
-        String url = String.format("%s/movie/popular?api_key=%s&page=%d", baseUrl, key, page);
+        String url = String.format("%s/movie/popular?api_key=%s&page=%d&language=es-AR", baseUrl, key, page);
         return restTemplate.getForObject(url, RawMovieListDTO.class);
     }
 
