@@ -46,6 +46,14 @@ public class GlobalExceptionHandler {
         return error;
     }
 
+    @ExceptionHandler(NoUsersFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND) // Código 404
+    public Map<String, String> handleNoUsersFound(NoUsersFoundException ex){
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return error;
+    }
+
     @ExceptionHandler(UsernameNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handleUsernameNotFound(UsernameNotFoundException ex){

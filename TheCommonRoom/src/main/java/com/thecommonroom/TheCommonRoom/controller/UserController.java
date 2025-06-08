@@ -1,5 +1,6 @@
 package com.thecommonroom.TheCommonRoom.controller;
 
+import com.thecommonroom.TheCommonRoom.dto.UserPreviewDTO;
 import com.thecommonroom.TheCommonRoom.dto.UserRequestDTO;
 import com.thecommonroom.TheCommonRoom.dto.UserResponseDTO;
 import com.thecommonroom.TheCommonRoom.service.UserService;
@@ -8,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +26,12 @@ public class UserController {
         userService.createUser(userRequestDTO);
     }
 
+    @GetMapping("/users")
+    public ResponseEntity<List<UserPreviewDTO>> listUsers(){
+        List<UserPreviewDTO> users= userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }  
+      
     @GetMapping("/users/{username}")
     @ResponseStatus(HttpStatus.OK)
     public UserResponseDTO getUserByUsername(@PathVariable String username){
