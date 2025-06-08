@@ -1,13 +1,15 @@
 package com.thecommonroom.TheCommonRoom.mapper;
 
 import com.thecommonroom.TheCommonRoom.dto.MovieDetailsDTO;
+import com.thecommonroom.TheCommonRoom.dto.MoviePreviewDTO;
 import com.thecommonroom.TheCommonRoom.dto.RawMovieDTO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MovieMapper {
 
-    public static MovieDetailsDTO rawToDTO(RawMovieDTO raw){
+    public static MovieDetailsDTO rawToDetailsDTO(RawMovieDTO raw){
         String posterBaseUrl = "https://image.tmdb.org/t/p/w500";
         String backdropBaseUrl = "https://image.tmdb.org/t/p/original";
 
@@ -32,4 +34,21 @@ public class MovieMapper {
                 .build();
     }
 
+    public static MoviePreviewDTO rawToPreviewDTO(RawMovieDTO raw){
+        String posterBaseUrl = "https://image.tmdb.org/t/p/w200";
+
+        return MoviePreviewDTO.builder()
+                .id(raw.getId())
+                .title(raw.getTitle())
+                .synopsis(raw.getOverview())
+                .releaseDate(raw.getRelease_date())
+                .posterUrl(posterBaseUrl + raw.getPoster_path())
+                .build();
+    }
+
+    public static List<MoviePreviewDTO> rawToPreviewDTOList(List<RawMovieDTO> rawList){
+        return rawList.stream()
+                .map(MovieMapper::rawToPreviewDTO)
+                .collect(Collectors.toList());
+    }
 }

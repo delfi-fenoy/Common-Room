@@ -34,4 +34,25 @@ public class TMDbClient {
         return restTemplate.getForObject(url, RawMovieListDTO.class);
     }
 
+    public RawMovieListDTO getRecentMovies(int page) {
+        String url = String.format("%s/movie/now_playing?api_key=%s&page=%d&language=es-AR&region=AR", baseUrl, key, page);
+        return restTemplate.getForObject(url, RawMovieListDTO.class);
+    }
+
+    public RawMovieListDTO getAllMovies(int page){
+        String url = String.format("%s/discover/movie?api_key=%s" +
+                                    "&page=%d" +
+                                    "&language=es-AR" +
+                                    "&region=AR" +
+                                    "&sort_by=popularity.desc", baseUrl, key, page);
+        return restTemplate.getForObject(url, RawMovieListDTO.class);
+    }
+
+    public RawMovieListDTO getUncomingMovies(int page){
+        String url = String.format("%s/movie/upcoming?api_key=%s" +
+                                    "&page=%d" +
+                                    "&language=es-AR" +
+                                    "&region=AR", baseUrl, key, page);
+        return restTemplate.getForObject(url, RawMovieListDTO.class);
+    }
 }

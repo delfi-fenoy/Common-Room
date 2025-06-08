@@ -97,4 +97,14 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(error);
     }
+
+    @ExceptionHandler(PageOutOfBoundsException.class)
+    public ResponseEntity<Map<String, String>> handlePageOutOfBounds(PageOutOfBoundsException ex){
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Invalid page number");
+        error.put("message", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
 }
