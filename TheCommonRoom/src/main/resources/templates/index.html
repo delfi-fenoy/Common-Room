@@ -13,10 +13,10 @@
 
   <body>
     <!--Header-->
-    <div th:insert="fragments/header :: header"></div>
+    <div th:insert="~{fragments/header :: header}"></div>
 
     <!--Sidebar-->
-    <div th:insert="fragments/sidebar :: sidebar"></div>
+    <div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
     <!-- =========================================== Contenido Principal =========================================== -->
     <main class="main-content">
@@ -25,39 +25,36 @@
         <img src="/img/title.png" alt="Logo" class="main-logo" />
       </section>
 
-      <!-- Carrusel Ultimos Estrenos -->
+      <!-- Carrusel Últimos Estrenos -->
       <div class="carousel-section">
         <h3>Últimos estrenos</h3>
         <div class="carousel-wrapper">
-          <button class="carousel-btn" onclick="retroceder('latest-carousel')">
-            &#9664;
-          </button>
-          <div class="carousel" id="latest-carousel"></div>
-          <button class="carousel-btn" onclick="avanzar('latest-carousel')">
-            &#9654;
-          </button>
+          <button class="carousel-btn" onclick="retroceder('latest-carousel')">&#9664;</button>
+          <div class="carousel" id="latest-carousel">
+            <div th:each="movie : ${latestMovies}" class="carousel-item">
+              <img th:src="@{'https://image.tmdb.org/t/p/w200' + ${movie.posterPath}}" alt="Poster de [[${movie.title}]]" />
+              <p th:text="${movie.title}">Título</p>
+            </div>
+          </div>
+          <button class="carousel-btn" onclick="avanzar('latest-carousel')">&#9654;</button>
         </div>
       </div>
 
-      <!-- Carrusel Recomendados -->
+      <!-- Carrusel Mejor valoradas ================================= -->
       <div class="carousel-section">
-        <h3>Películas recomendadas</h3>
+        <h3>Mejor valoradas</h3>
         <div class="carousel-wrapper">
-          <button
-            class="carousel-btn"
-            onclick="retroceder('recommended-carousel')"
-          >
-            &#9664;
-          </button>
-          <div class="carousel" id="recommended-carousel"></div>
-          <button
-            class="carousel-btn"
-            onclick="avanzar('recommended-carousel')"
-          >
-            &#9654;
-          </button>
+          <button class="carousel-btn" onclick="retroceder('recommended-carousel')">&#9664;</button>
+          <div class="carousel" id="recommended-carousel">
+            <div th:each="movie : ${recommendedMovies}" class="carousel-item">
+              <img th:src="@{'https://image.tmdb.org/t/p/w200' + ${movie.posterPath}}" alt="Poster de [[${movie.title}]]" />
+              <p th:text="${movie.title}">Título</p>
+            </div>
+          </div>
+          <button class="carousel-btn" onclick="avanzar('recommended-carousel')">&#9654;</button>
         </div>
       </div>
+
     </main>
 
     <!-- =========================================== Pie de página =========================================== -->

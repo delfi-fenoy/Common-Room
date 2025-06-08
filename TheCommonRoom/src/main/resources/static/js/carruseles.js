@@ -31,7 +31,7 @@ export function iniciarCarrusel(id, data) {
     estados[id].index += 4;
     if (estados[id].index >= estados[id].data.length) estados[id].index = 0;
     renderCarrusel(id);
-  }, 5000);
+  }, 10000);
 }
 
 export function avanzar(id) {

@@ -75,7 +75,7 @@ public class SecurityConfig {
                 .and()
                 .formLogin()
                 .loginPage("/signin")
-                .loginProcessingUrl("/index")
+                .loginProcessingUrl("/auth/login")
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/home", true)
@@ -89,8 +89,6 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

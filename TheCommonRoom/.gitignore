@@ -1,33 +1,30 @@
-HELP.md
-target/
+# Compilación Maven
+/target/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Archivos de sistema
+.DS_Store
+Thumbs.db
 
-### IntelliJ IDEA ###
-.idea
-*.iws
+# Logs y archivos temporales
+*.log
+*.tmp
+*.swp
+
+# Variables de entorno y configuración local
+.env
+*.local
+
+# IntelliJ IDEA
+.idea/
 *.iml
+*.iws
 *.ipr
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
+# Archivos temporales de Office (como el ~$Document.docx)
+~$*
+
+# Evitar subir binarios o builds dentro del código fuente (por si acaso)
+/build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-
-### VS Code ###
-.vscode/

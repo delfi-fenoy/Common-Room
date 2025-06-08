@@ -8,18 +8,18 @@ document.getElementById("form-register").addEventListener("submit", function (e)
     profilePictureUrl: document.getElementById("new-profilePictureUrl").value || null
   };
 
-  fetch("/users", {
+  fetch("/register", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
   })
-    .then(res => {
-      if (!res.ok) throw new Error("Error en el registro");
-      return res.text(); // o .json() si devolvés un objeto
-    })
-    .then(msg => {
-      alert("Registrado con éxito");
-      window.location.href = "/login.html"; // o redirigir al home
-    })
-    .catch(err => alert(err.message));
+      .then(res => {
+        if (!res.ok) throw new Error("Error en el registro");
+        return res.text();
+      })
+      .then(msg => {
+        alert("Registrado con éxito");
+        flipCard();  // Acá hace el flip para mostrar el login
+      })
+      .catch(err => alert(err.message));
 });
