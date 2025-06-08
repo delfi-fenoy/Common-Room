@@ -23,10 +23,27 @@ public class MovieController {
     }
 
     ///  PAGINACION DE PELICULAS | Devuelve una lista paginada de películas populares
-    @GetMapping("/list")
+    @GetMapping("/popular")
     @ResponseStatus(HttpStatus.OK)
     public List<MoviePreviewDTO> getPopularMovies(@RequestParam(defaultValue = "1") int page){
         return movieService.getPopularMovies(page);
     }
 
+    @GetMapping("/recent")
+    @ResponseStatus(HttpStatus.OK)
+    public List<MoviePreviewDTO> getRecentMovies(@RequestParam(defaultValue = "1") int page){
+        return movieService.getRecentMovies(page);
+    }
+
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    public List<MoviePreviewDTO> getAllMovies(@RequestParam(defaultValue = "1") int page){
+        return movieService.getAllMovies(page);
+    }
+
+    @GetMapping("/uncoming")
+    @ResponseStatus(HttpStatus.OK)
+    public List<MoviePreviewDTO> getUncomingMovies(@RequestParam(defaultValue = "1") int page){
+        return movieService.getUncomingMovies(page);
+    }
 }

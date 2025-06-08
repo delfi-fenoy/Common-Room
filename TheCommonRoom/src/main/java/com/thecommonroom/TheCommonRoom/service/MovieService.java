@@ -30,4 +30,21 @@ public class MovieService {
         return MovieMapper.rawToPreviewDTOList(rawList.getResults());
     }
 
+    public List<MoviePreviewDTO> getRecentMovies(int page) {
+        if (page > 3) throw new PageOutOfBoundsException("This page does not exist");
+        RawMovieListDTO rawList = api.getRecentMovies(page);
+        return MovieMapper.rawToPreviewDTOList(rawList.getResults());
+    }
+
+    public List<MoviePreviewDTO> getAllMovies(int page){
+        RawMovieListDTO rawList = api.getAllMovies(page);
+        // En caso que page > 500, lanza error por parte del cliente
+        return MovieMapper.rawToPreviewDTOList(rawList.getResults());
+    }
+
+    public List<MoviePreviewDTO> getUncomingMovies(int page){
+        RawMovieListDTO rawList = api.getUncomingMovies(page);
+        if(page > rawList.getTotal_pages()) throw new PageOutOfBoundsException("This page does not exist. Max page: " + rawList.getTotal_pages());
+        return MovieMapper.rawToPreviewDTOList(rawList.getResults());
+    }
 }
