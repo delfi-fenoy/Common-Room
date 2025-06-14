@@ -1,88 +1,121 @@
+# 🎬 Common Room
 
-# 🎬 The Common Room
+---
+## ✒️ Autores
 
-**The Common Room** es una red social desarrollada en Java con Spring Boot, orientada a personas apasionadas por el cine. Los usuarios pueden compartir reseñas, puntuaciones, listas personalizadas y descubrir recomendaciones de películas a través de una comunidad interactiva.
+- **Delfina Fenoy Rivas**
+- **Ian Francano**
+- **Lola Pérez**
 
 ---
 
-## 🌟 Características Principales
+**Common Room** es una red social web pensada para personas apasionadas por el cine. Desarrollada como aplicación full-stack con **Java y Spring Boot**, permite a los usuarios compartir reseñas, puntuar películas, armar listas personalizadas y descubrir recomendaciones a través de una comunidad interactiva.
 
-- Registro e inicio de sesión con Spring Security.
-- Publicación de reseñas y puntuaciones de películas.
-- Creación de listas personalizadas.
-- Exploración de películas usando la API de [TheMovieDB](https://www.themoviedb.org/).
-- Envío de correos (notificaciones, bienvenida, etc).
-- Documentación automática con Swagger/OpenAPI.
+---
+
+## 🧭 Propósito del Proyecto
+
+Este sistema busca brindar un entorno social, simple e intuitivo, donde los cinéfilos puedan:
+- Opinar y descubrir películas.
+- Crear sus propias colecciones.
+- Interactuar con contenido generado por otros usuarios.
+
+---
+
+## 🌐 Funcionalidades Principales
+
+- Registro y autenticación con manejo de roles (Visitante, Miembro y Moderador).
+- Publicación, edición y baja de reseñas.
+- Alta y gestión de listas personalizadas de películas.
+- Exploración y visualización de fichas de películas vía integración con [TheMovieDB](https://www.themoviedb.org/).
+- Interacción con otros usuarios: visualización de perfiles, likeo de reseñas, exploración de listas públicas.
+- Gestión de usuarios por parte de Moderadores.
+- Envío de correos (bienvenida, notificaciones).
+- Documentación técnica automática de la API mediante Swagger / OpenAPI.
 
 ---
 
 ## 🔧 Tecnologías Utilizadas
 
+### Backend
 - **Java 21**
 - **Spring Boot 3.4.5**
-  - Spring Web
+  - Spring Web (REST)
   - Spring Data JPA
-  - Spring Security
-  - Spring Validation
+  - Spring Security (JWT y roles)
   - Spring Mail
-- **Thymeleaf**
-- **MySQL 8.0+**
+  - Spring Validation
+  - DevTools
+- **JJWT** (manejo de tokens)
+- **MySQL** (base de datos relacional)
+- **SpringDoc OpenAPI** (Swagger)
 - **Lombok**
-- **SpringDoc OpenAPI**
-- **HTML + CSS**
+
+### Frontend
+- **Thymeleaf**
+- **HTML + CSS (custom sin frameworks)**
+- **JavaScript** (interacción básica)
+
+### API externa
+- [TheMovieDB](https://www.themoviedb.org/) – para datos dinámicos de películas
 
 ---
 
-## ⚙️ Dependencias en `pom.xml`
+## 📦 Dependencias en `pom.xml`
 
-Todas las dependencias necesarias se encuentran en el archivo `pom.xml`, entre ellas:
+Entre las más relevantes se incluyen:
 
-- `spring-boot-starter-web` → para exponer controladores y crear una API REST.
-- `spring-boot-starter-data-jpa` → para persistencia con base de datos.
-- `mysql-connector-j` → driver JDBC para MySQL.
-- `spring-boot-starter-security` → autenticación y roles.
-- `spring-boot-starter-validation` → validación de datos.
-- `spring-boot-starter-mail` → envío de correos desde el backend.
-- `lombok` → para evitar boilerplate code en las entidades.
-- `springdoc-openapi-starter-webmvc-ui` → para documentación automática de la API (Swagger).
-- `spring-boot-devtools` → recarga automática en desarrollo.
-
----
-
-## 🛠️ Configuración Relevante (`application.properties`)
-
-```properties
-# Conexión a base de datos
-spring.datasource.url=jdbc:mysql://localhost:3306/tu_base_de_datos
-spring.datasource.username=usuario
-spring.datasource.password=contraseña
-
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
-
-# Swagger (SpringDoc)
-springdoc.api-docs.path=/api-docs
-springdoc.swagger-ui.path=/swagger-ui.html
-
-# Mail
-spring.mail.host=smtp.gmail.com
-spring.mail.port=587
-spring.mail.username=tu_correo@gmail.com
-spring.mail.password=tu_contraseña_o_contraseña_app
-spring.mail.properties.mail.smtp.auth=true
-spring.mail.properties.mail.smtp.starttls.enable=true
-
-# Seguridad (solo si se usa user/pass en memoria)
-spring.security.user.name=admin
-spring.security.user.password=admin123
-spring.security.user.roles=ADMIN
-```
+- `spring-boot-starter-web` → Exposición de endpoints REST.
+- `spring-boot-starter-security` → Manejo de roles y autenticación JWT.
+- `spring-boot-starter-data-jpa` → ORM con Hibernate.
+- `spring-boot-starter-validation` → Validación de formularios.
+- `spring-boot-starter-mail` → Envío de emails automáticos.
+- `springdoc-openapi-starter-webmvc-ui` → Swagger UI para documentación.
+- `jjwt-api`, `jjwt-impl`, `jjwt-jackson` → Seguridad JWT.
+- `mysql-connector-j` → Conexión a base de datos.
+- `lombok` → Reducción de boilerplate.
 
 ---
 
-## 👨‍💻 Autores
+## ✅ Requisitos Funcionales Destacados
 
-- **Ian Francano**
-- **Delfina Fenoy**
-- **Lola Perez**
+- RF01: Registro de nuevos usuarios.
+- RF04-RF06: ABM de reseñas.
+- RF15-RF17: ABM de listas personalizadas.
+- RF12, RF13: Visualización de películas desde la API externa.
+- RF28-RF29: Moderación de usuarios y asignación de roles.
+- RF30-RF32: Exploración de perfiles de otros usuarios.
+
+> Para ver todos los requisitos, consultar la [documentación completa en PDF](./Documentacion-CommonRoom-PDF.pdf).
+
+---
+
+## 🖥️ Arquitectura General
+
+- Aplicación web con arquitectura **cliente-servidor**.
+- Backend expone una **API REST** y gestiona seguridad, lógica y persistencia.
+- Frontend renderizado en el servidor con Thymeleaf.
+- Integración con servicios externos (TheMovieDB) y base de datos relacional.
+
+---
+
+## 👥 Roles y Permisos
+
+- **Visitante:** puede explorar películas, reseñas y listas públicas.
+- **Miembro:** puede crear contenido (reseñas, listas), favear, editar su perfil.
+- **Moderador:** puede suspender usuarios, modificar roles y eliminar contenido inapropiado.
+
+---
+
+## 🏫 Contexto Académico
+
+Este proyecto fue desarrollado en el marco de la **Tecnicatura Universitaria en Programación** en la **Universidad Tecnológica Nacional (UTN) – Facultad Regional Mar del Plata**, como trabajo final integrador de la materia Programación 2.
+
+Fecha de entrega: **9 de junio de 2025**  
+Docente: **Sofía Galbato**
+
+---
+
+## 📄 Licencia
+
+Proyecto desarrollado con fines académicos. Distribución libre con fines educativos.
