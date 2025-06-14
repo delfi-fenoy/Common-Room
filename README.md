@@ -86,7 +86,7 @@ Entre las más relevantes se incluyen:
 - RF28-RF29: Moderación de usuarios y asignación de roles.
 - RF30-RF32: Exploración de perfiles de otros usuarios.
 
-> Para ver todos los requisitos, consultar la [documentación completa en PDF](./Documentacion-CommonRoom-PDF.pdf).
+> Para ver todos los requisitos, consultar la [documentación completa en PDF](./Documentos/Documentacion-CommonRoom-PDF.pdf).
 
 ---
 
