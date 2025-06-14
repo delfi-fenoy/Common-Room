@@ -13,87 +13,72 @@
     </head>
 
     <body>
-        <!--Header-->
-        <div th:insert="fragments/header :: header"></div>
+    <!--Header-->
+    <div th:insert="fragments/header :: header"></div>
 
-        <!--Sidebar-->
-        <div th:insert="fragments/sidebar :: sidebar"></div>
+    <!--Sidebar-->
+    <div th:insert="fragments/sidebar :: sidebar"></div>
 
-        <div class="main-layout">
-            <div class="left-panel-wrapper">
-                <div class="left-panel">
-                    <!-- Poster y título -->
-                    <img th:src="${movie.posterUrl}" alt="Poster" class="movie-poster"/>
-                    <div class="movie-title" th:text="${movie.title}">Título</div>
-                </div>
+    <div class="main-layout">
+        <div class="left-panel-wrapper">
+            <div class="left-panel">
+                <!-- Poster y título -->
+                <img th:src="${movie.posterUrl}" alt="Poster" class="movie-poster"/>
+                <div class="movie-title" th:text="${movie.title}">Título</div>
             </div>
-
-            <main class="movie-detail">
-                <section class="center-panel">
-                    <div class="tabs">
-                        <button class="tab selected" data-tab="description">Description</button>
-                        <button class="tab" data-tab="details">Details</button>
-                    </div>
-
-                    <!-- Pestaña Descripción -->
-                    <div id="description" class="description-box">
-                        <p><em th:text="${movie.synopsis}">Sinopsis</em></p>
-                    </div>
-
-                    <!-- Pestaña Detalles -->
-                    <div id="details" class="description-box" style="display: none;">
-                        <p>
-                            <em>
-                                Fecha de estreno: <span th:text="${movie.releaseDate}"></span><br/>
-                                Duración: <span th:text="${movie.duration}"></span> min<br/>
-                                Géneros:
-                                <span th:each="genre : ${movie.genres}" th:text="${genre} + ' '"></span><br/>
-                                Puntuación: <span th:text="${movie.voteAverage}"></span>/10<br/>
-                                Presupuesto: $<span th:text="${movie.budget}"></span><br/>
-                                Recaudación: $<span th:text="${movie.revenue}"></span>
-                            </em>
-                        </p>
-                    </div>
-
-                    <button class="review-btn">Reviews</button>
-
-                    <div class="reviews">
-                        <div class="review">
-                            <div class="review-header">
-                                <img src="/img/user.png" class="review-avatar"/>
-                                <div>
-                                    <strong>Review by MangelRogel</strong>
-                                    <span class="stars">★★★★★</span>
-                                    <span class="likes">💚 -1</span>
-                                </div>
-                            </div>
-                            <div class="review-title">CINE CINE CINE</div>
-                        </div>
-                    </div>
-                </section>
-            </main>
         </div>
 
-        <!-- =========================================== Footer =========================================== -->
-        <footer>© 2025 | The Common Room | Fenoy, Francano y Perez</footer>
+        <main class="movie-detail">
+            <section class="center-panel">
+                <div class="tabs">
+                    <button class="tab selected" data-tab="description">Description</button>
+                    <button class="tab" data-tab="details">Details</button>
+                </div>
 
-        <!-- =========================================== JavaScript =========================================== -->
-        <script src="/js/alternateTabs.js"></script>
+                <!-- Pestaña Descripción -->
+                <div id="description" class="description-box">
+                    <p><em th:text="${movie.synopsis}">Sinopsis</em></p>
+                </div>
 
-        <!--Conexion con el Header y Sidebar-->
-        <script>
-            fetch("fragments/header.html")
-                .then((response) => response.text())
-                .then((data) => {
-                    document.getElementById("header-placeholder").innerHTML = data;
-                });
+                <!-- Pestaña Detalles -->
+                <div id="details" class="description-box" style="display: none;">
+                    <p>
+                        <em>
+                            Fecha de estreno: <span th:text="${movie.releaseDate}"></span><br/>
+                            Duración: <span th:text="${movie.duration}"></span> min<br/>
+                            Géneros: <span th:each="genre : ${movie.genres}" th:text="${genre} + ' '"></span><br/>
+                            Puntuación: <span th:text="${movie.voteAverage}"></span>/10<br/>
+                            Presupuesto: $<span th:text="${movie.budget}"></span><br/>
+                            Recaudación: $<span th:text="${movie.revenue}"></span>
+                        </em>
+                    </p>
+                </div>
 
-            fetch("fragments/sidebar.html")
-                .then((response) => response.text())
-                .then((data) => {
-                    document.getElementById("sidebar-placeholder").innerHTML = data;
-                });
-        </script>
+                <button class="review-btn">Reviews</button>
+
+                <div class="reviews">
+                    <div class="review">
+                        <div class="review-header">
+                            <img src="/img/user.png" class="review-avatar"/>
+                            <div>
+                                <strong>Review by MangelRogel</strong>
+                                <span class="stars">★★★★★</span>
+                                <span class="likes">💚 -1</span>
+                            </div>
+                        </div>
+                        <div class="review-title">CINE CINE CINE</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- =========================================== Footer =========================================== -->
+    <footer>© 2025 | The Common Room | Fenoy Rivas, Francano y Perez</footer>
+
+    <!-- =========================================== JavaScript =========================================== -->
+    <script src="/js/alternateTabs.js"></script>
+
     </body>
 
 </html>

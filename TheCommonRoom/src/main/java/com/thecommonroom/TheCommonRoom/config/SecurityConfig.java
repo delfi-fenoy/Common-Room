@@ -63,11 +63,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers(
-                        "/", "/index", "/index.html", "/signin", "/register",
-                        "/css/**", "/js/**", "/img/**",
-                        "/movie/**", "/reviews/**" // TODO lo que se ve sin estar logueado
-                ).permitAll()
+                .requestMatchers("/", "/index", "/static/**", "/css/**", "/js/**", "/img/**", "/fragments/**").permitAll()
                 .requestMatchers(
                         "/profile/**", "/favorites/**", "/like/**", "/comment/**"
                 ).authenticated() // Acciones privadas

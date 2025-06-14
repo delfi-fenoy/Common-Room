@@ -32,18 +32,8 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/moviesheet")
-    public String moviesheet() {
-        return "moviesheet";
-    }
-
     @GetMapping("/signin")
     public String signin() {
         return "signin";
     }
 }
-
-
-
-
-
