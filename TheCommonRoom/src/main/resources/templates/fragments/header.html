@@ -32,15 +32,19 @@
   </div>
 
   <div class="user-buttons" th:if="${usuarioLogueado != null}">
-    <a th:href="@{/profile}" class="user-section" title="Perfil de usuario">
+    <a th:href="@{/profile}" class="user-section user-profile" title="Perfil de usuario">
       <img th:if="${usuarioLogueado.profilePictureUrl != null}"
            th:src="@{${usuarioLogueado.profilePictureUrl}}"
            th:alt="'Foto de ' + ${usuarioLogueado.nombre}"
            class="user-photo" />
-      <span th:text="${usuarioLogueado.nombre}">Nombre Usuario</span>
+      <span th:text="${usuarioLogueado.nombre}"></span>
     </a>
-    <form th:action="@{/logout}" method="post" class="logout-form" style="display:inline;">
-      <button type="submit" class="logout-button">Cerrar sesión</button>
+
+    <form th:action="@{/logout}" method="post" class="logout-form">
+      <button type="submit" class="user-section" title="Cerrar sesión">
+        <span class="sign-in-text">Logout</span>
+      </button>
     </form>
   </div>
+
 </header>

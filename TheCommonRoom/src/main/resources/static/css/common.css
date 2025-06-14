@@ -62,47 +62,55 @@ body {
     opacity: 1;
 }
 
-/*---------Botones de usuario---------*/
+/*---------Botones de usuario (Sign in, Register, Perfil, Cerrar sesión)---------*/
 .user-buttons {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
     margin-left: auto;
     margin-right: auto;
 }
 
+/* Botón común para todos */
 .user-section {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 18px;
+    gap: 8px;
     background-color: #a2b18a;
-    padding: 11px 12px;
+    padding: 10px 12px;
     border-radius: 5px;
     border: none;
     font-weight: 600;
     color: #1a1a1a;
     text-decoration: none;
-    width: 100px;
+    min-width: 120px;
+    height: 45px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.user-section:last-child {
-    margin-right: 30px;
+.user-section:hover {
+    background-color: #8a9a75;
 }
 
 .sign-in-text {
     font-size: 1rem;
 }
 
+/* Ajuste específico cuando el botón incluye foto de perfil */
+.user-profile {
+    padding-left: 8px;
+    padding-right: 12px;
+}
+
 /*---------Foto Usuario---------*/
 .user-photo {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    margin-right: 8px;
-    vertical-align: middle;
+    object-fit: cover;
 }
 
 /* ------------------ Sidebar ------------------ */

@@ -1,3 +1,5 @@
+// POSIBLEMENTE BORRAR, PREGUNTAR
+
 const form = document.querySelector('.login-box');
 
 form.addEventListener('submit', e => {

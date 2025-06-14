@@ -24,7 +24,7 @@ public class TMDbClient {
     private final RestTemplate restTemplate; // Clase de Spring para hacer peticiones HTTP
 
     public RawMovieDTO getMovieById(Long id){
-        String url = String.format("%s/movie/%d?api_key=%s", baseUrl, id, key);
+        String url = String.format("%s/movie/%d?api_key=%s&language=es-AR", baseUrl, id, key);
         return restTemplate.getForObject(url, RawMovieDTO.class);
     }
 
