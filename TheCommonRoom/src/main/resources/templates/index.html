@@ -30,27 +30,17 @@
         <h3>Últimos estrenos</h3>
         <div class="carousel-wrapper">
           <button class="carousel-btn" onclick="retroceder('latest-carousel')">&#9664;</button>
-          <div class="carousel" id="latest-carousel">
-            <div th:each="movie : ${latestMovies}" class="carousel-item">
-              <img th:src="@{'https://image.tmdb.org/t/p/w200' + ${movie.posterPath}}" alt="Poster de [[${movie.title}]]" />
-              <p th:text="${movie.title}">Título</p>
-            </div>
-          </div>
+          <div class="carousel" id="latest-carousel"></div>
           <button class="carousel-btn" onclick="avanzar('latest-carousel')">&#9654;</button>
         </div>
       </div>
 
-      <!-- Carrusel Mejor valoradas ================================= -->
+      <!-- Carrusel Mejor valoradas -->
       <div class="carousel-section">
         <h3>Mejor valoradas</h3>
         <div class="carousel-wrapper">
           <button class="carousel-btn" onclick="retroceder('recommended-carousel')">&#9664;</button>
-          <div class="carousel" id="recommended-carousel">
-            <div th:each="movie : ${recommendedMovies}" class="carousel-item">
-              <img th:src="@{'https://image.tmdb.org/t/p/w200' + ${movie.posterPath}}" alt="Poster de [[${movie.title}]]" />
-              <p th:text="${movie.title}">Título</p>
-            </div>
-          </div>
+          <div class="carousel" id="recommended-carousel"></div>
           <button class="carousel-btn" onclick="avanzar('recommended-carousel')">&#9654;</button>
         </div>
       </div>
@@ -58,9 +48,10 @@
     </main>
 
     <!-- =========================================== Pie de página =========================================== -->
-    <footer>© 2025 | The Common Room | Fenoy, Francano y Perez</footer>
+    <footer>© 2025 | The Common Room | Fenoy Rivas, Francano y Perez</footer>
 
     <!-- =========================================== JavaScript ===========================================-->
     <script type="module" src="/js/main.js"></script>
+
   </body>
 </html>

@@ -12,14 +12,17 @@ function renderCarrusel(id) {
     const div = document.createElement("div");
     div.className = "movie-card";
     div.innerHTML = `
+    <a href="/moviesheet/${movie.id}">
       <img src="${movie.img}" alt="${movie.titulo}">
       <div class="movie-info">${movie.titulo}</div>
-    `;
+    </a>
+  `;
     container.appendChild(div);
 
     void div.offsetWidth; // Forzar reflow para animación
     div.classList.add("visible");
   });
+
 }
 
 export function iniciarCarrusel(id, data) {

@@ -26,19 +26,28 @@
         <!-- =========================================== Lado login =========================================== -->
         <div class="login-container front">
 
-          <form class="login-box">
-            <!-- Titulo -->
+          <form class="login-box" th:action="@{/auth/login}" method="post">
             <h2>Sign in</h2>
-            
+
+            <!-- Mostrar mensaje de error -->
+            <div th:if="${param.error}" style="color: red; margin-bottom: 10px;">
+              User or password incorrect
+            </div>
+
+            <!-- Mostrar mensaje de logout -->
+            <div th:if="${param.logout}" style="color: green; margin-bottom: 10px;">
+              Session closed successfully
+            </div>
+
             <!-- Nombre de Usuario -->
             <label for="username">Username</label>
-            <input type="username" id="username" placeholder="Anakin" required/>
-            
+            <input type="text" id="username" name="username" placeholder="Username" required/>
+
             <!-- Contraseña -->
             <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Skywalker" required/>
+            <input type="password" id="password" name="password" placeholder="Password" required/>
 
-            <!-- Boton de Sign In -->
+            <!-- Botón de Sign In -->
             <button type="submit">Sign in</button>
 
             <!-- Flip -->
@@ -51,60 +60,38 @@
         </div>
 
         <!-- =========================================== Lado registro =========================================== -->
-        <div class="login-container back">
 
-          <form id="form-register" class="login-box">
-            <!-- Titulo -->
+        <div class="login-container back">
+          <form id="form-register" class="login-box" th:action="@{/auth/register}" method="post">
             <h2>Register</h2>
 
-            <!-- Nombre de Usuario -->
             <label for="new-username">Username</label>
-            <input
-              type="user"
-              id="new-username"
-              placeholder="Username"
-              required
-            />
+            <!-- Corregí type de user a text -->
+            <input type="text" id="new-username" name="username" placeholder="Username" required />
 
-            <!-- Email -->
             <label for="new-email">Email</label>
-            <input
-              type="email"
-              id="new-email"
-              placeholder="you@example.com"
-              required
-            />
+            <input type="email" id="new-email" name="email" placeholder="you@example.com" required />
 
-            <!-- Contraseña -->
             <label for="new-password">Password</label>
-            <input
-              type="password"
-              id="new-password"
-              placeholder="Password"
-              required
-            />
+            <input type="password" id="new-password" name="password" placeholder="Password" required />
 
-            <label for="new-password">Profile Picture</label>
-            <input type="url" id="new-profilePictureUrl" placeholder="Foto de perfil (opcional)" />
+            <label for="new-profilePictureUrl">Profile Picture</label>
+            <input type="url" id="new-profilePictureUrl" name="profilePictureUrl" placeholder="Foto de perfil (opcional)" />
 
-
-            <!-- Boton de Register -->
             <button type="submit">Register</button>
 
-            <!-- Flip -->
             <p class="signup-text">
               Already have an account?
               <a href="#" onclick="flipCard()">Sign In</a>
             </p>
           </form>
-
         </div>
+
       </div>
     </div>
 
     <!-- =========================================== JavaScript ===========================================-->
     <script src="/js/register.js"></script>
-    <script src="/js/login.js"></script>
 
     <!--Funcion Flip y Aparecer en register-->
     <script>
@@ -112,7 +99,7 @@
         document.getElementById("flipContainer").classList.toggle("flipped");
       }
 
-      // Si la URL contiene ?register=true, girar la tarjeta automáticamente
+      // Si la URL contiene"?register=true", girar la tarjeta automáticamente
       window.addEventListener("DOMContentLoaded", () => {
         const params = new URLSearchParams(window.location.search);
         if (params.get("register") === "true") {

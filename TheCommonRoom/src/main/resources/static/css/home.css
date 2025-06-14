@@ -66,7 +66,7 @@ body {
   border-radius: 10px;
   overflow-x: auto;
   width: 100%;
-  max-width: 800px;
+  max-width: 1100px;
   box-sizing: border-box;
 }
 
@@ -82,7 +82,7 @@ body {
 
 .carousel {
   display: flex;
-  gap: 30px;
+  gap: 25px;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
@@ -119,14 +119,14 @@ body {
   position: relative;
   border-radius: 8px;
   flex: 0 0 auto;
-  width: 120px;
+  width: 200px;
+  height: 300px; /* Añadir altura fija para que las imágenes se adapten */
   text-align: center;
   opacity: 0;
-  background-color: #000000;
   border: 2px solid #000000;
-  transform: translateX(20px);
+  transform: translateX(15px);
   transition: opacity 0.5s ease, transform 0.3s ease;
-  overflow: visible;
+  overflow: hidden; /* 🔑 Esto recorta lo que se salga del borde redondeado */
 }
 
 .movie-card.visible {
@@ -136,7 +136,9 @@ body {
 
 .movie-card img {
   width: 100%;
-  border-radius: 4px;
+  height: 100%; /* 🔑 Para que rellene completamente vertical y horizontal */
+  object-fit: cover; /* 🔑 Ajusta la imagen para cubrir el contenedor */
+  border-radius: 0; /* Opcional: elimina bordes internos si los hay */
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
@@ -151,11 +153,10 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: bold;
   opacity: 0;
   transition: opacity 0.3s ease;
-  pointer-events: none;
   z-index: 2;
 }
 
