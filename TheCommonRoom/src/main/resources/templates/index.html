@@ -6,19 +6,18 @@
     <title>Home | Common Room</title>
     <link rel="icon" href="/img/iconLetter.png" type="image/png" />
     <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
+
     <!-- CSS -->
     <link rel="stylesheet" href="/css/common.css" />
     <link rel="stylesheet" href="/css/home.css" />
   </head>
 
   <body>
-    <!--Header-->
+    <!-- ============================== HEADER y SIDEBAR ============================== -->
     <div th:insert="~{fragments/header :: header}"></div>
-
-    <!--Sidebar-->
     <div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
-    <!-- =========================================== Contenido Principal =========================================== -->
+    <!-- ============================== LAYOUT PRINCIPAL ============================== -->
     <main class="main-content">
       <!-- Logo y nombre -->
       <section class="logo-section">
@@ -47,10 +46,10 @@
 
     </main>
 
-    <!-- =========================================== Pie de página =========================================== -->
+    <!-- ============================== FOOTER ============================== -->
     <footer>© 2025 | The Common Room | Fenoy Rivas, Francano y Perez</footer>
 
-    <!-- =========================================== JavaScript ===========================================-->
+    <!-- ============================== JS ============================== -->
     <script type="module" src="/js/main.js"></script>
 
   </body>

@@ -53,33 +53,41 @@ body {
   height: calc(100vh - 90px);
 }
 
-/* --------- Pelicula --------- */
 .movie-poster {
   width: 100%;
   border: 3px solid black;
+  box-shadow: 0px 0px 10px #000;
 }
 
 .movie-title {
   margin-top: 10px;
   background: rgb(53, 29, 9);
-  padding: 6px;
   font-weight: bold;
+  font-size: 20px;
+  padding: 6px;
   text-align: center;
+  width: 100%;
 }
 
 /* --------- Rating | Puntaje --------- */
 .rating-box {
-  margin-top: 20px;
+  margin-top: 10px;
+  background: rgb(141, 127, 115);
+  font-weight: bold;
+  padding: 6px;
   text-align: center;
+  width: 100%;
 }
 
 .rating-graph {
   width: 100%;
+  margin-bottom: 5px;
 }
 
 .score {
-  font-size: 1.2rem;
+  font-size: 15px;
   font-weight: bold;
+  color: #ffffff;
 }
 
 /* --------- Panel del centro --------- */
@@ -88,85 +96,186 @@ body {
 }
 
 /* --------- Tabs --------- */
-.tabs {
-  display: flex;
-  gap: 5px;
-}
-
 .tab {
   padding: 10px 20px;
-  background: white;
-  border: none;
+  background: #e0e0e0;
+  color: black;
+  border: 5px solid #637860;
+  border-bottom: none;
+  font-size: 20px;
   cursor: pointer;
-  font-weight: bold;
-}
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  position: relative;
+  top: 5px;
+  z-index: 2;
 
-.tab.selected {
-  background: black;
-  color: white;
-}
-
-/* --------- Descripcion --------- */
-.description-box {
-  margin-top: 10px;
-  padding: 20px;
-  background: #353636;
-  border: 5px solid black;
   font-style: italic;
+  font-weight: normal;
+  text-decoration: none;
 }
 
-/* Titulo de reseñas */
+/*  Tabs Seleccionadas General */
+.tab.selected {
+  font-style: normal;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/*  Tabs Seleccionadas Personalizados */
+.tab.selected.synopsis-tab {
+  background-color: #9cab86;
+  color: rgb(255, 255, 255);
+}
+
+.tab.selected.details-tab {
+  background-color: #b4957a;
+  color: white;
+  border-color: #6c574f;
+}
+
+/*  Tabs No Seleccionadas Personalizados */
+.tab:not(.selected).synopsis-tab {
+  background-color: #9cab86;
+  color: #4a5a3c;
+  z-index: 1;
+}
+
+.tab:not(.selected).details-tab {
+  background-color: #9e8a7a;
+  color: #4a3a24;
+  border-color: #6c574f;
+  z-index: 1;
+}
+
+/* Contenido de las cajas*/
+.synopsis-box,
+.details-box {
+  margin-top: 0;
+  padding: 20px;
+  color: #f0f0f0;
+  background: #9cab86;
+  border: 5px solid #637860;
+  z-index: 1;
+  position: relative;
+  transition: background 0.3s ease, border 0.3s ease;
+}
+
+.details-box {
+  background: #b4957a;
+  border-color: #6c574f;
+}
+
+.synopsis-box {
+  border-color: #637860;
+}
+
+.details-box {
+  border: 5px solid #6c574f;
+}
+
+/* Texto de Details */
+.details-box ul {
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.details-box li {
+  margin-bottom: 8px;
+  color: white;
+  font-size: 16px;
+}
+
+/* --------- Título: People's thoughts --------- */
+.review-section-title {
+  margin-top: 30px;
+  background: #3a664e;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: bold;
+  color: #38e79e;
+}
+
+/* --------- Botón Review --------- */
 .review-btn {
-  margin-top: 20px;
-  background: #00ffff;
+  margin-top: 10px;
+  background: #ff4f4f;
+  color: white;
   border: none;
   padding: 10px 40px;
-  border-radius: 20px;
+  border-radius: 25px;
   font-weight: bold;
   cursor: pointer;
+  font-size: 1.1rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.review-btn:hover {
+  transform: scale(1.1);
+  filter: brightness(150%);
 }
 
 /* ------------------ RESEÑAS ------------------ */
-/* Lista de reseñas */
 .reviews {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
 }
 
 .review {
   background: #1d1d1d;
-  color: white;
   padding: 20px;
-  border-radius: 5px;
+  border: 5px solid #52362e;
+  border-radius: 8px;
+  color: white;
 }
 
 .review-header {
   display: flex;
   gap: 15px;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .review-avatar {
   width: 40px;
   height: 40px;
-  background: #a2b18a;
-  /*Test*/
-  border-radius: 100%;
+  border-radius: 50%;
+  background-color: #a2b18a;
+}
+
+.review-title {
+  font-weight: bold;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+.review-text {
+  font-size: 10px;
+  margin-top: 5px;
 }
 
 .stars {
   color: #38e79e;
   margin-left: 10px;
+  font-weight: bold;
 }
 
 .likes {
   margin-left: 10px;
+  font-weight: bold;
 }
 
-.review-title,
 .review-text {
   margin-top: 10px;
+  font-size: 0.95rem;
 }
 
 /* ------------------ UTILIDADES ------------------ */
