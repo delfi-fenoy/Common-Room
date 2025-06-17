@@ -1,0 +1,188 @@
+/* ------------------ Reinicio de márgenes, paddings y modelo de caja ------------------ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ------------------ Enlaces ------------------ */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Subrayado especial para los links de películas */
+.movie-list a {
+    text-decoration: underline;
+}
+
+/* ------------------ Estilos generales del cuerpo de la página ------------------ */
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom right, #9cab86, #3b5445);
+    font-family: 'Grenze', 'Helvetica Neue', Helvetica, sans-serif;
+    color: #f0f0f0;
+    overflow-x: hidden;
+}
+
+/* ------------------ Contenido Principal ------------------ */
+.container {
+    padding: 110px 20px 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ------------------ Título ------------------ */
+.title {
+    background-color: #3a6845;
+    text-align: center;
+    color: #d3ffb0;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+/* ------------------ Contenedor de todas las tarjetas ------------------ */
+.movie-list {
+    font-family: sans-serif;
+    font-size: 10px;
+    color: #1d3327;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+/* 🎬 Tarjeta horizontal de película */
+.movie-card-link {
+    display: inline-block;
+    width: 100%;
+}
+
+.movie-card-horizontal {
+    background-color: #a2b18a;
+    border: 3px solid black;
+    border-radius: 20px;
+    width: 75%;
+    display: flex;
+    padding: 1rem;
+    gap: 1rem;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    transition: transform 0.3s ease;
+    margin: 0 auto 1.5rem auto;
+}
+
+.movie-card-horizontal:hover {
+    transform: scale(1.02);
+}
+
+/* Poster de la película */
+.poster {
+    width: 120px;
+    height: auto;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+/* Contenido textual */
+.info {
+    color: #1d3327;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+/* Título */
+.info h2 {
+    text-decoration: underline;
+    font-size: 30px;
+    color: #2d4733;
+    margin: 0 0 0.25rem 0;
+    font-weight: bold;
+}
+
+.info h2 a:hover {
+    color: #3c634d;
+}
+
+/* Fecha */
+.info em {
+    font-size: 20px;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* Descripción */
+.info p {
+    background-color: #c4f79f;
+    padding: 0.5rem;
+    border-radius: 5px;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* ------------------ Paginación ------------------ */
+/* Línea divisoria entre sección de películas y paginación */
+.section-divider {
+    margin: 60px auto 20px auto;
+    border: none;
+    height: 3px;
+    width: 80%;
+    background-color: #000000;
+    border-radius: 5px;
+}
+
+/* Contenedor de paginación distribuido */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 40px auto;
+    padding: 0 10px;
+}
+
+/* Botones */
+.pagination a {
+    background-color: #1c3a2a;
+    font-size: 30px;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #36b96b;
+}
+
+/* Estilo del número de página */
+.page-indicator {
+    background-color: #7e6b5d;
+    padding: 0.6rem 1.4rem;
+    border-radius: 20px;
+    font-weight: bold;
+    color: white;
+    font-size: 24px;
+    white-space: nowrap;
+}
+
+/* Contador central */
+.total-counter {
+    background-color: #ff0000;
+    padding: 0.6rem 1.4rem;
+    border-radius: 25px;
+    font-style: italic;
+    font-weight: bold;
+    color: white;
+    font-size: 20px;
+    white-space: nowrap;
+}
+
