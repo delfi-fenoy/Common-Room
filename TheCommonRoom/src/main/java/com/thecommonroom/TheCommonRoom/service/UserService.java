@@ -12,11 +12,16 @@ import com.thecommonroom.TheCommonRoom.model.Role;
 import com.thecommonroom.TheCommonRoom.model.User;
 import com.thecommonroom.TheCommonRoom.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
@@ -67,5 +72,14 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
         return UserMapper.toDTO(user);
+    }
+
+    public Page<UserPreviewDTO> getUsersPaginated(int page)
+    {
+        Pageable pageable = PageRequest.of(page,20, Sort.by("id").ascending());
+
+        Page<User> usersPage= userRepository.findAll(pageable);
+
+        return usersPage.map(UserMapper::toPreviewDTO);
     }
 }

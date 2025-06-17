@@ -6,6 +6,7 @@ import com.thecommonroom.TheCommonRoom.dto.UserResponseDTO;
 import com.thecommonroom.TheCommonRoom.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +37,13 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public UserResponseDTO getUserByUsername(@PathVariable String username){
         return userService.findUserByUsername(username);
+    }
+
+    @GetMapping("/users/paginated")
+    public ResponseEntity<Page<UserPreviewDTO>> getUsersPaginated(@RequestParam(defaultValue = "0") int page)
+    {
+        Page<UserPreviewDTO> paginatedUsers= userService.getUsersPaginated(page);
+
+        return ResponseEntity.ok(paginatedUsers);
     }
 }
