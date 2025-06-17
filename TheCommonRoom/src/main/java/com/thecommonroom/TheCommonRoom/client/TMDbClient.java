@@ -55,4 +55,11 @@ public class TMDbClient {
                                     "&region=AR", baseUrl, key, page);
         return restTemplate.getForObject(url, RawMovieListDTO.class);
     }
+
+    ///  BARRA DE BUSQUEDA
+    public RawMovieListDTO searchMovies(String query) {
+        String url = String.format("%s/search/movie?api_key=%s&query=%s&language=es-AR", baseUrl, key, query);
+        return restTemplate.getForObject(url, RawMovieListDTO.class);
+    }
+
 }

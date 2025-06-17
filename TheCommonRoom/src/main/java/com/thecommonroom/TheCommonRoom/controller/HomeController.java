@@ -2,6 +2,7 @@ package com.thecommonroom.TheCommonRoom.controller;
 
 import com.thecommonroom.TheCommonRoom.client.TMDbClient;
 import com.thecommonroom.TheCommonRoom.dto.RawMovieListDTO;
+import com.thecommonroom.TheCommonRoom.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class HomeController {
 
+    private final MovieService movieService;
     private final TMDbClient tmdbClient;
 
     // Página de inicio (usa películas populares)
@@ -47,4 +49,14 @@ public class HomeController {
         model.addAttribute("currentPage", page);
         return "moviesmenu";
     }
+
+    // Buscar Pelicula | Crear HTML para ver el resultado de la busqueda
+    @GetMapping("/search")
+    public String search(@RequestParam String query, Model model) {
+        var movies = movieService.searchMovies(query);
+        model.addAttribute("movies", movies);
+        model.addAttribute("query", query);
+        return "search-results";
+    }
+
 }

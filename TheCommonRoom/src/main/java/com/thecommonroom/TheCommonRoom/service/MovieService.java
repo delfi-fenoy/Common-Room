@@ -47,4 +47,11 @@ public class MovieService {
         if(page > rawList.getTotal_pages()) throw new PageOutOfBoundsException("This page does not exist. Max page: " + rawList.getTotal_pages());
         return MovieMapper.rawToPreviewDTOList(rawList.getResults());
     }
+
+    ///  BARRA DE BUSQUEDA
+    public List<MoviePreviewDTO> searchMovies(String query) {
+        RawMovieListDTO rawList = api.searchMovies(query);
+        return MovieMapper.rawToPreviewDTOList(rawList.getResults());
+    }
+
 }
