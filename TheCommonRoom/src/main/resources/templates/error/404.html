@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>404 | Common Room</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/errorStyles.css" />
+  <style th:inline="css">
+    body {
+      background: url([[${errorData.backgroundImage}]]) no-repeat center center fixed;
+      background-size: cover;
+    }
+  </style>
+</head>
+<body>
+<div class="overlay">
+  <div class="quote-box">
+    <a th:href="@{/home}" class="back-button" title="Inicio">
+      <img th:src="@{/img/iconLetter.png}" alt="Inicio" class="logo-img" />
+    </a>
+    <div>
+      <p class="quote-text">
+        <strong th:text="${#strings.substringBefore(errorData.quote, '.')} + '.'"></strong>
+        <span th:text="${#strings.substringAfter(errorData.quote, '.')}"></span>
+      </p>
+      <p class="movie" th:text="${errorData.movie}"></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
