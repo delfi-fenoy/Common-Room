@@ -22,8 +22,12 @@
             <!-- ============================== PANEL IZQUIERDO ============================== -->
             <div class="left-panel-wrapper">
                 <div class="left-panel">
-                    <!-- Poster de la película -->
-                    <img th:src="${movie.posterUrl}" alt="Poster" class="movie-poster"/>
+
+                    <!-- Si tiene poster -->
+                    <img class="movie-poster" th:if="${movie.posterUrl != null}" th:src="${movie.posterUrl}" alt="Poster"/>
+                    <!-- Si no tiene poster -->
+                    <img class="movie-poster" th:if="${movie.posterUrl == null}" src="/img/default-poster.jpg" alt="Poster no disponible"/>
+
                     <div class="movie-title" th:text="${movie.title}">Título de película</div>
 
                     <!-- Rating -->

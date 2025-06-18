@@ -19,8 +19,11 @@
     </a>
   </div>
 
-  <!-- TERMINAR -->
-  <input type="text" class="search-bar" placeholder="Buscar..." />
+  <form th:action="@{/search}" method="get" class="search-container">
+    <input type="text" name="query" class="search-bar" placeholder="Buscar..." required/>
+    <button type="submit" class="search-button" title="Buscar">🔍</button>
+  </form>
+
 
   <div class="user-buttons" th:if="${usuarioLogueado == null}">
     <a th:href="@{/signin}" class="user-section" title="Iniciar sesión">

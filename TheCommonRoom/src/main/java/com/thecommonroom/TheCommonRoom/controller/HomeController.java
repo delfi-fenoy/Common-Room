@@ -50,13 +50,24 @@ public class HomeController {
         return "moviesmenu";
     }
 
-    // Buscar Pelicula | Crear HTML para ver el resultado de la busqueda
+    // Buscar Pelicula |
     @GetMapping("/search")
-    public String search(@RequestParam String query, Model model) {
-        var movies = movieService.searchMovies(query);
-        model.addAttribute("movies", movies);
+    public String search(
+            @RequestParam String query,
+            @RequestParam(defaultValue = "1") int page,
+            Model model) {
+
+        int pageSize = 20;
+        var searchResultPage = movieService.searchMovies(query, page, pageSize);
+
+        model.addAttribute("movies", searchResultPage.getResults());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", searchResultPage.getTotal_pages());
         model.addAttribute("query", query);
+
         return "search-results";
     }
+
+
 
 }
