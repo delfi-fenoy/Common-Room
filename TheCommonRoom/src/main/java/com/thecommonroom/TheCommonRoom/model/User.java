@@ -1,5 +1,6 @@
 package com.thecommonroom.TheCommonRoom.model;
 
+import com.thecommonroom.TheCommonRoom.auth.repository.Token;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -21,7 +23,7 @@ import java.time.LocalDateTime;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Incremento automático
     private Long id;
 
     @NotBlank(message = "El username no debe estar vacío")
@@ -51,4 +53,9 @@ public class User {
     @URL(message = "La URL de la foto de perfil debe ser valida")
     @Column(nullable = true) // Puede estár vacía
     private String profilePictureUrl;
+
+    // Tokens del usuario (un user puede tener muchos tokens)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY) // user => La relación está mapeada por el atributo user (en entidad Token)
+    private List<Token> tokens;
+
 }
