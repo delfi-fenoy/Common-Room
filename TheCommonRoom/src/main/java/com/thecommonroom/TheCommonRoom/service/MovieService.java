@@ -49,9 +49,13 @@ public class MovieService {
     }
 
     ///  BARRA DE BUSQUEDA
-    public List<MoviePreviewDTO> searchMovies(String query) {
-        RawMovieListDTO rawList = api.searchMovies(query);
-        return MovieMapper.rawToPreviewDTOList(rawList.getResults());
+    public RawMovieListDTO searchMovies(String query, int page, int pageSize) {
+        RawMovieListDTO rawList = api.searchMovies(query, page, pageSize);
+        if (page > rawList.getTotal_pages())
+            throw new PageOutOfBoundsException("This page does not exist. Max page: " + rawList.getTotal_pages());
+        return rawList;
     }
+
+
 
 }

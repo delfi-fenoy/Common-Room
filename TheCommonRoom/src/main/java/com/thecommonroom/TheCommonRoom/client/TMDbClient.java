@@ -57,8 +57,11 @@ public class TMDbClient {
     }
 
     ///  BARRA DE BUSQUEDA
-    public RawMovieListDTO searchMovies(String query) {
-        String url = String.format("%s/search/movie?api_key=%s&query=%s&language=es-AR", baseUrl, key, query);
+    public RawMovieListDTO searchMovies(String query, int page, int pageSize) {
+        String url = String.format(
+                "%s/search/movie?api_key=%s&query=%s&page=%d&language=es-AR",
+                baseUrl, key, query, page
+        );
         return restTemplate.getForObject(url, RawMovieListDTO.class);
     }
 
