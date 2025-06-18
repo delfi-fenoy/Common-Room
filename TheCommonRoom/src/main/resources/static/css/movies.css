@@ -19,8 +19,6 @@ a {
 /* ------------------ Estilos generales del cuerpo de la página ------------------ */
 body {
     height: 100%;
-    margin: 0;
-    padding: 0;
     background: linear-gradient(to bottom right, #9cab86, #3b5445);
     font-family: 'Grenze', 'Helvetica Neue', Helvetica, sans-serif;
     color: #f0f0f0;
@@ -97,11 +95,11 @@ body {
 
 /* Título */
 .info h2 {
-    text-decoration: underline;
     font-size: 30px;
     color: #2d4733;
     margin: 0 0 0.25rem 0;
     font-weight: bold;
+    text-decoration: underline;
 }
 
 .info h2 a:hover {
@@ -127,7 +125,6 @@ body {
 }
 
 /* ------------------ Paginación ------------------ */
-/* Línea divisoria entre sección de películas y paginación */
 .section-divider {
     margin: 60px auto 20px auto;
     border: none;
@@ -163,7 +160,7 @@ body {
     background-color: #36b96b;
 }
 
-/* Estilo del número de página */
+/* Número de página actual */
 .page-indicator {
     background-color: #7e6b5d;
     padding: 0.6rem 1.4rem;
@@ -185,4 +182,3 @@ body {
     font-size: 20px;
     white-space: nowrap;
 }
-

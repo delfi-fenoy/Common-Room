@@ -56,7 +56,7 @@ public class TMDbClient {
         return restTemplate.getForObject(url, RawMovieListDTO.class);
     }
 
-    ///  BARRA DE BUSQUEDA
+    ///  BARRA DE BUSQUEDA | Llama a la API de TMDb y devuelve las peliculas que contengan la query en el nombre
     public RawMovieListDTO searchMovies(String query, int page, int pageSize) {
         String url = String.format(
                 "%s/search/movie?api_key=%s&query=%s&page=%d&language=es-AR",

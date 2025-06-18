@@ -26,7 +26,7 @@ public class HomeController {
     private final MovieService movieService;
     private final TMDbClient tmdbClient;
 
-    // Página de inicio (usa películas populares)
+    // Muestra la página de inicio. Los datos de películas se cargan desde JS.
     @GetMapping("/home")
     public String index(@RequestParam(defaultValue = "1") int page, Model model) {
         RawMovieListDTO movieList = tmdbClient.getPopularMovies(page);
@@ -35,13 +35,13 @@ public class HomeController {
         return "index";
     }
 
-    // Página de login
+    // Muestra la página de inicio de sesión
     @GetMapping("/signin")
     public String signin() {
         return "signin";
     }
 
-    // Página de películas (usa todas las películas paginadas)
+    // Muestra el catálogo de todas las películas paginadas
     @GetMapping("/movies")
     public String movies(@RequestParam(defaultValue = "1") int page, Model model) {
         RawMovieListDTO movieList = tmdbClient.getAllMovies(page);
@@ -50,7 +50,7 @@ public class HomeController {
         return "moviesmenu";
     }
 
-    // Buscar Pelicula |
+    // Búsqueda de películas según el texto ingresado (query)
     @GetMapping("/search")
     public String search(
             @RequestParam String query,

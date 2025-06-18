@@ -1,4 +1,5 @@
-/* ----------- Reset y fuente base ----------- */
+/* ------------------ Reinicio de márgenes y fuente base ------------------ */
+/* Se aplica DM Sans a todos los elementos y se resetean márgenes y paddings */
 * {
     margin: 0;
     padding: 0;
@@ -6,7 +7,8 @@
     font-family: 'DM Sans', sans-serif;
 }
 
-/* ----------- Fondo de pantalla ----------- */
+/* ------------------ Estilo del fondo principal ------------------ */
+/* Define que el fondo ocupe toda la pantalla y se escale con cover */
 body {
     background-size: cover;
     color: white;
@@ -15,7 +17,8 @@ body {
     position: relative;
 }
 
-/* ----------- Capa oscura sobre el fondo ----------- */
+/* ------------------ Capa de oscurecimiento ------------------ */
+/* Cubre toda la pantalla con una capa semi-transparente */
 .overlay {
     background-color: rgba(0, 0, 0, 0.7);
     width: 100%;
@@ -26,14 +29,16 @@ body {
     justify-content: flex-start;
 }
 
-/* ----------- Contenedor de la cita + logo ----------- */
+/* ------------------ Contenedor de cita y logo ------------------ */
+/* Agrupa el logo circular textual con la frase */
 .quote-box {
     display: flex;
     align-items: center;
     gap: 30px;
 }
 
-/* ----------- Círculo con "CR" (logo textual) ----------- */
+/* ------------------ Círculo con iniciales (CR) ------------------ */
+/* Representa el logo visual textual en forma circular */
 .logo-circle {
     background-color: #2e2e2e;
     width: 60px;
@@ -46,7 +51,8 @@ body {
     font-size: 1.4rem;
 }
 
-/* ----------- Texto de la cita ----------- */
+/* ------------------ Texto principal de la cita ------------------ */
+/* Frase destacada en estilo itálica con negritas selectivas */
 .quote-text {
     position: relative;
     left: 40px;
@@ -58,7 +64,8 @@ body {
     font-weight: bold;
 }
 
-/* ----------- Nombre de la película ----------- */
+/* ------------------ Nombre o referencia de la película ------------------ */
+/* Se muestra debajo o al lado de la cita en menor tamaño */
 .movie {
     position: relative;
     left: 40px;
@@ -66,7 +73,8 @@ body {
     color: #ccc;
 }
 
-/* ----------- Botón flotante de regreso al home ----------- */
+/* ------------------ Botón de retorno a inicio (home) ------------------ */
+/* Ícono flotante ubicado en la esquina superior izquierda */
 .back-button {
     position: absolute;
     top: 20px;
@@ -78,11 +86,13 @@ body {
     transition: transform 0.3s ease;
 }
 
+/* Efecto hover del botón flotante */
 .back-button:hover {
     transform: scale(1.2);
 }
 
-/* ----------- Imagen del ícono dentro del botón ----------- */
+/* ------------------ Imagen dentro del botón flotante ------------------ */
+/* Ícono visual del botón de regreso */
 .logo-img {
     width: 100%;
     height: auto;
@@ -92,6 +102,7 @@ body {
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 
+/* Efecto hover sobre el ícono */
 .back-button:hover .logo-img {
     transform: scale(1.2);
     filter: brightness(150%);

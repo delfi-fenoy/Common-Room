@@ -48,7 +48,7 @@ public class MovieService {
         return MovieMapper.rawToPreviewDTOList(rawList.getResults());
     }
 
-    ///  BARRA DE BUSQUEDA
+    ///  BARRA DE BUSQUEDA | Devuelve una lista de películas, paginadas y con la query
     public RawMovieListDTO searchMovies(String query, int page, int pageSize) {
         RawMovieListDTO rawList = api.searchMovies(query, page, pageSize);
         if (page > rawList.getTotal_pages())
