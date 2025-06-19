@@ -13,7 +13,7 @@ form.addEventListener('submit', e => {
         password: form.password.value,
     };
 
-    // Opcional: deshabilitar botón para evitar múltiples clicks
+    // Deshabilitar botón para evitar múltiples clicks
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
 
