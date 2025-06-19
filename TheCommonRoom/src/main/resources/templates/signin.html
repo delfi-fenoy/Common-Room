@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Sign in | Common Room</title>
-    <link rel="icon" href="/img/iconLetter.png" type="image/png" />
+    <link rel="icon" href="/img/iconLetter.png" type="image/png"/>
+    <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap"
+          rel="stylesheet"/>
+
     <!-- CSS -->
-    <link rel="stylesheet" href="/css/signin.css" />
+    <link rel="stylesheet" href="/css/signin.css"/>
   </head>
+
   <body>
-    <!-- =========================================== Fondo de estrellas =========================================== -->
+    <!-- ============================== Stars ============================== -->
     <div class="stars"></div>
     <div class="shooting-star"></div>
     <div class="shooting-star"></div>
     <div class="shooting-star"></div>
 
-    <!-- =========================================== Botón de regreso al index =========================================== -->
+    <!-- ============================== Back to index ============================== -->
     <a th:href="@{/home}" class="back-button" title="Home">
-      <img th:src="@{/img/iconLetter.png}" alt="Inicio" class="logo-img" />
+      <img th:src="@{/img/iconLetter.png}" alt="Inicio" class="logo-img"/>
     </a>
 
-    <!-- =========================================== Contenedor con perspectiva =========================================== -->
+    <!-- ============================== Perpectivas ============================== -->
     <div class="flip-container" id="flipContainer">
       <div class="card">
-        <!-- =========================================== Lado login =========================================== -->
+        <!-- ============================== Sign In ============================== -->
         <div class="login-container front">
 
           <form class="login-box" th:action="@{/auth/login}" method="post">
@@ -59,38 +63,41 @@
 
         </div>
 
-        <!-- =========================================== Lado registro =========================================== -->
-
+        <!-- ============================== Register ============================== -->
         <div class="login-container back">
           <form id="form-register" class="login-box" th:action="@{/auth/register}" method="post">
             <h2>Register</h2>
 
+            <!-- Nombre de Usuario -->
             <label for="new-username">Username</label>
-            <!-- Corregí type de user a text -->
-            <input type="text" id="new-username" name="username" placeholder="Username" required />
+            <input type="text" id="new-username" name="username" placeholder="Username" required/>
 
+            <!-- Email -->
             <label for="new-email">Email</label>
-            <input type="email" id="new-email" name="email" placeholder="you@example.com" required />
+            <input type="email" id="new-email" name="email" placeholder="you@example.com" required/>
 
+            <!-- Password -->
             <label for="new-password">Password</label>
-            <input type="password" id="new-password" name="password" placeholder="Password" required />
+            <input type="password" id="new-password" name="password" placeholder="Password" required/>
 
+            <!-- Profile Picture (Opcional) -->
             <label for="new-profilePictureUrl">Profile Picture</label>
-            <input type="url" id="new-profilePictureUrl" name="profilePictureUrl" placeholder="Foto de perfil (opcional)" />
+            <input type="url" id="new-profilePictureUrl" name="profilePictureUrl" placeholder="Foto de perfil (opcional)"/>
 
+            <!-- Botón de Register -->
             <button type="submit">Register</button>
 
+            <!-- Flip -->
             <p class="signup-text">
               Already have an account?
               <a href="#" onclick="flipCard()">Sign In</a>
             </p>
           </form>
         </div>
-
       </div>
     </div>
 
-    <!-- =========================================== JavaScript ===========================================-->
+    <!-- ============================== JS ============================== -->
     <script src="/js/register.js"></script>
     <script src="/js/login.js"></script>
 
@@ -108,6 +115,5 @@
         }
       });
     </script>
-    
   </body>
 </html>

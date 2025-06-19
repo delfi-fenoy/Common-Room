@@ -5,7 +5,8 @@
         <title th:text="'Detalles | ' + ${movie.title}">Movie Details</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="icon" href="/img/iconLetter.png" type="image/png"/>
-        <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap"
+              rel="stylesheet"/>
 
         <!-- CSS -->
         <link rel="stylesheet" href="/css/common.css"/>
@@ -26,7 +27,8 @@
                     <!-- Si tiene poster -->
                     <img class="movie-poster" th:if="${movie.posterUrl != null}" th:src="${movie.posterUrl}" alt="Poster"/>
                     <!-- Si no tiene poster -->
-                    <img class="movie-poster" th:if="${movie.posterUrl == null}" src="/img/default-poster.jpg" alt="Poster no disponible"/>
+                    <img class="movie-poster" th:if="${movie.posterUrl == null}" src="/img/default-poster.jpg"
+                         alt="Poster no disponible"/>
 
                     <div class="movie-title" th:text="${movie.title}">Título de película</div>
 
@@ -55,16 +57,20 @@
 
                             <div id="details" class="tab-content details-box" style="display: none;">
                                 <ul>
-                                    <li><strong><u>Fecha de Estreno</u></strong> => <em th:text="${movie.releaseDate}">00/00/0000</em></li>
+                                    <li><strong><u>Fecha de Estreno</u></strong> => <em th:text="${movie.releaseDate}">00/00/0000</em>
+                                    </li>
                                     <li><strong><u>Duración</u></strong> => <em th:text="${movie.duration}">120</em> Min</li>
                                     <li>
                                         <strong><u>Géneros</u></strong> =>
                                         <em>
-                                            <span th:each="genre : ${movie.genres}" th:text="${genre + ', '}" th:remove="tag"></span>
+                                            <span th:each="genre : ${movie.genres}" th:text="${genre + ', '}"
+                                                  th:remove="tag"></span>
                                         </em>
                                     </li>
-                                    <li><strong><u>Presupuesto</u></strong> => <em>$<span th:text="${movie.budget}">1000000</span></em></li>
-                                    <li><strong><u>Recaudación</u></strong> => <em>$<span th:text="${movie.revenue}">5000000</span></em></li>
+                                    <li><strong><u>Presupuesto</u></strong> => <em>$<span
+                                            th:text="${movie.budget}">1000000</span></em></li>
+                                    <li><strong><u>Recaudación</u></strong> => <em>$<span
+                                            th:text="${movie.revenue}">5000000</span></em></li>
                                 </ul>
                             </div>
                         </div>
@@ -99,6 +105,5 @@
         <!-- ============================== JS ============================== -->
         <script src="/js/alternateTabs.js"></script>
         <script src="/js/header.js"></script>
-
     </body>
 </html>
