@@ -6,6 +6,7 @@
 }
 
 /* ------------------ Estilos generales del cuerpo de la página ------------------ */
+/* Fondo en gradiente, texto claro y fuente DM Sans */
 body {
   height: 100%;
   margin: 0;
@@ -16,7 +17,7 @@ body {
   font-family: 'DM Sans', sans-serif;
 }
 
-/* ------------------ LAYOUT GENERAL ------------------ */
+/* ------------------ Layout principal con márgenes laterales ------------------ */
 .main-layout {
   display: flex;
   min-height: 100vh;
@@ -25,7 +26,7 @@ body {
   margin-top: 90px;
 }
 
-/* ------------------ DETALLE DE PELÍCULA ------------------ */
+/* ------------------ Contenedor de los detalles de la película ------------------ */
 .movie-detail {
   flex-grow: 1;
   padding: 40px;
@@ -33,7 +34,7 @@ body {
   gap: 30px;
 }
 
-/* --------- Panel izquierdo --------- */
+/* --------- Panel izquierdo con póster y datos básicos --------- */
 .left-panel {
   width: 250px;
   display: flex;
@@ -69,7 +70,7 @@ body {
   width: 100%;
 }
 
-/* --------- Rating | Puntaje --------- */
+/* --------- Caja de puntuación de la película --------- */
 .rating-box {
   margin-top: 10px;
   background: rgb(141, 127, 115);
@@ -90,12 +91,12 @@ body {
   color: #ffffff;
 }
 
-/* --------- Panel del centro --------- */
+/* --------- Panel central con contenido dinámico --------- */
 .center-panel {
   flex-grow: 1;
 }
 
-/* --------- Tabs --------- */
+/* --------- Estilo general de las pestañas --------- */
 .tab {
   padding: 10px 20px;
   background: #e0e0e0;
@@ -109,20 +110,19 @@ body {
   position: relative;
   top: 5px;
   z-index: 2;
-
   font-style: italic;
   font-weight: normal;
   text-decoration: none;
 }
 
-/*  Tabs Seleccionadas General */
+/* --------- Pestaña seleccionada (común) --------- */
 .tab.selected {
   font-style: normal;
   font-weight: bold;
   text-decoration: underline;
 }
 
-/*  Tabs Seleccionadas Personalizados */
+/* --------- Pestañas activas específicas (sinopsis y detalles) --------- */
 .tab.selected.synopsis-tab {
   background-color: #9cab86;
   color: rgb(255, 255, 255);
@@ -134,7 +134,7 @@ body {
   border-color: #6c574f;
 }
 
-/*  Tabs No Seleccionadas Personalizados */
+/* --------- Pestañas inactivas específicas --------- */
 .tab:not(.selected).synopsis-tab {
   background-color: #9cab86;
   color: #4a5a3c;
@@ -148,7 +148,7 @@ body {
   z-index: 1;
 }
 
-/* Contenido de las cajas*/
+/* --------- Contenedor del contenido de pestañas --------- */
 .synopsis-box,
 .details-box {
   margin-top: 0;
@@ -174,7 +174,7 @@ body {
   border: 5px solid #6c574f;
 }
 
-/* Texto de Details */
+/* --------- Lista de detalles (ul/li) --------- */
 .details-box ul {
   padding-left: 20px;
   list-style-type: disc;
@@ -186,7 +186,7 @@ body {
   font-size: 16px;
 }
 
-/* --------- Título: People's thoughts --------- */
+/* --------- Título de la sección de reseñas --------- */
 .review-section-title {
   margin-top: 30px;
   background: #3a664e;
@@ -198,7 +198,7 @@ body {
   color: #38e79e;
 }
 
-/* --------- Botón Review --------- */
+/* --------- Botón para escribir una reseña --------- */
 .review-btn {
   margin-top: 10px;
   background: #ff4f4f;
@@ -220,7 +220,7 @@ body {
   filter: brightness(150%);
 }
 
-/* ------------------ RESEÑAS ------------------ */
+/* ------------------ Estilos de las reseñas ------------------ */
 .reviews {
   margin-top: 20px;
   display: flex;
@@ -258,10 +258,11 @@ body {
 }
 
 .review-text {
-  font-size: 10px;
-  margin-top: 5px;
+  margin-top: 10px;
+  font-size: 0.95rem;
 }
 
+/* --------- Estilos de estrellas y likes --------- */
 .stars {
   color: #38e79e;
   margin-left: 10px;
@@ -271,42 +272,4 @@ body {
 .likes {
   margin-left: 10px;
   font-weight: bold;
-}
-
-.review-text {
-  margin-top: 10px;
-  font-size: 0.95rem;
-}
-
-/* ------------------ UTILIDADES ------------------ */
-.text-center {
-  text-align: center;
-}
-
-.mt-3 {
-  margin-top: 3rem;
-}
-
-.mb-2 {
-  margin-bottom: 2rem;
-}
-
-.p-1 {
-  padding: 1rem;
-}
-
-.rounded-full {
-  border-radius: 50%;
-}
-
-.bg-dark {
-  background-color: #2c2c2c;
-}
-
-.text-muted {
-  color: #aaa;
-}
-
-.fs-small {
-  font-size: 0.9rem;
 }

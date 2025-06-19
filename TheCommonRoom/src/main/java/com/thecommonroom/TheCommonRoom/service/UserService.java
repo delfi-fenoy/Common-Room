@@ -23,12 +23,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void createUser(UserRequestDTO dto){
+    public User createUser(UserRequestDTO dto){
         // Validar si el username y el mail ya estan siendo usados
         if(userRepository.existsByUsername(dto.getUsername())){
             throw new UsernameAlreadyExistsException("El nombre de usuario " + dto.getUsername() + " ya está en uso.");
@@ -39,19 +39,19 @@ public class UserService implements UserDetailsService {
 
         String encodedPassword = passwordEncoder.encode(dto.getPassword()); // Encriptar la contraseña
         User user = UserMapper.toEntity(dto, encodedPassword); // Mapear DTO a entidad User
-        user.setRole(Role.ROLE_USER); // Settear rol de usuario por deafult
+        user.setRole(Role.USER); // Settear rol de usuario por deafult
 
-        userRepository.save(user); // Guardar en la base de datos
+        return userRepository.save(user); // Guardar en la base de datos
     }
 
     // Autentica al usuario al hacer login
-    @Override
+    /*@Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         return new CustomUserDetails(user);
-    }
+    }*/
 
     ///Obtiene todos los usuarios guardados en la base de datos y si no hay ninguno lanza la exception
     ///Si hay usuarios los convierte en una lista de DTOs

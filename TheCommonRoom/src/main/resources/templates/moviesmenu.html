@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movies | The Common Room</title>
+    <link rel="icon" href="/img/iconLetter.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/movies.css" />
+</head>
+
+<body>
+<!-- ============================== HEADER y SIDEBAR ============================== -->
+<div th:insert="~{fragments/header :: header}"></div>
+<div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+<!-- ============================== LAYOUT PRINCIPAL ============================== -->
+<main class="container">
+    <h1 class="title">Welcome to the Cinema</h1>
+
+    <!-- ============================== Listado ============================== -->
+    <div class="movie-list">
+        <div th:each="movie : ${movies}" class="movie-card-horizontal">
+
+            <!-- Si tiene poster -->
+            <img class="poster" th:if="${movie.poster_path != null}" th:src="@{'https://image.tmdb.org/t/p/w500' + ${movie.poster_path}}" alt="Poster" />
+
+            <!-- Si no tiene poster -->
+            <img class="poster" th:if="${movie.poster_path == null}" src="/img/default-poster.png" alt="Poster no disponible" />
+
+            <div class="info">
+                <h2>
+                    <a th:href="@{'/moviesheet/' + ${movie.id}}" th:text="${movie.title}"></a>
+                </h2>
+                <em th:text="${movie.release_date}">Fecha</em>
+                <p th:text="${movie.overview}">Resumen</p>
+            </div>
+        </div>
+    </div>
+
+    <hr class="section-divider" />
+
+    <!-- ============================== Paginacion ============================== -->
+    <div class="pagination">
+        <a class="pagination-btn" th:href="@{/movies(page=${currentPage - 1})}" th:if="${currentPage > 1}">&larr; Back</a>
+
+        <span class="page-indicator" th:text="'Página ' + ${currentPage}"></span>
+
+        <a class="pagination-btn" th:href="@{/movies(page=${currentPage + 1})}">Next &rarr;</a>
+    </div>
+
+</main>
+
+<!-- ============================== FOOTER ============================== -->
+<footer>© 2025 | The Common Room | Fenoy Rivas, Francano y Perez</footer>
+</body>
+</html>

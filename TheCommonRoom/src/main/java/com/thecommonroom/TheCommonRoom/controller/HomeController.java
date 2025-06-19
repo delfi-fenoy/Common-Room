@@ -2,6 +2,7 @@ package com.thecommonroom.TheCommonRoom.controller;
 
 import com.thecommonroom.TheCommonRoom.client.TMDbClient;
 import com.thecommonroom.TheCommonRoom.dto.RawMovieListDTO;
+import com.thecommonroom.TheCommonRoom.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +23,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class HomeController {
 
+    private final MovieService movieService;
     private final TMDbClient tmdbClient;
 
+    // Muestra la página de inicio. Los datos de películas se cargan desde JS.
     @GetMapping("/home")
     public String index(@RequestParam(defaultValue = "1") int page, Model model) {
         RawMovieListDTO movieList = tmdbClient.getPopularMovies(page);
@@ -32,8 +35,39 @@ public class HomeController {
         return "index";
     }
 
+    // Muestra la página de inicio de sesión
     @GetMapping("/signin")
     public String signin() {
         return "signin";
     }
+
+    // Muestra el catálogo de todas las películas paginadas
+    @GetMapping("/movies")
+    public String movies(@RequestParam(defaultValue = "1") int page, Model model) {
+        RawMovieListDTO movieList = tmdbClient.getAllMovies(page);
+        model.addAttribute("movies", movieList.getResults());
+        model.addAttribute("currentPage", page);
+        return "moviesmenu";
+    }
+
+    // Búsqueda de películas según el texto ingresado (query)
+    @GetMapping("/search")
+    public String search(
+            @RequestParam String query,
+            @RequestParam(defaultValue = "1") int page,
+            Model model) {
+
+        int pageSize = 20;
+        var searchResultPage = movieService.searchMovies(query, page, pageSize);
+
+        model.addAttribute("movies", searchResultPage.getResults());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", searchResultPage.getTotal_pages());
+        model.addAttribute("query", query);
+
+        return "search-results";
+    }
+
+
+
 }

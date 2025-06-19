@@ -13,38 +13,55 @@
 -->
 
 <header class="top-header" th:fragment="header">
-  <div class="logo-container">
-    <a th:href="@{/home}" class="logo-link" title="Inicio">
-      <img th:src="@{/img/iconLetter.png}" alt="Logo de la aplicación" class="logo-img" />
-    </a>
-  </div>
 
-  <input type="text" class="search-bar" placeholder="Buscar..." />
+    <!-- Contenedor del logo de la aplicación -->
+    <div class="logo-container">
+        <a th:href="@{/home}" class="logo-link" title="Inicio">
+            <img th:src="@{/img/iconLetter.png}" alt="Logo de la aplicación" class="logo-img"/>
+        </a>
+    </div>
 
-  <div class="user-buttons" th:if="${usuarioLogueado == null}">
-    <a th:href="@{/signin}" class="user-section" title="Iniciar sesión">
-      <span class="sign-in-text">Sign in</span>
-    </a>
-
-    <a th:href="@{/signin(register=true)}" class="user-section" title="Registrarse">
-      <span class="sign-in-text">Register</span>
-    </a>
-  </div>
-
-  <div class="user-buttons" th:if="${usuarioLogueado != null}">
-    <a th:href="@{/profile}" class="user-section user-profile" title="Perfil de usuario">
-      <img th:if="${usuarioLogueado.profilePictureUrl != null}"
-           th:src="@{${usuarioLogueado.profilePictureUrl}}"
-           th:alt="'Foto de ' + ${usuarioLogueado.nombre}"
-           class="user-photo" />
-      <span th:text="${usuarioLogueado.nombre}"></span>
-    </a>
-
-    <form th:action="@{/logout}" method="post" class="logout-form">
-      <button type="submit" class="user-section" title="Cerrar sesión">
-        <span class="sign-in-text">Logout</span>
-      </button>
+    <!-- Formulario de búsqueda con lupa incrustada a la derecha -->
+    <form th:action="@{/search}" method="get" class="search-container">
+        <div class="search-wrapper">
+            <input type="text" name="query" class="search-bar" placeholder="Buscar..." required/>
+            <button type="submit" class="search-icon" title="Buscar">🔍</button>
+        </div>
     </form>
-  </div>
+
+    <!-- Botones visibles si NO hay usuario logueado -->
+    <div class="user-buttons" th:if="${usuarioLogueado == null}">
+        <!-- Botón de inicio de sesión -->
+        <a th:href="@{/signin}" class="user-section" title="Iniciar sesión">
+            <span class="sign-in-text">Sign in</span>
+        </a>
+
+        <!-- Botón de registro -->
+        <a th:href="@{/signin(register=true)}" class="user-section" title="Registrarse">
+            <span class="sign-in-text">Register</span>
+        </a>
+    </div>
+
+    <!-- Botones visibles si hay un usuario logueado -->
+    <div class="user-buttons" th:if="${usuarioLogueado != null}">
+
+        <!-- Acceso al perfil con nombre y foto -->
+        <a th:href="@{/profile}" class="user-section user-profile" title="Perfil de usuario">
+            <img th:if="${usuarioLogueado.profilePictureUrl != null}"
+                 th:src="@{${usuarioLogueado.profilePictureUrl}}"
+                 th:alt="'Foto de ' + ${usuarioLogueado.nombre}"
+                 class="user-photo"/>
+            <span th:text="${usuarioLogueado.nombre}"></span>
+        </a>
+
+        <!-- Botón para cerrar sesión -->
+        <form th:action="@{/logout}" method="post" class="logout-form">
+            <button type="submit" class="user-section" title="Cerrar sesión">
+                <span class="sign-in-text">Logout</span>
+            </button>
+        </form>
+
+    </div>
 
 </header>
+
