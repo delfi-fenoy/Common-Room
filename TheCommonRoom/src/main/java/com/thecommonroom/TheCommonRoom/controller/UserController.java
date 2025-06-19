@@ -1,10 +1,8 @@
 package com.thecommonroom.TheCommonRoom.controller;
 
 import com.thecommonroom.TheCommonRoom.dto.UserPreviewDTO;
-import com.thecommonroom.TheCommonRoom.dto.UserRequestDTO;
 import com.thecommonroom.TheCommonRoom.dto.UserResponseDTO;
 import com.thecommonroom.TheCommonRoom.service.UserService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +18,11 @@ public class UserController {
     private final UserService userService;
 
     // Metodos
-    @PostMapping("/register")
+    /*@PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public void register(@Valid @RequestBody UserRequestDTO userRequestDTO){
         userService.createUser(userRequestDTO);
-    }
+    }*/
 
     @GetMapping("/users")
     public ResponseEntity<List<UserPreviewDTO>> listUsers(){
