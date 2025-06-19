@@ -35,4 +35,18 @@ public class UserController {
     public UserResponseDTO getUserByUsername(@PathVariable String username){
         return userService.findUserByUsername(username);
     }
+
+    @PutMapping("/users/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody @Valid UserRequestDTO dto)
+    {
+        userService.updateUser(id, dto);
+        return ResponseEntity.ok("Usuario actualizado correctamente");
+    }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id)
+    {
+        userService.deleteUser(id);
+        return ResponseEntity.ok("Usuario eliminado correctamente");
+    }
 }
