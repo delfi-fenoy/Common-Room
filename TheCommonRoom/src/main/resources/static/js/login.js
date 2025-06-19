@@ -28,13 +28,13 @@ form.addEventListener('submit', e => {
         })
         .then(data => {
             // Validar que venga token y sea JWT válido
-            if (!data.token || !isValidJwt(data.token)) {
+            if (!data.access_token || !isValidJwt(data.access_token)) {
                 throw new Error("Token inválido recibido");
             }
 
             // Guardar tokens en localStorage
-            localStorage.setItem('accessToken', data.token);
-            localStorage.setItem('refreshToken', data.refreshToken);
+            localStorage.setItem('accessToken', data.access_token);
+            localStorage.setItem('refreshToken', data.refresh_token);
 
             // Redirigir a home
             window.location.href = '/home';
