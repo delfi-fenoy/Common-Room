@@ -86,13 +86,13 @@ public class UserService {
         if(!user.getUsername().equalsIgnoreCase(dto.getUsername())&&
                 userRepository.existsByUsername(dto.getUsername()))
         {
-            throw new UsernameAlreadyExistsException("El username ya está en uso");
+            throw new UsernameAlreadyExistsException("El nombre de usuario " + dto.getUsername() + " ya está en uso.");
         }
 
         if(!user.getEmail().equalsIgnoreCase(dto.getEmail())&&
                 userRepository.existsByEmail(dto.getEmail()))
         {
-            throw new RuntimeException("El email ya está en uso");
+            throw new EmailAlreadyExistsException("El email " + dto.getEmail() + " ya está en uso.");
         }
 
         user.setUsername(dto.getUsername());
