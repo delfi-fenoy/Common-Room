@@ -1,4 +1,4 @@
-package com.thecommonroom.TheCommonRoom.auth.service;
+package com.thecommonroom.TheCommonRoom.auth.dto;
 
 
 import lombok.AllArgsConstructor;

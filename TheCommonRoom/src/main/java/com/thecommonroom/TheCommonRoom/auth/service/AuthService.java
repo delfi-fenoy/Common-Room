@@ -1,5 +1,8 @@
 package com.thecommonroom.TheCommonRoom.auth.service;
 
+import com.thecommonroom.TheCommonRoom.auth.dto.LoginRequest;
+import com.thecommonroom.TheCommonRoom.auth.dto.TokenResponse;
+import com.thecommonroom.TheCommonRoom.auth.repository.TokenType;
 import com.thecommonroom.TheCommonRoom.auth.repository.Token;
 import com.thecommonroom.TheCommonRoom.auth.repository.TokenRepository;
 import com.thecommonroom.TheCommonRoom.dto.UserRequestDTO;
@@ -43,7 +46,7 @@ public class AuthService {
     private void saveUserToken(User user, String jwtToken){
         var token = Token.builder()
                 .token(jwtToken)
-                .tokenType(Token.TokenType.BEARER)
+                .tokenType(TokenType.BEARER)
                 .revoked(false)
                 .expired(false)
                 .user(user)

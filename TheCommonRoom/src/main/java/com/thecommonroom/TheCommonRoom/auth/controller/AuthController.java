@@ -1,8 +1,8 @@
 package com.thecommonroom.TheCommonRoom.auth.controller;
 
 import com.thecommonroom.TheCommonRoom.auth.service.AuthService;
-import com.thecommonroom.TheCommonRoom.auth.service.LoginRequest;
-import com.thecommonroom.TheCommonRoom.auth.service.TokenResponse;
+import com.thecommonroom.TheCommonRoom.auth.dto.LoginRequest;
+import com.thecommonroom.TheCommonRoom.auth.dto.TokenResponse;
 import com.thecommonroom.TheCommonRoom.dto.UserRequestDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
