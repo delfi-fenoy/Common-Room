@@ -28,7 +28,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User createUser(UserRequestDTO dto){
+    public User  createUser(UserRequestDTO dto){
         // Validar si el username y el mail ya estan siendo usados
         if(userRepository.existsByUsername(dto.getUsername())){
             throw new UsernameAlreadyExistsException("El nombre de usuario " + dto.getUsername() + " ya está en uso.");
@@ -71,8 +71,7 @@ public class UserService {
     }
 
     //Busco el usuario, verifico si es el mismo, verifico si el username o el emial ya esta usados y luego lo setteo
-    public void updateUser(Long id, UserRequestDTO dto)
-    {
+    public void updateUser(Long id, UserRequestDTO dto) {
         User user=userRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("Usuario no encontrado"));
 
@@ -104,8 +103,7 @@ public class UserService {
     }
 
     //Aca borro mi propio usuario yo mismo
-    public void deleteUser(Long id)
-    {
+    public void deleteUser(Long id) {
         User user= userRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("Usuario no encontrado"));
 
