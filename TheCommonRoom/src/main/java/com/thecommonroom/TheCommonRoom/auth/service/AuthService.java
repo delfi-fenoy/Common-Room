@@ -59,7 +59,7 @@ public class AuthService {
     public TokenResponse login(LoginRequest request){
         // Validar el username y password enviados
         // Si no son válidos, lanza una excepción automáticamente
-        authenticationManager.authenticate( // Llama automaticamente a autheticantionProvider() (en SecurityConfig)
+        authenticationManager.authenticate( // Llama automaticamente a autheticantionProvider() (en AppConfig)
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword()
