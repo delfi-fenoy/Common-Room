@@ -12,6 +12,7 @@ import com.thecommonroom.TheCommonRoom.model.Role;
 import com.thecommonroom.TheCommonRoom.model.User;
 import com.thecommonroom.TheCommonRoom.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -67,5 +68,53 @@ public class UserService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
         return UserMapper.toDTO(user);
+    }
+
+    //Busco el usuario, verifico si es el mismo, verifico si el username o el emial ya esta usados y luego lo setteo
+    public void updateUser(Long id, UserRequestDTO dto) {
+        User user=userRepository.findById(id)
+                .orElseThrow(()->new RuntimeException("Usuario no encontrado"));
+
+        //Con esto me fijo que solo se modifique el mismo
+        String loggedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if(!user.getUsername().equals(loggedUsername))
+        {
+            throw new RuntimeException("No tenes permiso para modificar este perfil");
+        }
+
+        if(!user.getUsername().equalsIgnoreCase(dto.getUsername())&&
+                userRepository.existsByUsername(dto.getUsername()))
+        {
+            throw new UsernameAlreadyExistsException("El nombre de usuario " + dto.getUsername() + " ya está en uso.");
+        }
+
+        if(!user.getEmail().equalsIgnoreCase(dto.getEmail())&&
+                userRepository.existsByEmail(dto.getEmail()))
+        {
+            throw new EmailAlreadyExistsException("El email " + dto.getEmail() + " ya está en uso.");
+        }
+
+        user.setUsername(dto.getUsername());
+        user.setEmail(dto.getEmail());
+        user.setProfilePictureUrl(dto.getProfilePictureUrl());
+
+        userRepository.save(user);
+    }
+
+    //Aca borro mi propio usuario yo mismo
+    public void deleteUser(Long id) {
+        User user= userRepository.findById(id)
+                .orElseThrow(()->new RuntimeException("Usuario no encontrado"));
+
+        //Verifico que no sea un usuario externo que desee borrar este usuario
+        String loggedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if(!user.getUsername().equals(loggedUsername))
+        {
+            throw new RuntimeException("No tenes permiso para eliminar este perfil");
+        }
+
+        userRepository.delete(user);
     }
 }

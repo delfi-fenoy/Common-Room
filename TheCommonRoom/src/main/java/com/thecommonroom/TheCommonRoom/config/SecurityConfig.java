@@ -83,7 +83,6 @@ public class SecurityConfig {
                     .passwordParameter("password")
                     .defaultSuccessUrl("/home", true)   // Redirige siempre a /home tras login exitoso
                     .failureUrl("/signin?error=true")   // Redirige a /signin con parámetro de error*//*
-
                 .and()
                 .logout()
                 .logoutUrl("/logout")
