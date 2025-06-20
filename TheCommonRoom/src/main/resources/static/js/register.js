@@ -16,14 +16,18 @@ document.getElementById("form-register").addEventListener("submit", function (e)
         body: JSON.stringify(data)
     })
         .then(res => {
-            // Si la respuesta NO es OK, lanzamos error
-            if (!res.ok) throw new Error("Error en el registro");
+            if (!res.ok) {
+                // Mostramos el modal con el mensaje de error
+                showErrorModal("Error en el registro");
+                throw new Error('Error en credenciales');
+            }
             return res.json();
         })
         .then(data => {
             // ================ Verificamos que lleguen los tokens ================ \\
             if (!data.access_token || !data.refresh_token) {
-                throw new Error("La respuesta no contenía tokens de acceso");
+                showErrorModal("La respuesta no contenía tokens de acceso");
+                throw new Error('Token inválido');
             }
 
             // ================ Mostramos mensaje de éxito al usuario ================ \\
@@ -34,8 +38,5 @@ document.getElementById("form-register").addEventListener("submit", function (e)
             localStorage.setItem('refreshToken', data.refresh_token);
             window.location.href = '/home';
         })
-        .catch(err => {
-            // Si hubo error, mostrar alert
-            alert(err.message);
-        });
+        .catch(err => {showErrorModal(err.message);})
 });

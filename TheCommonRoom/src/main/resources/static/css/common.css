@@ -218,6 +218,88 @@ footer {
     background: #1c3a2a;
 }
 
+/* ------------------ Modal del Error ------------------ */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(20, 20, 20, 0.8);
+    display: none; /* oculto por defecto */
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.modal-box {
+    background-color: #2d2d2d;
+    border: 5px solid #a52b2b;
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    color: #f0f0f0;
+    box-shadow: 0 0 20px #000;
+    text-align: center;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.modal-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.modal-body p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.btn-close {
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-accept {
+    background-color: #ff4f4f;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-accept:hover,
+.btn-close:hover {
+    transform: scale(1.05);
+    filter: brightness(120%);
+    transition: all 0.2s ease;
+}
+
 /* ------------------ Clases reutilizables ------------------ */
 /* Centrado de texto */
 .text-center {

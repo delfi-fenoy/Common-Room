@@ -10,10 +10,13 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="/css/signin.css"/>
+    <link rel="stylesheet" href="/css/common.css"/>
   </head>
 
   <body>
-    <!-- ============================== Stars ============================== -->
+  <div th:replace="fragments/modal-error :: error-modal"></div>
+
+  <!-- ============================== Stars ============================== -->
     <div class="stars"></div>
     <div class="shooting-star"></div>
     <div class="shooting-star"></div>
@@ -90,6 +93,7 @@
     <!-- ============================== JS ============================== -->
     <script src="/js/register.js"></script>
     <script src="/js/login.js"></script>
+    <script src="/js/modalError.js"></script>
 
     <!--Funcion Flip y Aparecer en register-->
     <script>

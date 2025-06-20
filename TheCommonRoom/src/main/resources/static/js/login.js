@@ -23,13 +23,18 @@ form.addEventListener('submit', e => {
         body: JSON.stringify(data)
     })
         .then(res => {
-            if (!res.ok) throw new Error("Credenciales inválidas");
+            if (!res.ok) {
+                // Mostramos el modal con el mensaje de error
+                showErrorModal("Credenciales inválidas");
+                throw new Error('Error en credenciales');
+            }
             return res.json();
         })
         .then(data => {
             // Validar que venga token y sea JWT válido
             if (!data.access_token || !isValidJwt(data.access_token)) {
-                throw new Error("Token inválido recibido");
+                showErrorModal("Token inválido recibido");
+                throw new Error('Token inválido');
             }
 
             // Guardar tokens en localStorage
@@ -39,7 +44,7 @@ form.addEventListener('submit', e => {
             // Redirigir a home
             window.location.href = '/home';
         })
-        .catch(err => alert(err.message))
+        .catch(err => {showErrorModal(err.message);})
         .finally(() => {
             // Reactivar botón siempre
             submitBtn.disabled = false;
