@@ -25,16 +25,12 @@ document.getElementById("form-register").addEventListener("submit", function (e)
             if (!data.access_token || !data.refresh_token) {
                 throw new Error("La respuesta no contenía tokens de acceso");
             }
+            
+            // ================ Guardamos los tokens y vamos al Home ================ \\
+            localStorage.setItem('accessToken', data.access_token);
+            localStorage.setItem('refreshToken', data.refresh_token);
+            window.location.href = '/home';
 
-            // ================ Mostramos mensaje de éxito al usuario ================ \\
-            alert("¡Registro exitoso!");
-
-            // ================ Después de 2 segundos guardamos los tokens y vamos al Home ================ \\
-            setTimeout(() => {
-                localStorage.setItem('accessToken', data.access_token);
-                localStorage.setItem('refreshToken', data.refresh_token);
-                window.location.href = '/home';
-            }, 2000);
         })
         .catch(err => {
             // Si hubo error, mostrar alert
