@@ -32,9 +32,9 @@ public class SecurityConfig {
                 .csrf().disable() // Para desarrollo; en producción deberías activarlo
 
                 .authorizeHttpRequests()
-                    .requestMatchers("/", "/auth/**", "/index", "/signin", "/register", "/static/**", "/css/**", "/js/**", "/img/**", "/fragments/**")
+                    .requestMatchers("/", "/auth/**", "/index", "/signin", "/register", "/static/**", "/css/**", "/js/**", "/img/**", "/fragments/**", "/profile/**")
                     .permitAll()
-                    .requestMatchers("/profile/**", "/favorites/**", "/like/**", "/comment/**")
+                    .requestMatchers("/favorites/**", "/like/**", "/comment/**")
                     .authenticated()
                     .anyRequest()
                     .permitAll()
