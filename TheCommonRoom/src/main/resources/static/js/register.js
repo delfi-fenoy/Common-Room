@@ -25,12 +25,14 @@ document.getElementById("form-register").addEventListener("submit", function (e)
             if (!data.access_token || !data.refresh_token) {
                 throw new Error("La respuesta no contenía tokens de acceso");
             }
-            
-            // ================ Guardamos los tokens y vamos al Home ================ \\
+
+            // ================ Mostramos mensaje de éxito al usuario ================ \\
+            alert("¡Registro exitoso!");
+
+            // ================ Guardamos los tokens y vamos al Home inmediatamente ================ \\
             localStorage.setItem('accessToken', data.access_token);
             localStorage.setItem('refreshToken', data.refresh_token);
             window.location.href = '/home';
-
         })
         .catch(err => {
             // Si hubo error, mostrar alert
