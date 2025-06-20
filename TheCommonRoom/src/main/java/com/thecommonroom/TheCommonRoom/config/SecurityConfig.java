@@ -1,9 +1,12 @@
 package com.thecommonroom.TheCommonRoom.config;
 
+import com.thecommonroom.TheCommonRoom.auth.repository.Token;
+import com.thecommonroom.TheCommonRoom.auth.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import com.thecommonroom.TheCommonRoom.auth.config.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -11,6 +14,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -22,6 +26,7 @@ public class SecurityConfig {
 
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthFilter jwtAuthFilter;
+    private final TokenRepository tokenRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -42,7 +47,14 @@ public class SecurityConfig {
 
                 .logout(logout -> logout
                         .logoutUrl("/logout")
+                        .addLogoutHandler((request, response, authentication) -> {
+                            var authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+                            logout(authHeader);
+                        })
                         .logoutSuccessUrl("/signin?logout=true")
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            SecurityContextHolder.clearContext();
+                        })
                         .permitAll()
                 );
         return http.build();
@@ -80,6 +92,23 @@ public class SecurityConfig {
 
         return http.build();
     }*/
+
+    private void logout(String token){
+        // Si el token esta vacio o no comienza con 'Bearer', error
+        if(token == null || !token.startsWith("Bearer ")){
+            throw new IllegalArgumentException("Invalid token");
+        }
+
+        String jwtToken = token.substring(7); // Obtener token sin 'Bearer '
+        Token foundToken = tokenRepository.findByToken(jwtToken) // Obtener token de la bdd
+                .orElseThrow(() -> new IllegalArgumentException("Invalid token")); // Error en caso de no enconrarla
+
+        // Settear expiración y revocación
+        foundToken.setExpired(true);
+        foundToken.setRevoked(true);
+        // Guardar cambios en la bdd
+        tokenRepository.save(foundToken);
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
