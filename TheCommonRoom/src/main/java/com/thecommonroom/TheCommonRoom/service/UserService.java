@@ -28,7 +28,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User  createUser(UserRequestDTO dto){
+    public User createUser(UserRequestDTO dto){
         // Validar si el username y el mail ya estan siendo usados
         if(userRepository.existsByUsername(dto.getUsername())){
             throw new UsernameAlreadyExistsException("El nombre de usuario " + dto.getUsername() + " ya está en uso.");

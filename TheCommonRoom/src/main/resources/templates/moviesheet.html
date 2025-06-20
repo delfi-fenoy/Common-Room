@@ -15,8 +15,8 @@
 
     <body>
         <!-- ============================== HEADER y SIDEBAR ============================== -->
-        <div th:insert="fragments/header :: header"></div>
-        <div th:insert="fragments/sidebar :: sidebar"></div>
+        <div th:insert="~{fragments/header :: header}"></div>
+        <div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
         <!-- ============================== LAYOUT PRINCIPAL ============================== -->
         <div class="main-layout">
@@ -25,10 +25,9 @@
                 <div class="left-panel">
 
                     <!-- Si tiene poster -->
-                    <img class="movie-poster" th:if="${movie.posterUrl != null}" th:src="${movie.posterUrl}" alt="Poster"/>
-                    <!-- Si no tiene poster -->
-                    <img class="movie-poster" th:if="${movie.posterUrl == null}" src="/img/default-poster.jpg"
-                         alt="Poster no disponible"/>
+                    <img class="movie-poster"
+                         th:src="${movie.posterUrl != null ? movie.posterUrl : '/img/default-poster.jpg'}"
+                         alt="Poster de la película" />
 
                     <div class="movie-title" th:text="${movie.title}">Título de película</div>
 
