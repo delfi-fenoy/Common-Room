@@ -29,6 +29,7 @@ public class AuthController {
         return ResponseEntity.ok(tokenResponse); // Devolver codigo de estado 200 (ok) + tokens e info de usuario
     }
 
+    // Generar nuevo access token (en caso que haya expirado), sin la necesidad de iniciar sesión nuevamente
     @PostMapping("/refresh")
     public TokenResponse refreshToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader){
         return authService.refreshToken(authHeader);

@@ -58,28 +58,27 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // Verificar que el username exista
+    // Este metodo le dice a Spring cómo buscar un usuario en la base de datos
     @Bean
-    public UserDetailsService userDetailsService(){
-        return username -> {
+    public UserDetailsService userDetailsService(){ // Interfaz con un solo metodo -> loadUserByUsername(String username) (que devuelve un UserDetails)
+        return username -> { // Funcion lambda
             // Busca al usuario por su nombre de usuario (username) en la base de datos
             User user = userRepository.findByUsername(username)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found")); // Lanzar excepción en caso de no encontralo (Spring lo maneja automáticamente)
 
-            // Construir un objeto de tipo UserDetails con los datos del usuario
-            // Spring usa este objeto internamente para verificar credenciales
+            // Si se encuentra, se convierte ese usuario en un objeto que Spring Security pueda usar
             return org.springframework.security.core.userdetails.User.builder()
                     .username(user.getUsername())
-                    .password(user.getPassword())
-                    .roles(user.getRole().name())
-                    .build();
+                    .password(user.getPassword()) // Contraseña ya cifrada
+                    .roles(user.getRole().name()) // USER o ADMIN
+                    .build(); // Construye el objeto
         };
     }
 
-    // Verificar username y password al hacer login
+    // Verificar username y password al hacer login (se llama automaticamente al intentar hacer login)
     @Bean
     public AuthenticationProvider authenticationProvider(){
-        // Crear un proveedor de autenticación que Spring va a usar para verificar usuarios y contraseñas
+        // Crea un proveedor de autenticación que Spring va a usar para verificar usuarios y contraseñas
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
 
         // Configura el servicio que carga los datos del usuario (UserDetailsService)

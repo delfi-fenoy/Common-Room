@@ -71,15 +71,19 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    // Extraer username de un token
     public String extractUsername(String token){
+        // Se parsea el token usando la clave secreta para validar la firma y obtener los claims (datos del user)
         Claims jwtToken = Jwts.parserBuilder()
-                .setSigningKey(getSignInKey())
+                .setSigningKey(getSignInKey()) // Le pasamos la clave secreta para verificar el token
                 .build()
-                .parseClaimsJws(token)
-                .getBody(); // info que contiene el token
-        return jwtToken.getSubject();
+                .parseClaimsJws(token) // Decodifica y valida el token JWT
+                .getBody(); // Extrae el cuerpo del token (datos que contiene del user)
+
+        return jwtToken.getSubject(); // Devuelve el subject (username)
     }
 
+    // Extraer expiracion de un token
     public Date extractExpiration(String token){
         Claims jwtToken = Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
@@ -89,11 +93,13 @@ public class JwtService {
         return jwtToken.getExpiration(); // Obtener la expiracion del token
     }
 
+    // Chequear si el token es valido
     public boolean isTokenValid(String token, User user){
         String username = extractUsername(token); // Extraer el username del token
         return (username.equals(user.getUsername())) && !isTokenExpired(token); // Comparar username de token con username del usuario (deben ser iguales) + que no este expirado el token
     }
 
+    // Chequear si el token está expirado
     public boolean isTokenExpired(String token){
         return extractExpiration(token).before(new Date()); // Si la expiracion es anterior a ahora, retorna true
     }

@@ -57,33 +57,33 @@ public class AuthService {
 
     // ========== INICIAR SESIÓN ==========
     public TokenResponse login(LoginRequest request){
-        // Autenticar al usuario usando su username y password
+        // Validar el username y password enviados
         // Si no son válidos, lanza una excepción automáticamente
-        authenticationManager.authenticate(
+        authenticationManager.authenticate( // Llama automaticamente a autheticantionProvider() (en SecurityConfig)
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword()
                 )
         );
         // Busca al usuario en la base de datos por su username
-        // Si no lo encuentra, lanza una excepción
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow();
 
-        // Genera un nuevo token JWT y refresh token para este usuario
+        // Genera un nuevo token JWT y refresh token para este usuario (se genera uno nuevo por cada login)
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
 
-        revokeAllUserTokens(user); // Revocar tokens validos del usuario en la bdd
-        saveUserToken(user, jwtToken); // Guardar token
+        revokeAllUserTokens(user); // Revocar tokens validos viejos del usuario en la bdd
+        saveUserToken(user, jwtToken); // Guardar token nuevo
         // Devuelve al front ambos tokens + info útil (username y rol)
         return new TokenResponse(jwtToken, refreshToken, user.getUsername(), user.getRole().name());
     }
 
-    // Revocar tokens de un usuario (por id)
+    // Revocar tokens de un usuario
     private void revokeAllUserTokens(User user){
+        // Buscar tokens validos del user
         List<Token> validUserTokens = tokenRepository.findAllValidTokensByUserId(user.getId());
-        if (!validUserTokens.isEmpty()){ // Si hay tokens validos
+        if (!validUserTokens.isEmpty()){ // Si se encontraron tokens validos
             for(Token token : validUserTokens){
                 // Marcar verdadero a revocado y expirado
                 token.setRevoked(true);
@@ -93,6 +93,7 @@ public class AuthService {
         }
     }
 
+    // ========== REFRESH TOKEN ==========
     public TokenResponse refreshToken(String authHeader){
         // Validar que el header no sea nulo y que comience con "Bearer "
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
