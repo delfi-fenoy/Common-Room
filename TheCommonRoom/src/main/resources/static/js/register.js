@@ -1,6 +1,7 @@
 document.getElementById("form-register").addEventListener("submit", function (e) {
-    e.preventDefault();
+    e.preventDefault(); // Evita que la página recargue al hacer click en "Register"
 
+    // ================ Se arma el objeto de datos para enviar al backend ================ \\
     const data = {
         username: document.getElementById("new-username").value,
         email: document.getElementById("new-email").value,
@@ -8,22 +9,33 @@ document.getElementById("form-register").addEventListener("submit", function (e)
         profilePictureUrl: document.getElementById("new-profilePictureUrl").value || null
     };
 
-    fetch("/auth/register", { // corregido el endpoint
+    // ================ Se hace la solicitud de registro al backend ================ \\
+    fetch("/auth/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data)
     })
         .then(res => {
+            // Si la respuesta NO es OK, lanzamos error
             if (!res.ok) throw new Error("Error en el registro");
             return res.json();
         })
         .then(data => {
-            // Guardar los tokens al registrarse (opcional)
-            localStorage.setItem('accessToken', data.token);
-            localStorage.setItem('refreshToken', data.refreshToken);
+            // ================ Verificamos que lleguen los tokens ================ \\
+            if (!data.access_token || !data.refresh_token) {
+                throw new Error("La respuesta no contenía tokens de acceso");
+            }
 
-            alert("Registrado con éxito");
-            flipCard(); // Mostrar formulario de login
+            // ================ Mostramos mensaje de éxito al usuario ================ \\
+            alert("¡Registro exitoso!");
+
+            // ================ Guardamos los tokens y vamos al Home inmediatamente ================ \\
+            localStorage.setItem('accessToken', data.access_token);
+            localStorage.setItem('refreshToken', data.refresh_token);
+            window.location.href = '/home';
         })
-        .catch(err => alert(err.message));
+        .catch(err => {
+            // Si hubo error, mostrar alert
+            alert(err.message);
+        });
 });

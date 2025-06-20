@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // 3️⃣ Usuario autenticado: mostrar Perfil + Logout
             userButtons.innerHTML = `
             <a href="/profile" class="user-section user-profile" title="Perfil de usuario">
-                <img src="${user.profilePictureUrl || '/img/default-profile.png'}" alt="Foto de ${user.username}" class="user-photo"/>
+                <img src="${user.profilePictureUrl || '/img/user.png'}" alt="Foto de ${user.username}" class="user-photo"/>
                 <span>${user.username}</span>
             </a>
             <button id="logout-btn" class="user-section" title="Cerrar sesión">

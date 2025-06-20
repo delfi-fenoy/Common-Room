@@ -14,36 +14,41 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MovieController {
 
+    // =========== Atributos =========== \\
     private final MovieService movieService;
 
+    // =========== Devuelve una película por ID =========== \\
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public MovieDetailsDTO getMovieById(@PathVariable Long id){
+    public MovieDetailsDTO getMovieById(@PathVariable Long id) {
         return movieService.findMovieById(id);
     }
 
-    ///  PAGINACION DE PELICULAS | Devuelve una lista paginada de películas populares
+    // =========== Lista paginada de películas populares =========== \\
     @GetMapping("/popular")
     @ResponseStatus(HttpStatus.OK)
-    public List<MoviePreviewDTO> getPopularMovies(@RequestParam(defaultValue = "1") int page){
+    public List<MoviePreviewDTO> getPopularMovies(@RequestParam(defaultValue = "1") int page) {
         return movieService.getPopularMovies(page);
     }
 
+    // =========== Lista paginada de películas recientes =========== \\
     @GetMapping("/recent")
     @ResponseStatus(HttpStatus.OK)
-    public List<MoviePreviewDTO> getRecentMovies(@RequestParam(defaultValue = "1") int page){
+    public List<MoviePreviewDTO> getRecentMovies(@RequestParam(defaultValue = "1") int page) {
         return movieService.getRecentMovies(page);
     }
 
+    // =========== Lista paginada de todas las películas =========== \\
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public List<MoviePreviewDTO> getAllMovies(@RequestParam(defaultValue = "1") int page){
+    public List<MoviePreviewDTO> getAllMovies(@RequestParam(defaultValue = "1") int page) {
         return movieService.getAllMovies(page);
     }
 
+    // =========== Lista paginada de próximos estrenos =========== \\
     @GetMapping("/uncoming")
     @ResponseStatus(HttpStatus.OK)
-    public List<MoviePreviewDTO> getUncomingMovies(@RequestParam(defaultValue = "1") int page){
+    public List<MoviePreviewDTO> getUncomingMovies(@RequestParam(defaultValue = "1") int page) {
         return movieService.getUncomingMovies(page);
     }
 }

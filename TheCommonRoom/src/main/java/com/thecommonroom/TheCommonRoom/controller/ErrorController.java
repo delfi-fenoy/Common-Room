@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Controlador que maneja las rutas principales estáticas de la aplicación
+ * para el manejo de ventanas personalizadas de ERRORES
+ */
 @Controller
 public class ErrorController {
 
-    // Muestra una página de error 404 personalizada con una versión aleatoria
+    // =========== Página de error 404 personalizada =========== \\
     @RequestMapping("/error/404")
     public String error404(Model model) {
 
@@ -29,8 +33,6 @@ public class ErrorController {
         Error404DTO selected = versions.get(new Random().nextInt(versions.size()));
         model.addAttribute("errorData", selected);
 
-        // Devuelve la vista personalizada de error 404
         return "error/404";
     }
 }
-

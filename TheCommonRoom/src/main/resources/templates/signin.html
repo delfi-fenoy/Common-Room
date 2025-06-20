@@ -33,16 +33,6 @@
           <form class="login-box" th:action="@{/auth/login}" method="post">
             <h2>Sign in</h2>
 
-            <!-- Mostrar mensaje de error -->
-            <div th:if="${param.error}" style="color: red; margin-bottom: 10px;">
-              User or password incorrect
-            </div>
-
-            <!-- Mostrar mensaje de logout -->
-            <div th:if="${param.logout}" style="color: green; margin-bottom: 10px;">
-              Session closed successfully
-            </div>
-
             <!-- Nombre de Usuario -->
             <label for="username">Username</label>
             <input type="text" id="username" name="username" placeholder="Username" required/>
