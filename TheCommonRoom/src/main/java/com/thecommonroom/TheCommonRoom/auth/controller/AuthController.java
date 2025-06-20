@@ -20,13 +20,13 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<TokenResponse> register(@Valid @RequestBody UserRequestDTO userRequestDTO){
         TokenResponse tokenResponse = authService.register(userRequestDTO);
-        return ResponseEntity.ok(tokenResponse);
+        return ResponseEntity.ok(tokenResponse); // Devolver codigo de estado 200 (ok) + tokens e info de usuario
     }
 
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> authenticate(@RequestBody LoginRequest loginRequest){
         TokenResponse tokenResponse = authService.login(loginRequest);
-        return ResponseEntity.ok(tokenResponse);
+        return ResponseEntity.ok(tokenResponse); // Devolver codigo de estado 200 (ok) + tokens e info de usuario
     }
 
     @PostMapping("/refresh")

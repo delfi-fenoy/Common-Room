@@ -25,8 +25,9 @@ public class AuthService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager; // Para procesar y validar las credenciales de usuarios
 
+    // ========== REGISTRARSE ==========
     public TokenResponse register(UserRequestDTO userRequestDTO){
         // Guardar user en base de datos y devolver el usuario (entidad)
         var savedUser = userService.createUser(userRequestDTO); // var => El compilador deduce el tipo de la variable a partir del valor que se le asigna
@@ -35,7 +36,7 @@ public class AuthService {
         var jwtToken = jwtService.generateToken(savedUser);
         var refreshToken = jwtService.generateRefreshToken(savedUser);
 
-        // Guardar el token asociado al usuario, para manejar logout, expiracion, etc
+        // Guardar el token asociado al usuario en la base de datos
         saveUserToken(savedUser, jwtToken);
 
         // Devolver ambos tokens al front
@@ -49,13 +50,14 @@ public class AuthService {
                 .tokenType(TokenType.BEARER)
                 .revoked(false)
                 .expired(false)
-                .user(user)
-                .build();
-        tokenRepository.save(token);
+                .user(user) // Asociar usuario al token
+                .build(); // Generar instancia de Token
+        tokenRepository.save(token); // Guardar token en la base de datos
     }
 
+    // ========== INICIAR SESIÓN ==========
     public TokenResponse login(LoginRequest request){
-        // Autentica al usuario usando su username y password
+        // Autenticar al usuario usando su username y password
         // Si no son válidos, lanza una excepción automáticamente
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

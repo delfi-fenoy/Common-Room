@@ -14,6 +14,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Esta clase se encarga de generar, validar y extraer información de los tokens JWT.
+ *
+ * Básicamente, crea tokens seguros con datos del usuario, verifica que esos tokens sean válidos y no hayan expirado,
+ * y extrae información como el usuario o el rol que están guardados dentro del token (Payload).
+ * Así, facilita la autenticación y autorización en la aplicación usando JWT.
+ */
 @Service
 public class JwtService {
 
@@ -29,16 +36,16 @@ public class JwtService {
 
     // Métodos
     public String generateToken(User user){
-        return buildToken(user, jwtExpiration);
+        return buildToken(user, jwtExpiration); // Crear access token, pasandole su tiempo de expiración
     }
 
     public String generateRefreshToken(User user){
-        return buildToken(user, refreshExpiration);
+        return buildToken(user, refreshExpiration); // Crear refresh token, pasandole su tiempo de expiración
     }
 
-    // Ambos métodos llaman a este, y le pasan el tiempo de expiracion correspondiente (access o refresh)
+    // Ambos métodos de generate llaman a este, y le pasan el tiempo de expiracion correspondiente (access o refresh)
     private String buildToken(User user, long expiration){
-        // Guardar información adicional (claims) para incluir en el token
+        // Guardar información adicional (claims) para incluir en el Payload del token
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getId());
         claims.put("role", user.getRole());
@@ -46,17 +53,22 @@ public class JwtService {
         // Construir token con la info y configuraciones necesarias
         return Jwts.builder()
                 .setClaims(claims) // Agregar los claims personalizados al token
-                .setSubject(user.getUsername()) // Identificador principal, usualemente el username o email
+                .setSubject(user.getUsername()) // Identificador principal, usualemente el username o email del usuario
                 .setIssuedAt(new Date(System.currentTimeMillis())) // Fecha y hora en que se generó el token
-                .setExpiration(new Date(System.currentTimeMillis() + expiration)) // Fecha de expiración (ahora + tiempo que expiración)
-                .signWith(getSignInKey()) // Firmar el token con la clave secreta para seguridad
+                .setExpiration(new Date(System.currentTimeMillis() + expiration)) // Fecha de expiración del token (ahora + tiempo de expiración)
+                .signWith(getSignInKey()) // Firmar el token con la clave secreta para seguridad (signature del token)
                 .compact(); // Construir y devolver el token como String
     }
 
-    // Generar clave privada para token
+    // Generar la clave secreta que se usará para firmar el token JWT (signature)
     private SecretKey getSignInKey(){
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey); // Decodificar la clave secreta (generada por nosotros) en Base64 (para manejar bytes)
-        return Keys.hmacShaKeyFor(keyBytes); // Crear la clave HMAC-SHA con esos bytes para firmar el token
+        // Decodificar la cadena 'secretKey' (que está codificada en Base64) para obtener un arreglo de bytes.
+        /* Esto es necesario porque la clave para firmar el token debe estar en formato binario (bytes),
+           no como texto plano. */
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        /* Crear clave secreta (SecretKey) usando el arreglo de bytes, aplicando el algoritmo HMAC-SHA,
+           que es el metodo criptográfico usado para firmar y validar la integridad del token. */
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String extractUsername(String token){
