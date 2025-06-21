@@ -6,22 +6,19 @@ import com.thecommonroom.TheCommonRoom.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/reviews")
 public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @PostMapping
+    @PostMapping("/reviews")
     public ResponseEntity<ReviewResponseDTO> createReview(@Valid @RequestBody ReviewRequestDTO reviewRequestDTO){
         ReviewResponseDTO reviewResponseDTO = reviewService.createReview(reviewRequestDTO); // Crear reseña
 
@@ -33,5 +30,11 @@ public class ReviewController {
                 .toUri(); // Convierte el resultado a un objeto URI
 
         return ResponseEntity.created(location).body(reviewResponseDTO); // Devolver código de estado + reseña completa
+    }
+
+    @GetMapping("/users/{username}/reviews")
+    public ResponseEntity<List<ReviewResponseDTO>> getUserReviews(@PathVariable String username){
+        List<ReviewResponseDTO> reviews = reviewService.getReviewsByUsername(username);
+        return ResponseEntity.ok(reviews);
     }
 }

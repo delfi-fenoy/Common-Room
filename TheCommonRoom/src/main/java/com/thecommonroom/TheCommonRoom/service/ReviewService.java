@@ -18,6 +18,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
@@ -57,5 +60,21 @@ public class ReviewService {
         MoviePreviewDTO moviePreviewDTO = movieService.findMoviePreviewById(review.getMovieId()); // Obtener pre-visualización de película
         UserPreviewDTO userPreviewDTO = UserMapper.toPreviewDTO(currentUser); // Obtener pre-visualización de user
         return ReviewMapper.entityToResponseDTO(review, moviePreviewDTO, userPreviewDTO); // Mapear reseña a responseDTO
+    }
+
+    public List<ReviewResponseDTO> getReviewsByUsername(String username){
+        User foundUser = userService.findUserByUsername(username); // Obtener usuario buscado
+        List<Review> entityReviews = reviewRepository.findByUser(foundUser); // Obtener reseñas completas (entidad) de usuario
+
+        List<ReviewResponseDTO> responseReviews = new ArrayList<>(); // Lista de reseñas a devolver
+
+        // Iterar cada reseña de usuario
+        for (Review review : entityReviews){
+            // Obtener pre-visualización de película reseñada
+            MoviePreviewDTO moviePreviewDTO = movieService.findMoviePreviewById(review.getMovieId());
+            // Mapearla a dto (reseña + moviePreview)
+            responseReviews.add(ReviewMapper.entityToResponseDTO(review, moviePreviewDTO));
+        }
+        return responseReviews;
     }
 }
