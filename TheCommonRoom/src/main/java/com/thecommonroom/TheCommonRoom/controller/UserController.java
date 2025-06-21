@@ -38,7 +38,8 @@ public class UserController {
     @GetMapping("/{username}")
     @ResponseStatus(HttpStatus.OK)
     public UserResponseDTO getUserByUsername(@PathVariable String username) {
-        return userService.findUserByUsername(username);
+        return userService.getUser(username);
+//        return userService.findUserByUsername(username);
     }
 
     // =========== Actualiza un usuario por su ID =========== \\

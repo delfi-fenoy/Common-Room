@@ -63,11 +63,16 @@ public class UserService {
         }
         return UserMapper.toPreviewDTOList(users);
     }    
-        
-    public UserResponseDTO findUserByUsername(String username){
+
+    public UserResponseDTO getUser(String username){
+        User user = findUserByUsername(username);
+        return UserMapper.toDTO(user);
+    }
+
+    public User findUserByUsername(String username){
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-        return UserMapper.toDTO(user);
+        return user;
     }
 
     //Busco el usuario, verifico si es el mismo, verifico si el username o el emial ya esta usados y luego lo setteo
@@ -116,5 +121,9 @@ public class UserService {
         }
 
         userRepository.delete(user);
+    }
+
+    public boolean existsById(Long id){
+        return userRepository.existsById(id);
     }
 }

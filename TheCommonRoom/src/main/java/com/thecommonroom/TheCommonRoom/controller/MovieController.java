@@ -21,7 +21,7 @@ public class MovieController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public MovieDetailsDTO getMovieById(@PathVariable Long id) {
-        return movieService.findMovieById(id);
+        return movieService.findMovieDetailsById(id);
     }
 
     // =========== Lista paginada de películas populares =========== \\

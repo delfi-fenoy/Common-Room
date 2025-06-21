@@ -72,7 +72,7 @@ public class HomeController {
     // =========== Vista de detalle de una película =========== \\
     @GetMapping("/moviesheet/{id}")
     public String getMovieSheet(@PathVariable Long id, Model model) {
-        MovieDetailsDTO movie = movieService.findMovieById(id);
+        MovieDetailsDTO movie = movieService.findMovieDetailsById(id);
         model.addAttribute("movie", movie);
         return "moviesheet";
     }

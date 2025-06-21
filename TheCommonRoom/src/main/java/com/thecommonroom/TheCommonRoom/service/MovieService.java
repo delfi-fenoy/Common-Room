@@ -9,6 +9,7 @@ import com.thecommonroom.TheCommonRoom.exception.PageOutOfBoundsException;
 import com.thecommonroom.TheCommonRoom.mapper.MovieMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -18,9 +19,24 @@ public class MovieService {
 
     private final TMDbClient api;
 
-    public MovieDetailsDTO findMovieById(Long id){
+    public MovieDetailsDTO findMovieDetailsById(Long id){
         RawMovieDTO rawMovieDTO = api.getMovieById(id); // Conseguir la pelicula por id
-        return MovieMapper.rawToDetailsDTO(rawMovieDTO); // Mapear a dto
+        return MovieMapper.rawToDetailsDTO(rawMovieDTO); // Mapear a dto de detalles de película
+        // En caso que no exista, se lanza automáticamente HttpClientErrorException
+    }
+
+    public MoviePreviewDTO findMoviePreviewById(Long id){
+        RawMovieDTO rawMovieDTO = api.getMovieById(id); // Conseguir la pelicula por id
+        return MovieMapper.rawToPreviewDTO(rawMovieDTO); // Mapear a dto de pre-visualización
+    }
+
+    public boolean existsMovieById(Long id){
+        try {
+            api.getMovieById(id);
+            return true; // Si existe (no lanza error), retorna verdadero
+        } catch (HttpClientErrorException.NotFound ex){
+            return false; // Si no existe (lanza error not found), retorna falso
+        }
     }
 
     ///  PAGINACION DE PELICULAS | Devuelve una lista de películas populares, paginadas
