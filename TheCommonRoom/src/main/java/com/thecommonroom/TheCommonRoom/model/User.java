@@ -58,4 +58,7 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY) // user => La relación está mapeada por el atributo user (en entidad Token)
     private List<Token> tokens;
 
+    // Un user puede tener muchas reseñas
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Review> reviews;
 }
