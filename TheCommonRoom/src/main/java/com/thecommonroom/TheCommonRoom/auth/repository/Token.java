@@ -20,7 +20,7 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Incremento automático
     private Long id; // Id del token
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String token;
 
     @Enumerated(EnumType.STRING)

@@ -40,6 +40,15 @@ public class GlobalExceptionHandler {
         return error;
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleUserNotFound(UserNotFoundException ex){
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
+
     @ExceptionHandler(EmailAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public Map<String, String> handleEmailAlreadyExists(EmailAlreadyExistsException ex){
@@ -77,6 +86,16 @@ public class GlobalExceptionHandler {
                 .body(error); // Mensaje
     }
 
+    // Para cuando se quiere hacer una reseña de una película que no existe (por su id)
+    @ExceptionHandler(MovieNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleMovieNotFound(MovieNotFoundException ex){
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
+
     // Errores del servidor (5**)
     @ExceptionHandler(HttpServerErrorException.class)
     public ResponseEntity<Map<String, String>> handleHttpServerError(HttpServerErrorException ex){
@@ -85,6 +104,26 @@ public class GlobalExceptionHandler {
         error.put("message", ex.getStatusText());
         return ResponseEntity
                 .status(ex.getStatusCode())
+                .body(error);
+    }
+
+    // |=== EXCEPCIONES DE REVIEWS ===|
+
+    @ExceptionHandler(ReviewAlreadyExistsException.class)
+    public ResponseEntity<Map<String, String>> handleReviewAlreadyExists(ReviewAlreadyExistsException ex){
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(error);
+    }
+
+    @ExceptionHandler(InvalidReviewException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidRating(InvalidReviewException ex){
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
                 .body(error);
     }
 
