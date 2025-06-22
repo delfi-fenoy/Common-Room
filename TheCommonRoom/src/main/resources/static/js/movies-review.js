@@ -45,21 +45,32 @@ function renderReviews(reviews) {
         const commentText = r.comment?.trim() ? r.comment : "<em>Sin comentario</em>";
         const rating = r.rating || 0;
         const ratingStars = "★".repeat(Math.floor(rating)) + (rating % 1 >= 0.5 ? "½" : "");
-        const createdAtDate = r.createdAt ? new Date(r.createdAt).toLocaleString("es-AR") : '';
+        const createdAtDate = r.createdAt ? new Date(r.createdAt).toLocaleDateString("es-AR") : '';
 
         div.innerHTML = `
             <div class="review-header">
-                <img src="${profilePic}" alt="Foto de ${username}" class="review-avatar" />
+                <a href="/profile/${username}">
+                    <img src="${profilePic}" alt="Foto de ${username}" class="review-avatar" />
+                </a>
                 <div class="review-user-info">
-                    <span class="review-username">${username}</span>
-                    <span class="review-rating">${ratingStars}</span>
+                    <div class="review-top-bar">
+                        <a href="/profile/${username}" class="review-username-link">
+                            <span class="review-username">${username}</span>
+                        </a>
+                        <button class="review-options">...</button>
+                    </div>
+                    <div class="review-meta">
+                        <span class="review-rating">${ratingStars}</span>
+                        <span class="review-date">| ${createdAtDate}</span>
+                    </div>
                 </div>
             </div>
             <div class="review-comment">${commentText}</div>
             <div class="review-footer">
-                <span>${createdAtDate}</span>
+                <span class="review-likes">♥ 0 me gusta</span>
             </div>
         `;
+
         container.appendChild(div);
     });
 }
