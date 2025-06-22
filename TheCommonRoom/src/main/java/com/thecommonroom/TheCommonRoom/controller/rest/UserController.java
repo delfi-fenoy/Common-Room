@@ -76,4 +76,5 @@ public class UserController {
                 .profilePictureUrl(user.getProfilePictureUrl())
                 .build();
     }
+
 }

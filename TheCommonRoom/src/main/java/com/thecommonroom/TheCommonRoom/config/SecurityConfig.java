@@ -33,7 +33,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Para desarrollo; en producción deberías activarlo
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/users/*/reviews","/auth/**", "/index", "/signin", "/register", "/static/**", "/css/**", "/js/**", "/img/**", "/fragments/**").permitAll()
+                        .requestMatchers("/", "/users/*/reviews","/auth/**", "/index", "/signin", "/register", "/static/**", "/css/**", "/js/**", "/img/**", "/fragments/**", "/profile/**").permitAll()
                         .requestMatchers("/reviews","/profile/**", "/favorites/**", "/like/**", "/comment/**").authenticated()
                         .anyRequest().permitAll()
                 )
@@ -65,7 +65,7 @@ public class SecurityConfig {
                 .csrf().disable() // Para desarrollo; en producción deberías activarlo
 
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/auth/**", "/index", "/signin", "/register", "/static/**", "/css/**", "/js/**", "/img/**", "/fragments/**")
+                .requestMatchers("/", "/auth/**", "/index", "/signin", "/register", "/static/**", "/css/**", "/js/**", "/img/**", "/fragments/**", )
                 .permitAll()
                 .requestMatchers("/profile/**", "/favorites/**", "/like/**", "/comment/**")
                 .authenticated()
@@ -74,7 +74,7 @@ public class SecurityConfig {
                 .and()
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
-                *//*.and()
+                .and()
                     .formLogin()
                     .loginPage("/signin")
                     .permitAll()
@@ -82,7 +82,7 @@ public class SecurityConfig {
                     .usernameParameter("username")
                     .passwordParameter("password")
                     .defaultSuccessUrl("/home", true)   // Redirige siempre a /home tras login exitoso
-                    .failureUrl("/signin?error=true")   // Redirige a /signin con parámetro de error*//*
+                    .failureUrl("/signin?error=true")   // Redirige a /signin con parámetro de error
                 .and()
                 .logout()
                 .logoutUrl("/logout")

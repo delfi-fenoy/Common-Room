@@ -13,23 +13,40 @@ form.addEventListener('submit', e => {
         password: form.password.value,
     };
 
+    // ================ Validaciones básicas antes del fetch ================ \\
+    if (!data.username.trim()) {
+        showErrorModal("El campo 'Username' está incompleto.");
+        return;
+    }
+
+    if (!data.password.trim()) {
+        showErrorModal("El campo 'Password' está incompleto.");
+        return;
+    }
+
     // Deshabilitar botón para evitar múltiples clicks
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
 
+    // ================ Se hace la solicitud de Login al backend ================ \\
     fetch('/auth/login', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
     })
         .then(res => {
-            if (!res.ok) throw new Error("Credenciales inválidas");
+            if (!res.ok) {
+                // Mostramos el modal con el mensaje de error
+                showErrorModal("Credenciales inválidas");
+                throw new Error('Error en credenciales');
+            }
             return res.json();
         })
         .then(data => {
             // Validar que venga token y sea JWT válido
             if (!data.access_token || !isValidJwt(data.access_token)) {
-                throw new Error("Token inválido recibido");
+                showErrorModal("Token inválido recibido");
+                throw new Error('Token inválido');
             }
 
             // Guardar tokens en localStorage
@@ -39,7 +56,9 @@ form.addEventListener('submit', e => {
             // Redirigir a home
             window.location.href = '/home';
         })
-        .catch(err => alert(err.message))
+        .catch(err => {
+            showErrorModal(err.message);
+        })
         .finally(() => {
             // Reactivar botón siempre
             submitBtn.disabled = false;

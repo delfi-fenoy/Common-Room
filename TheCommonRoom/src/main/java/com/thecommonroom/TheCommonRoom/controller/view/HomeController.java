@@ -1,14 +1,11 @@
 package com.thecommonroom.TheCommonRoom.controller.view;
 
 import com.thecommonroom.TheCommonRoom.client.TMDbClient;
-import com.thecommonroom.TheCommonRoom.dto.MovieDetailsDTO;
 import com.thecommonroom.TheCommonRoom.dto.RawMovieListDTO;
-import com.thecommonroom.TheCommonRoom.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -24,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HomeController {
 
     // =========== Atributos =========== \\
-    private final MovieService movieService;
     private final TMDbClient tmdbClient;
 
     // =========== Página principal con películas populares =========== \\
@@ -52,7 +48,7 @@ public class HomeController {
     }
 
     // =========== Búsqueda de películas por texto =========== \\
-    @GetMapping("/search")
+    /*@GetMapping("/search")
     public String search(
             @RequestParam String query,
             @RequestParam(defaultValue = "1") int page,
@@ -67,13 +63,14 @@ public class HomeController {
         model.addAttribute("query", query);
 
         return "search-results";
-    }
+    }*/
 
     // =========== Vista de detalle de una película =========== \\
-    @GetMapping("/moviesheet/{id}")
+    /*@GetMapping("/moviesheet/{id}")
     public String getMovieSheet(@PathVariable Long id, Model model) {
         MovieDetailsDTO movie = movieService.findMovieDetailsById(id);
         model.addAttribute("movie", movie);
         return "moviesheet";
-    }
+    }*/
+
 }
