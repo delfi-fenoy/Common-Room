@@ -9,6 +9,34 @@ document.getElementById("form-register").addEventListener("submit", function (e)
         profilePictureUrl: document.getElementById("new-profilePictureUrl").value || null
     };
 
+    // ================ Validaciones antes del fetch ================ \\
+    if (!data.username.trim()) {
+        showErrorModal("El campo 'Username' está incompleto.");
+        return;
+    }
+
+    if (!data.email.trim()) {
+        showErrorModal("El campo 'Email' está incompleto.");
+        return;
+    }
+
+    // Validación de email con regex simple
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+        showErrorModal("El email ingresado no es válido.");
+        return;
+    }
+
+    if (!data.password.trim()) {
+        showErrorModal("El campo 'Password' está incompleto.");
+        return;
+    }
+
+    if (data.password.length < 6) {
+        showErrorModal("La contraseña debe tener al menos 6 caracteres.");
+        return;
+    }
+
     // ================ Se hace la solicitud de registro al backend ================ \\
     fetch("/auth/register", {
         method: "POST",
@@ -38,5 +66,7 @@ document.getElementById("form-register").addEventListener("submit", function (e)
             localStorage.setItem('refreshToken', data.refresh_token);
             window.location.href = '/home';
         })
-        .catch(err => {showErrorModal(err.message);})
+        .catch(err => {
+            showErrorModal(err.message);
+        });
 });

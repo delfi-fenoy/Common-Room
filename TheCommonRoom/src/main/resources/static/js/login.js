@@ -13,10 +13,22 @@ form.addEventListener('submit', e => {
         password: form.password.value,
     };
 
+    // ================ Validaciones básicas antes del fetch ================ \\
+    if (!data.username.trim()) {
+        showErrorModal("El campo 'Username' está incompleto.");
+        return;
+    }
+
+    if (!data.password.trim()) {
+        showErrorModal("El campo 'Password' está incompleto.");
+        return;
+    }
+
     // Deshabilitar botón para evitar múltiples clicks
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
 
+    // ================ Se hace la solicitud de Login al backend ================ \\
     fetch('/auth/login', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -44,7 +56,9 @@ form.addEventListener('submit', e => {
             // Redirigir a home
             window.location.href = '/home';
         })
-        .catch(err => {showErrorModal(err.message);})
+        .catch(err => {
+            showErrorModal(err.message);
+        })
         .finally(() => {
             // Reactivar botón siempre
             submitBtn.disabled = false;

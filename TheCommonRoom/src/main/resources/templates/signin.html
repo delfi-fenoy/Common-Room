@@ -33,7 +33,7 @@
         <!-- ============================== Sign In ============================== -->
         <div class="login-container front">
 
-          <form class="login-box" th:action="@{/auth/login}" method="post">
+          <form class="login-box" th:action="@{/auth/login}" method="post" novalidate>
             <h2>Sign in</h2>
 
             <!-- Nombre de Usuario -->
@@ -58,7 +58,7 @@
 
         <!-- ============================== Register ============================== -->
         <div class="login-container back">
-          <form id="form-register" class="login-box" th:action="@{/auth/register}" method="post">
+          <form id="form-register" class="login-box" th:action="@{/auth/register}" method="post" novalidate>
             <h2>Register</h2>
 
             <!-- Nombre de Usuario -->

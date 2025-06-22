@@ -1,15 +1,16 @@
 <!-- templates/fragments/modal-error.html -->
-<div th:fragment="error-modal" id="error-modal" class="modal-overlay" style="display: none;">
-  <div class="modal-box">
+<div th:fragment="error-modal" id="error-modal" class="modal-overlay">
+  <div class="modal-box animate-in">
     <div class="modal-header">
       <img src="/img/iconLetter.png" alt="Icono" class="modal-icon" />
-      <h2 class="modal-title">¡Ocurrió un error!</h2>
+      <h2 class="modal-title">Ups... Ocurrió un error</h2>
+      <span class="modal-close" onclick="closeErrorModal()">X</span>
     </div>
     <div class="modal-body">
-      <p id="error-message">Texto del error aquí...</p>
+      <p id="error-message">Texto error</p>
     </div>
     <div class="modal-footer">
-      <button class="btn-accept" onclick="closeErrorModal()">Entendido</button>
+      <button class="btn-accept" onclick="closeErrorModal()">Understood</button>
     </div>
   </div>
 </div>
