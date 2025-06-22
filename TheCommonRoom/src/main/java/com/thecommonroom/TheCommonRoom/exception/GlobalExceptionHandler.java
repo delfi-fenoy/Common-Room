@@ -3,6 +3,7 @@ package com.thecommonroom.TheCommonRoom.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -118,6 +119,15 @@ public class GlobalExceptionHandler {
                 .body(error);
     }
 
+    @ExceptionHandler(ReviewNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleReviewNotFound(ReviewNotFoundException ex){
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(error);
+    }
+
     @ExceptionHandler(InvalidReviewException.class)
     public ResponseEntity<Map<String, String>> handleInvalidRating(InvalidReviewException ex){
         Map<String, String> error = new HashMap<>();
@@ -170,12 +180,13 @@ public class GlobalExceptionHandler {
                 .body(error);
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<Map<String, String>> handleAccessDenied(AccessDeniedException ex){
+    @ExceptionHandler({AccessDeniedException.class, AuthorizationDeniedException.class})
+    public ResponseEntity<Map<String, String>> handleAccessDenied(Exception ex){
         Map<String, String> error = new HashMap<>();
         error.put("error", "Access denied");
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN) // El usuario ya está autenticado, pero no tiene permiso para acceder al recurso
                 .body(error);
     }
+
 }

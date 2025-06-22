@@ -4,17 +4,14 @@ import com.thecommonroom.TheCommonRoom.dto.MoviePreviewDTO;
 import com.thecommonroom.TheCommonRoom.dto.ReviewRequestDTO;
 import com.thecommonroom.TheCommonRoom.dto.ReviewResponseDTO;
 import com.thecommonroom.TheCommonRoom.dto.UserPreviewDTO;
-import com.thecommonroom.TheCommonRoom.exception.InvalidReviewException;
-import com.thecommonroom.TheCommonRoom.exception.MovieNotFoundException;
-import com.thecommonroom.TheCommonRoom.exception.ReviewAlreadyExistsException;
-import com.thecommonroom.TheCommonRoom.exception.UserNotFoundException;
+import com.thecommonroom.TheCommonRoom.exception.*;
 import com.thecommonroom.TheCommonRoom.mapper.ReviewMapper;
 import com.thecommonroom.TheCommonRoom.mapper.UserMapper;
 import com.thecommonroom.TheCommonRoom.model.Review;
 import com.thecommonroom.TheCommonRoom.model.User;
 import com.thecommonroom.TheCommonRoom.repository.ReviewRepository;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +58,11 @@ public class ReviewService {
         return ReviewMapper.entityToResponseDTO(review, moviePreviewDTO, userPreviewDTO); // Mapear reseña a responseDTO
     }
 
+    public void deleteReview(Long reviewId){
+        Review review = getReviewById(reviewId);
+        reviewRepository.delete(review);
+    }
+
     public List<ReviewResponseDTO> getReviewsByUsername(String username){
         User foundUser = userService.findUserByUsername(username); // Obtener usuario buscado
         List<Review> entityReviews = reviewRepository.findByUser(foundUser); // Obtener reseñas completas (entidad) de usuario
@@ -90,4 +92,9 @@ public class ReviewService {
                 .toList();
     }
 
+    @Transactional(readOnly = true) // Operación solo de lectura
+    public Review getReviewById(Long reviewId){
+        return reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ReviewNotFoundException("Review does not exist"));
+    }
 }

@@ -39,7 +39,6 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public UserResponseDTO getUserByUsername(@PathVariable String username) {
         return userService.getUser(username);
-//        return userService.findUserByUsername(username);
     }
 
     // =========== Actualiza un usuario por su ID =========== \\
