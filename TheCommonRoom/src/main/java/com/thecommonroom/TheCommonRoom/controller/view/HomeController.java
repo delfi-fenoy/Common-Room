@@ -24,7 +24,7 @@ public class HomeController {
     private final TMDbClient tmdbClient;
 
     // =========== Página principal con películas populares =========== \\
-    @GetMapping("/home")
+    @GetMapping({"/home", "/"})
     public String index(@RequestParam(defaultValue = "1") int page, Model model) {
         RawMovieListDTO movieList = tmdbClient.getPopularMovies(page);
         model.addAttribute("movies", movieList.getResults());
@@ -46,7 +46,5 @@ public class HomeController {
         model.addAttribute("currentPage", page);
         return "moviesmenu";
     }
-
-
 
 }

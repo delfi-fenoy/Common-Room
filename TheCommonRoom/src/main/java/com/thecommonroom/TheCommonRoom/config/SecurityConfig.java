@@ -59,38 +59,6 @@ public class SecurityConfig {
                 );
         return http.build();
     }
-    /*@Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable() // Para desarrollo; en producción deberías activarlo
-
-                .authorizeHttpRequests()
-                .requestMatchers("/", "/auth/**", "/index", "/signin", "/register", "/static/**", "/css/**", "/js/**", "/img/**", "/fragments/**", )
-                .permitAll()
-                .requestMatchers("/profile/**", "/favorites/**", "/like/**", "/comment/**")
-                .authenticated()
-                .anyRequest()
-                .permitAll()
-                .and()
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
-                .and()
-                    .formLogin()
-                    .loginPage("/signin")
-                    .permitAll()
-                    .loginProcessingUrl("/auth/login")
-                    .usernameParameter("username")
-                    .passwordParameter("password")
-                    .defaultSuccessUrl("/home", true)   // Redirige siempre a /home tras login exitoso
-                    .failureUrl("/signin?error=true")   // Redirige a /signin con parámetro de error
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/signin?logout=true")
-                .permitAll();
-
-        return http.build();
-    }*/
 
     private void logout(String token){
         // Si el token esta vacio o no comienza con 'Bearer', error

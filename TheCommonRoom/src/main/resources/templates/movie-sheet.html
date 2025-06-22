@@ -5,18 +5,20 @@
         <title th:text="'Detalles | ' + ${movie.title}">Movie Details</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="icon" href="/img/iconLetter.png" type="image/png"/>
-        <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap"
-              rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
 
         <!-- CSS -->
         <link rel="stylesheet" href="/css/common.css"/>
         <link rel="stylesheet" href="/css/movie-details.css"/>
+        <link rel="stylesheet" href="/css/reviewModal.css"/>
     </head>
 
     <body>
-        <!-- ============================== HEADER y SIDEBAR ============================== -->
+        <!-- ============================== HEADER y SIDEBAR (y modals) ============================== -->
         <div th:insert="~{fragments/header :: header}"></div>
         <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+        <div th:insert="~{fragments/modal-review :: modalReview}"></div>
+        <div th:replace="fragments/modal-error :: error-modal"></div>
 
         <!-- ============================== LAYOUT PRINCIPAL ============================== -->
         <div class="main-layout">
@@ -77,9 +79,12 @@
 
                     <!-- Botón para crear reseña -->
                     <h2 class="review-section-title">People's thoughts</h2>
-                    <button class="review-btn">Review +</button>
+                    <button class="review-btn"
+                            th:attr="onclick=|showReviewModal(${movie.id}, '${movie.title}', '${movie.posterUrl}')|">
+                        Review +
+                    </button>
 
-                    <!-- Lista de reseñas -->
+                    <!-- Lista de reseñas | Modificar-->
                     <div class="reviews">
                         <div class="review">
                             <div class="review-header">
@@ -104,5 +109,8 @@
         <!-- ============================== JS ============================== -->
         <script src="/js/alternateTabs.js"></script>
         <script src="/js/header.js"></script>
+        <script src="/js/modalReview.js"></script>
+        <script src="/js/modalError.js"></script>
+
     </body>
 </html>
