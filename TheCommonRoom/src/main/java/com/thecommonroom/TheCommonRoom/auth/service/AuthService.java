@@ -1,5 +1,8 @@
 package com.thecommonroom.TheCommonRoom.auth.service;
 
+import com.thecommonroom.TheCommonRoom.auth.dto.LoginRequest;
+import com.thecommonroom.TheCommonRoom.auth.dto.TokenResponse;
+import com.thecommonroom.TheCommonRoom.auth.repository.TokenType;
 import com.thecommonroom.TheCommonRoom.auth.repository.Token;
 import com.thecommonroom.TheCommonRoom.auth.repository.TokenRepository;
 import com.thecommonroom.TheCommonRoom.dto.UserRequestDTO;
@@ -22,8 +25,9 @@ public class AuthService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager; // Para procesar y validar las credenciales de usuarios
 
+    // ========== REGISTRARSE ==========
     public TokenResponse register(UserRequestDTO userRequestDTO){
         // Guardar user en base de datos y devolver el usuario (entidad)
         var savedUser = userService.createUser(userRequestDTO); // var => El compilador deduce el tipo de la variable a partir del valor que se le asigna
@@ -32,7 +36,7 @@ public class AuthService {
         var jwtToken = jwtService.generateToken(savedUser);
         var refreshToken = jwtService.generateRefreshToken(savedUser);
 
-        // Guardar el token asociado al usuario, para manejar logout, expiracion, etc
+        // Guardar el token asociado al usuario en la base de datos
         saveUserToken(savedUser, jwtToken);
 
         // Devolver ambos tokens al front
@@ -43,42 +47,43 @@ public class AuthService {
     private void saveUserToken(User user, String jwtToken){
         var token = Token.builder()
                 .token(jwtToken)
-                .tokenType(Token.TokenType.BEARER)
+                .tokenType(TokenType.BEARER)
                 .revoked(false)
                 .expired(false)
-                .user(user)
-                .build();
-        tokenRepository.save(token);
+                .user(user) // Asociar usuario al token
+                .build(); // Generar instancia de Token
+        tokenRepository.save(token); // Guardar token en la base de datos
     }
 
+    // ========== INICIAR SESIÓN ==========
     public TokenResponse login(LoginRequest request){
-        // Autentica al usuario usando su username y password
+        // Validar el username y password enviados
         // Si no son válidos, lanza una excepción automáticamente
-        authenticationManager.authenticate(
+        authenticationManager.authenticate( // Llama automaticamente a autheticantionProvider() (en AppConfig)
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword()
                 )
         );
         // Busca al usuario en la base de datos por su username
-        // Si no lo encuentra, lanza una excepción
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow();
 
-        // Genera un nuevo token JWT y refresh token para este usuario
+        // Genera un nuevo token JWT y refresh token para este usuario (se genera uno nuevo por cada login)
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
 
-        revokeAllUserTokens(user); // Revocar tokens validos del usuario en la bdd
-        saveUserToken(user, jwtToken); // Guardar token
+        revokeAllUserTokens(user); // Revocar tokens validos viejos del usuario en la bdd
+        saveUserToken(user, jwtToken); // Guardar token nuevo
         // Devuelve al front ambos tokens + info útil (username y rol)
         return new TokenResponse(jwtToken, refreshToken, user.getUsername(), user.getRole().name());
     }
 
-    // Revocar tokens de un usuario (por id)
+    // Revocar tokens de un usuario
     private void revokeAllUserTokens(User user){
+        // Buscar tokens validos del user
         List<Token> validUserTokens = tokenRepository.findAllValidTokensByUserId(user.getId());
-        if (!validUserTokens.isEmpty()){ // Si hay tokens validos
+        if (!validUserTokens.isEmpty()){ // Si se encontraron tokens validos
             for(Token token : validUserTokens){
                 // Marcar verdadero a revocado y expirado
                 token.setRevoked(true);
@@ -88,6 +93,7 @@ public class AuthService {
         }
     }
 
+    // ========== REFRESH TOKEN ==========
     public TokenResponse refreshToken(String authHeader){
         // Validar que el header no sea nulo y que comience con "Bearer "
         if(authHeader == null || !authHeader.startsWith("Bearer ")){

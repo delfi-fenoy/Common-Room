@@ -2,6 +2,7 @@ package com.thecommonroom.TheCommonRoom.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,6 +12,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -117,6 +119,24 @@ public class GlobalExceptionHandler {
         error.put("message", ex.getMessage());
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Map<String, String>> handleBadCredentials(BadCredentialsException ex){
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Invalid username or password");
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED) // La autenticación falló por username o password
+                .body(error);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Map<String, String>> handleAccessDenied(AccessDeniedException ex){
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Access denied");
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN) // El usuario ya está autenticado, pero no tiene permiso para acceder al recurso
                 .body(error);
     }
 }

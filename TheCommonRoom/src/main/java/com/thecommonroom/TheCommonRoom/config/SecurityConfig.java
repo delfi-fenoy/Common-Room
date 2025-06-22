@@ -1,22 +1,22 @@
 package com.thecommonroom.TheCommonRoom.config;
 
-import com.thecommonroom.TheCommonRoom.model.User;
-import com.thecommonroom.TheCommonRoom.repository.UserRepository;
+import com.thecommonroom.TheCommonRoom.auth.repository.Token;
+import com.thecommonroom.TheCommonRoom.auth.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
+import com.thecommonroom.TheCommonRoom.auth.config.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity // Habilita la configuración de seguridad web personalizada en la aplicación Spring
@@ -24,67 +24,89 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final UserRepository userRepository;
+    private final AuthenticationProvider authenticationProvider;
+    private final JwtAuthFilter jwtAuthFilter;
+    private final TokenRepository tokenRepository;
 
     @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable()) // Para desarrollo; en producción deberías activarlo
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/", "/auth/**", "/index", "/signin", "/register", "/static/**", "/css/**", "/js/**", "/img/**", "/fragments/**").permitAll()
+                        .requestMatchers("/profile/**", "/favorites/**", "/like/**", "/comment/**").authenticated()
+                        .anyRequest().permitAll()
+                )
+                // No usa sesiones HTTP para almacenar información de autenticación,
+                // sino que cada request trae el token para autenticarse
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // Indicar el objeto encargado de autenticar el usuario (por username y password)
+                .authenticationProvider(authenticationProvider)
+                // Agrega el filtro JWT (para validar token) antes de comprobar las credenciales con username y password
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .addLogoutHandler((request, response, authentication) -> {
+                            var authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+                            logout(authHeader);
+                        })
+                        .logoutSuccessUrl("/signin?logout=true")
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            SecurityContextHolder.clearContext();
+                        })
+                        .permitAll()
+                );
+        return http.build();
+    }
+    /*@Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable() // Para desarrollo; en producción deberías activarlo
 
                 .authorizeHttpRequests()
-                    .requestMatchers("/", "/auth/**", "/index", "/signin", "/register", "/static/**", "/css/**", "/js/**", "/img/**", "/fragments/**", "/profile/**")
-                    .permitAll()
-                    .requestMatchers("/favorites/**", "/like/**", "/comment/**")
-                    .authenticated()
-                    .anyRequest()
-                    .permitAll()
-
+                .requestMatchers("/", "/auth/**", "/index", "/signin", "/register", "/static/**", "/css/**", "/js/**", "/img/**", "/fragments/**", "/profile/**")
+                .permitAll()
+                .requestMatchers("/profile/**", "/favorites/**", "/like/**", "/comment/**")
+                .authenticated()
+                .anyRequest()
+                .permitAll()
                 .and()
-                    .logout()
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/signin?logout=true")
-                    .permitAll();
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider)
+                *//*.and()
+                    .formLogin()
+                    .loginPage("/signin")
+                    .permitAll()
+                    .loginProcessingUrl("/auth/login")
+                    .usernameParameter("username")
+                    .passwordParameter("password")
+                    .defaultSuccessUrl("/home", true)   // Redirige siempre a /home tras login exitoso
+                    .failureUrl("/signin?error=true")   // Redirige a /signin con parámetro de error*//*
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/signin?logout=true")
+                .permitAll();
 
         return http.build();
-    }
+    }*/
 
-    // Verificar que el username exista
-    @Bean
-    public UserDetailsService userDetailsService(){
-        return username -> {
-            // Busca al usuario por su nombre de usuario (username) en la base de datos
-            User user = userRepository.findByUsername(username)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found")); // Lanzar excepción en caso de no encontralo (Spring lo maneja automáticamente)
+    private void logout(String token){
+        // Si el token esta vacio o no comienza con 'Bearer', error
+        if(token == null || !token.startsWith("Bearer ")){
+            throw new IllegalArgumentException("Invalid token");
+        }
 
-            // Construir un objeto de tipo UserDetails con los datos del usuario
-            // Spring usa este objeto internamente para verificar credenciales
-            return org.springframework.security.core.userdetails.User.builder()
-                    .username(user.getUsername())
-                    .password(user.getPassword())
-                    .roles(user.getRole().name())
-                    .build();
-        };
-    }
+        String jwtToken = token.substring(7); // Obtener token sin 'Bearer '
+        Token foundToken = tokenRepository.findByToken(jwtToken) // Obtener token de la bdd
+                .orElseThrow(() -> new IllegalArgumentException("Invalid token")); // Error en caso de no enconrarla
 
-    // Verificar username y password al hacer login
-    @Bean
-    public AuthenticationProvider authenticationProvider(){
-        // Crear un proveedor de autenticación que Spring va a usar para verificar usuarios y contraseñas
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-
-        // Configura el servicio que carga los datos del usuario (UserDetailsService)
-        authenticationProvider.setUserDetailsService(userDetailsService());
-
-        // Configura el codificador de contraseñas para validar la contraseña ingresada
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
-
-        // Devuelve el proveedor configurado para su uso en el proceso de autenticación
-        return authenticationProvider;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Encriptación de contraseña
+        // Settear expiración y revocación
+        foundToken.setExpired(true);
+        foundToken.setRevoked(true);
+        // Guardar cambios en la bdd
+        tokenRepository.save(foundToken);
     }
 
     @Bean
