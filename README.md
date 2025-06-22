@@ -111,7 +111,7 @@ Entre las más relevantes se incluyen:
 
 Este proyecto fue desarrollado en el marco de la **Tecnicatura Universitaria en Programación** en la **Universidad Tecnológica Nacional (UTN) – Facultad Regional Mar del Plata**, como trabajo final integrador de las materias Programación III y Metodología de Sistemas I.
 
-Fecha de entrega: **9 de junio de 2025**  
+Fecha de entrega: **23 de junio de 2025**  
 Docentes: 
 - **Sofía Galbato**
 - **Rodrigo Soto**
