@@ -79,10 +79,18 @@
 
                     <!-- Botón para crear reseña -->
                     <h2 class="review-section-title">People's thoughts</h2>
-                    <button class="review-btn"
-                            th:attr="onclick=|showReviewModal(${movie.id}, '${movie.title}', '${movie.posterUrl}')|">
+                    <button id="add-review-btn"
+                            class="review-btn"
+                            th:data-movie-id="${movie.id}"
+                            th:data-movie-title="${movie.title}"
+                            th:data-movie-poster="${movie.posterUrl}">
                         Review +
                     </button>
+
+<!--                    <button class="review-btn"-->
+<!--                            th:attr="onclick=|showReviewModal(${movie.id}, '${movie.title}', '${movie.posterUrl}')|">-->
+<!--                        Review +-->
+<!--                    </button>-->
 
                     <!-- Lista de reseñas -->
                     <div id="reviews-container" class="reviews" th:data-movie-id="${movie.id}">

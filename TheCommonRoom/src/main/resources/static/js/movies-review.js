@@ -1,38 +1,32 @@
-// =================== Al cargar el DOM, traer reseñas de la película =================== \\
+// =================== CARGA DE REVIEWS =================== //
 document.addEventListener("DOMContentLoaded", () => {
     const reviewsContainer = document.getElementById("reviews-container");
-    // Obtener el ID de la película del atributo data-movie-id del div
     const movieId = reviewsContainer.dataset.movieId;
 
     if (!movieId) {
-        console.error("No se pudo obtener el ID de la película. Asegúrate de que th:data-movie-id esté configurado.");
         const container = document.querySelector(".reviews");
         container.innerHTML = "<p class='empty-reviews'>Error: ID de película no disponible para cargar reseñas.</p>";
         return;
     }
 
     fetch(`/movies/${movieId}/reviews`)
-        .then(res => {
+        .then(async res => {
             if (!res.ok) {
-                // Manejar errores de respuesta HTTP (ej. 404 Not Found, 500 Internal Server Error)
-                if (res.status === 404) {
-                    console.warn(`No se encontraron reseñas para la película con ID: ${movieId}`);
-                    return []; // Retorna un array vacío para que renderReviews muestre "No hay reseñas aún."
-                }
-                throw new Error(`Error en la respuesta del servidor: ${res.status} ${res.statusText}`);
+                if (res.status === 404) return [];
+                const err = await res.json();
+                throw new Error(err.error || "Error al cargar reseñas");
             }
             return res.json();
         })
         .then(reviews => renderReviews(reviews))
         .catch(err => {
-            console.error("Error al cargar reseñas:", err);
-            // Mostrar un mensaje de error amigable al usuario
             const container = document.querySelector(".reviews");
-            container.innerHTML = "<p class='empty-reviews'>Error al cargar las reseñas. Inténtalo de nuevo más tarde.</p>";
+            container.innerHTML = `<p class='empty-reviews'>${err.message}</p>`;
         });
 });
 
-// =================== Renderizar todas las reseñas obtenidas =================== \\
+
+// =================== RENDERIZADO DE REVIEWS =================== //
 function renderReviews(reviews) {
     const container = document.querySelector(".reviews");
     container.innerHTML = "";
@@ -46,11 +40,11 @@ function renderReviews(reviews) {
         const div = document.createElement("div");
         div.classList.add("review-card");
 
-        // Accede a los datos del usuario a través de r.userPreview
         const username = r.userPreview ? r.userPreview.username : 'Usuario Anónimo';
-        const profilePic = r.userPreview && r.userPreview.profilePictureUrl ? r.userPreview.profilePictureUrl : '/img/user.png';
-        const commentText = r.comment && r.comment.trim() !== '' ? r.comment : "<em>Sin comentario</em>";
-        const ratingStars = "★".repeat(Math.max(0, Math.floor(r.rating || 0)));
+        const profilePic = r.userPreview?.profilePictureUrl || '/img/user.png';
+        const commentText = r.comment?.trim() ? r.comment : "<em>Sin comentario</em>";
+        const rating = r.rating || 0;
+        const ratingStars = "★".repeat(Math.floor(rating)) + (rating % 1 >= 0.5 ? "½" : "");
         const createdAtDate = r.createdAt ? new Date(r.createdAt).toLocaleString("es-AR") : '';
 
         div.innerHTML = `
@@ -61,9 +55,7 @@ function renderReviews(reviews) {
                     <span class="review-rating">${ratingStars}</span>
                 </div>
             </div>
-            <div class="review-comment">
-                ${commentText}
-            </div>
+            <div class="review-comment">${commentText}</div>
             <div class="review-footer">
                 <span>${createdAtDate}</span>
             </div>
@@ -71,3 +63,25 @@ function renderReviews(reviews) {
         container.appendChild(div);
     });
 }
+
+// =================== BOTÓN +REVIEW =================== //
+document.addEventListener("DOMContentLoaded", () => {
+    const addReviewBtn = document.getElementById("add-review-btn");
+    if (!addReviewBtn) return;
+
+    addReviewBtn.addEventListener("click", () => {
+        const token = localStorage.getItem("accessToken");
+
+        if (!token || !isValidJwt(token)) {
+            showErrorModal("Tenés que iniciar sesión para escribir una reseña.");
+            return;
+        }
+
+        const movieId = addReviewBtn.dataset.movieId;
+        const title = addReviewBtn.dataset.movieTitle;
+        const poster = addReviewBtn.dataset.moviePoster;
+        const year = document.getElementById("review-movie-year")?.textContent?.match(/\d{4}/)?.[0] || "20XX";
+
+        showReviewModal(movieId, title, poster, year);
+    });
+});

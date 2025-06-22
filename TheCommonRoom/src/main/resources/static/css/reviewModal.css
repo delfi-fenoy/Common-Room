@@ -179,14 +179,14 @@
     color: #f1c40f;
     overflow: hidden;
     pointer-events: none;
-    transition: width 0.3s ease;
+    /*transition: width 0.3s ease;*/
     display: block;
     text-align: left;
 }
 .star.star-empty::after { width: 0%; }
 .star.star-full::after { width: 100%; }
-.star.star-half::after { width: 50%; }
-.star:hover { transform: scale(1.05); }
+.star.star-half::after { width: 42%; }
+/*.star:hover { transform: scale(1.05); }*/
 
 /* ------------------ Columna de comentario ------------------ */
 .description-column {
