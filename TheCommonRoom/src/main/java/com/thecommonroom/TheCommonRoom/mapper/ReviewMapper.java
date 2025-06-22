@@ -41,4 +41,15 @@ public class ReviewMapper {
                 .moviePreview(moviePreviewDTO)
                 .build();
     }
+
+    public static ReviewResponseDTO toResponseDTO(Review review)
+    {
+        return ReviewResponseDTO.builder()
+                .id(review.getId())
+                .rating(review.getRating())
+                .comment(review.getComment())
+                .createdAt(review.getCreatedAt())
+                .build();
+    }
+
 }

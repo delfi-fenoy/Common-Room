@@ -127,6 +127,24 @@ public class GlobalExceptionHandler {
                 .body(error);
     }
 
+    @ExceptionHandler(ReviewNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, String> handlerReviewNotFound(ReviewNotFoundException e)
+    {
+        Map<String, String> error= new HashMap<>();
+        error.put("error", e.getMessage());
+        return error;
+    }
+
+    @ExceptionHandler(UnauthorizedReviewAccessException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public Map<String, String> handlerUnauthorizedReviewAccess(UnauthorizedReviewAccessException e)
+    {
+        Map<String, String> error= new HashMap<>();
+        error.put("error", e.getMessage());
+        return error;
+    }
+
     // |=== EXCEPCIONES DE ENTRADA DE DATOS ===|
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)

@@ -1,16 +1,11 @@
 package com.thecommonroom.TheCommonRoom.service;
 
-import com.thecommonroom.TheCommonRoom.dto.MoviePreviewDTO;
-import com.thecommonroom.TheCommonRoom.dto.ReviewRequestDTO;
-import com.thecommonroom.TheCommonRoom.dto.ReviewResponseDTO;
-import com.thecommonroom.TheCommonRoom.dto.UserPreviewDTO;
-import com.thecommonroom.TheCommonRoom.exception.InvalidReviewException;
-import com.thecommonroom.TheCommonRoom.exception.MovieNotFoundException;
-import com.thecommonroom.TheCommonRoom.exception.ReviewAlreadyExistsException;
-import com.thecommonroom.TheCommonRoom.exception.UserNotFoundException;
+import com.thecommonroom.TheCommonRoom.dto.*;
+import com.thecommonroom.TheCommonRoom.exception.*;
 import com.thecommonroom.TheCommonRoom.mapper.ReviewMapper;
 import com.thecommonroom.TheCommonRoom.mapper.UserMapper;
 import com.thecommonroom.TheCommonRoom.model.Review;
+import com.thecommonroom.TheCommonRoom.model.Role;
 import com.thecommonroom.TheCommonRoom.model.User;
 import com.thecommonroom.TheCommonRoom.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -90,5 +85,52 @@ public class ReviewService {
         return responseReviews;
     }
 
+    ///Tengo mis propias reseñas
+    public List<ReviewResponseDTO> getMyReviews(String username)
+    {
+        List<Review> reviews= reviewRepository.findByUsername(username);
 
+        if(reviews.isEmpty())
+        {
+            throw new ReviewNotFoundException("No tenes reseñas creadas");
+        }
+        return reviews.stream()
+                .map(ReviewMapper::toResponseDTO)
+                .toList();
+    }
+
+    ///Modificar reseña
+    public ReviewResponseDTO updateReview(Long reviewId, ReviewUpdateDTO dto, String username)
+    {
+        Review review=reviewRepository.findById(reviewId)
+                .orElseThrow(()-> new ReviewNotFoundException("La reseña no existe"));
+
+        if(!review.getUser().getUsername().equals(username))
+        {
+            throw new UnauthorizedReviewAccessException("No tenés permiso para modificar esta reseña");
+        }
+
+        review.setComment(dto.getComment());
+
+        reviewRepository.save(review);
+
+        return ReviewMapper.toResponseDTO(review);
+    }
+
+    ///Eliminar reseña
+    public void deleteReview(Long reviewId, String username)
+    {
+        Review review= reviewRepository.findById(reviewId)
+                .orElseThrow(()->new ReviewNotFoundException("La reseña no existe"));
+
+        boolean isOwner=review.getUser().getUsername().equals(username);
+        boolean isAdmin=review.getUser().getRole().equals(Role.DMIN);
+
+        if(!isOwner && !isAdmin)
+        {
+            throw new UnauthorizedReviewAccessException("No tenés permisos para eliminar esta reseña");
+        }
+
+        reviewRepository.delete(review);
+    }
 }

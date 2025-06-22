@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Para desarrollo; en producción deberías activarlo
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/users/*/reviews","/auth/**", "/index", "/signin", "/register", "/static/**", "/css/**", "/js/**", "/img/**", "/fragments/**", "/profile/**").permitAll()
-                        .requestMatchers("/reviews","/profile/**", "/favorites/**", "/like/**", "/comment/**").authenticated()
+                        .requestMatchers("/reviews/mine","/reviews/**", "/reviews","/profile/**", "/favorites/**", "/like/**", "/comment/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 // No usa sesiones HTTP para almacenar información de autenticación,
