@@ -1,4 +1,4 @@
-package com.thecommonroom.TheCommonRoom.controller;
+package com.thecommonroom.TheCommonRoom.controller.view;
 
 import com.thecommonroom.TheCommonRoom.dto.Error404DTO;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,7 @@ import java.util.Random;
  * para el manejo de ventanas personalizadas de ERRORES
  */
 @Controller
-public class ErrorController {
+public class ErrorViewController {
 
     // =========== Página de error 404 personalizada =========== \\
     @RequestMapping("/error/404")

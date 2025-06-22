@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title th:text="'Profile | ' + ${user.username}"></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="icon" href="/img/iconLetter.png" type="image/png"/>
+        <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="/css/common.css">
+        <link rel="stylesheet" href="/css/user-profile.css">
+    </head>
+    <body>
+        <!-- ============================== HEADER y SIDEBAR ============================== -->
+        <div th:insert="~{fragments/header :: header}"></div>
+        <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+        <!-- ============================== LAYOUT PRINCIPAL ============================== -->
+        <main class="user-profile-layout">
+
+            <!-- ============================== PANEL IZQUIERDO ============================== -->
+            <aside class="user-left-panel">
+                <img class="user-picture"
+                     th:src="${user.profilePictureUrl != null ? user.profilePictureUrl : '/img/user.png'}"
+                     alt="Foto de perfil" />
+                <h2 class="user-username" th:text="${user.username}">Nombre Usuario</h2>
+                <p class="user-description">Fanático del cine noir y de los gatos detectives.</p>
+                <!--<p class="user-description" th:text="${user.description}">Fanático del cine noir y de los gatos detectives.</p>-->
+            </aside>
+
+            <!-- ============================== PANEL CENTRAL ============================== -->
+            <section class="user-main-content">
+
+                <!-- FAVORITAS (EJEMPLO)-->
+                <div class="favorites-container">
+                    <h3 class="favorites-title">Favoritas del Usuario</h3>
+                    <div class="favorites-row">
+                        <div class="favorite-card visible">
+                            <img src="/img/default-poster.jpg" alt="Película Favorita" />
+                            <div class="favorite-info">Título 1</div>
+                        </div>
+                        <div class="favorite-card visible">
+                            <img src="/img/default-poster.jpg" alt="Película Favorita" />
+                            <div class="favorite-info">Título 2</div>
+                        </div>
+                        <div class="favorite-card visible">
+                            <img src="/img/default-poster.jpg" alt="Película Favorita" />
+                            <div class="favorite-info">Título 3</div>
+                        </div>
+                        <div class="favorite-card visible">
+                            <img src="/img/default-poster.jpg" alt="Película Favorita" />
+                            <div class="favorite-info">Título 4</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TABS -->
+                <div class="tabs-container">
+                    <div class="tabs">
+                        <button class="tab selected reviews-tab" data-tab="reviews">Reviews</button>
+                        <button class="tab lists-tab" data-tab="lists">Lists</button>
+                    </div>
+
+                    <!-- Contenido de las Tabs (EJEMPLOS-->
+                    <div class="tab-wrapper">
+                        <div id="reviews" class="tab-content reviews-box">
+                            <p>Las reviews estarán disponibles próximamente.</p>
+                        </div>
+
+                        <div id="lists" class="tab-content lists-box" style="display: none;">
+                            <p>Las listas estarán disponibles próximamente.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- ============================== FOOTER ============================== -->
+        <footer>© 2025 | Common Room | Fenoy Rivas, Francano y Perez</footer>
+
+        <!-- ============================== JS ============================== -->
+        <script src="/js/userProfileTabs.js"></script>
+        <script src="/js/header.js"></script>
+    </body>
+</html>

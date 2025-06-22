@@ -1,0 +1,264 @@
+/* ------------------ Reinicio de márgenes, paddings y modelo de caja ------------------ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ------------------ Estilos generales del cuerpo de la página ------------------ */
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom right, #9cab86, #3b5445);
+    color: #f0f0f0;
+    overflow-x: hidden;
+    font-family: 'DM Sans', sans-serif;
+}
+
+/* ------------------ Layout principal con márgenes laterales ------------------ */
+.user-profile-layout {
+    display: flex;
+    min-height: 100vh;
+    margin-left: 300px;
+    margin-right: 300px;
+    margin-top: 90px;
+    gap: 30px;
+}
+
+/* --------- Panel izquierdo con foto y datos --------- */
+.user-left-panel {
+    width: 270px;
+    background-color: #5a4e42;
+    padding: 30px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: sticky;
+    top: 90px;
+    height: calc(100vh - 90px);
+    border-left: 8px solid #2d271f;
+    border-right: 8px solid #2d271f;
+}
+
+/* Foto perfil con borde y sombra */
+.user-picture {
+    width: 250px;
+    height: 250px;
+    border-radius: 20px;
+    object-fit: cover;
+    border: 3px solid black;
+    box-shadow: 0 0 10px #000;
+    margin-bottom: 15px;
+}
+
+.user-username {
+    font-size: 1.25rem;
+    font-weight: bold;
+    background: rgb(53, 29, 9);
+    color: white;
+    padding: 6px;
+    width: 100%;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.user-description {
+    font-style: italic;
+    font-size: 1rem;
+    color: white;
+    text-align: center;
+    background: #4a4034;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+/* --------- Panel derecho con contenido --------- */
+.user-main-content {
+    flex-grow: 1;
+    padding: 40px;
+    background-color: #9cab86;
+    border: 5px solid #637860;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --------- Favoritas (fila de Peliculas) --------- */
+.favorites-container {
+    background: #4a6d4a;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.favorites-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #f0f0f0;
+}
+
+.favorites-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.favorite-card {
+    position: relative;
+    width: 150px;
+    height: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #ffffff;
+    background-color: #2c2c2c;
+    box-shadow: 0 0 5px #000;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Cuando la tarjeta está visible */
+.favorite-card.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Imagen interna */
+.favorite-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Hover con zoom y oscurecimiento */
+.favorite-card:hover img {
+    transform: scale(1.05) translateY(-5px);
+    filter: brightness(30%);
+}
+
+/* Texto sobre la imagen*/
+.favorite-info {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+}
+
+/* Mostrar texto al hacer hover */
+.favorite-card:hover .favorite-info {
+    opacity: 1;
+}
+
+/* --------- Tabs perfil al estilo movie-details --------- */
+.tab {
+    padding: 10px 20px;
+    background: #e0e0e0;
+    color: black;
+    border: 5px solid #637860;
+    border-bottom: none;
+    font-size: 20px;
+    cursor: pointer;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    position: relative;
+    top: 5px;
+    z-index: 2;
+    font-style: italic;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.tab.selected {
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* Reviews tab activo/inactivo */
+.tab.selected.reviews-tab {
+    background-color: #9cab86;
+    color: white;
+}
+
+.tab:not(.selected).reviews-tab {
+    background-color: #9cab86;
+    color: #4a5a3c;
+    z-index: 1;
+}
+
+/* Lists tab activo/inactivo */
+.tab.selected.lists-tab {
+    background-color: #b4957a;
+    color: white;
+    border-color: #6c574f;
+}
+
+.tab:not(.selected).lists-tab {
+    background-color: #9e8a7a;
+    color: #4a3a24;
+    border-color: #6c574f;
+    z-index: 1;
+}
+
+/* Contenedor del contenido de pestañas */
+.reviews-box,
+.lists-box {
+    margin-top: 0;
+    padding: 20px;
+    color: #f0f0f0;
+    background: #9cab86;
+    border: 5px solid #637860;
+    z-index: 1;
+    position: relative;
+    transition: background 0.3s ease, border 0.3s ease;
+    border-radius: 0 0 10px 10px;
+}
+
+.lists-box {
+    background: #b4957a;
+    border-color: #6c574f;
+}
+
+/* --------- Otros detalles - botones, títulos, etc --------- */
+.review-section-title {
+    margin-top: 30px;
+    background: #3a664e;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: bold;
+    color: #38e79e;
+}
+
+.review-btn {
+    margin-top: 10px;
+    background: #ff4f4f;
+    color: white;
+    border: none;
+    padding: 10px 40px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.review-btn:hover {
+    transform: scale(1.1);
+    filter: brightness(150%);
+}

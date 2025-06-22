@@ -42,6 +42,9 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(length = 255)
+    private String description;
+
     @NotNull(message = "El rol es obligatorio")
     @Enumerated(EnumType.STRING)
     private Role role;

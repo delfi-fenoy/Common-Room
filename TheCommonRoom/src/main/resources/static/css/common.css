@@ -218,6 +218,138 @@ footer {
     background: #1c3a2a;
 }
 
+/* ------------------ Modal del Error ------------------ */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6); /* Oscurecer el fondo */
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.modal-box {
+    background-color: #1f1f1f;
+    border-radius: 15px;
+    padding: 0;
+    width: 90%;
+    max-width: 600px;
+    color: #f0f0f0;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100vh);
+    animation: slideUp 0.5s ease forwards;
+}
+
+/* Animación al entrar */
+@keyframes slideIn {
+    from {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+.animate-in {
+    animation: slideIn 0.4s ease forwards;
+}
+
+/* Animación al salir */
+@keyframes slideOut {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+}
+.animate-out {
+    animation: slideOut 0.4s ease forwards;
+}
+
+/* ------------------ Estructura interna ------------------ */
+.modal-header {
+    background-color: #2d2d2d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-bottom: 2px solid #3a3a3a;
+}
+
+.modal-icon {
+    width: 35px;
+    height: 35px;
+}
+
+.modal-title {
+    background: #a52b2b;
+    padding: 6px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: white;
+    flex-grow: 1;
+    text-align: center;
+    margin: 0 10px;
+}
+
+.modal-close {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Cuerpo del modal */
+.modal-body {
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.modal-body p {
+    font-style: italic;
+    color: #eee;
+    font-size: 1.1rem;
+}
+
+/* Footer con botón */
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 2px solid #3a3a3a;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-accept {
+    background-color: #a52b2b;
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    font-style: italic;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.btn-accept:hover {
+    transform: scale(1.05);
+    filter: brightness(120%);
+}
+
+
 /* ------------------ Clases reutilizables ------------------ */
 /* Centrado de texto */
 .text-center {
