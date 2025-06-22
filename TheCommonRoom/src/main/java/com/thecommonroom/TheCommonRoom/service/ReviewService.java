@@ -77,4 +77,18 @@ public class ReviewService {
         }
         return responseReviews;
     }
+
+    // review en peliculas
+    public List<ReviewResponseDTO> getReviewsByMovieId(Long movieId) {
+        List<Review> entityReviews = reviewRepository.findByMovieId(movieId);
+
+        List<ReviewResponseDTO> responseReviews = new ArrayList<>();
+        for (Review review : entityReviews) {
+            UserPreviewDTO userPreview = UserMapper.toPreviewDTO(review.getUser());
+            responseReviews.add(ReviewMapper.entityToResponseDTO(review, null, userPreview));
+        }
+        return responseReviews;
+    }
+
+
 }

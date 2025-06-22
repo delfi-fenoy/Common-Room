@@ -18,7 +18,7 @@
         <div th:insert="~{fragments/header :: header}"></div>
         <div th:insert="~{fragments/sidebar :: sidebar}"></div>
         <div th:insert="~{fragments/modal-review :: modalReview}"></div>
-        <div th:replace="fragments/modal-error :: error-modal"></div>
+        <div th:replace="~{fragments/modal-error :: error-modal}"></div>
 
         <!-- ============================== LAYOUT PRINCIPAL ============================== -->
         <div class="main-layout">
@@ -84,19 +84,9 @@
                         Review +
                     </button>
 
-                    <!-- Lista de reseñas | Modificar-->
-                    <div class="reviews">
-                        <div class="review">
-                            <div class="review-header">
-                                <img src="/img/user.png" class="review-avatar"/>
-                                <div>
-                                    <strong>Review by MangelRogel</strong>
-                                    <span class="stars">★★★★★</span>
-                                    <span class="likes">💚 -1</span>
-                                </div>
-                            </div>
-                            <div class="review-title">CINE CINE CINE</div>
-                        </div>
+                    <!-- Lista de reseñas -->
+                    <div id="reviews-container" class="reviews" th:data-movie-id="${movie.id}">
+                        <p class="empty-reviews">Cargando reseñas...</p>
                     </div>
 
                 </section>
@@ -111,6 +101,6 @@
         <script src="/js/header.js"></script>
         <script src="/js/modalReview.js"></script>
         <script src="/js/modalError.js"></script>
-
+        <script src="/js/movies-review.js"></script>
     </body>
 </html>

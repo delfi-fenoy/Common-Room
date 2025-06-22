@@ -37,4 +37,12 @@ public class ReviewController {
         List<ReviewResponseDTO> reviews = reviewService.getReviewsByUsername(username);
         return ResponseEntity.ok(reviews);
     }
+
+    // reviews en peliculas
+    @GetMapping("/movies/{movieId}/reviews")
+    public ResponseEntity<List<ReviewResponseDTO>> getReviewsByMovie(@PathVariable Long movieId) {
+        List<ReviewResponseDTO> reviews = reviewService.getReviewsByMovieId(movieId);
+        return ResponseEntity.ok(reviews);
+    }
+
 }
