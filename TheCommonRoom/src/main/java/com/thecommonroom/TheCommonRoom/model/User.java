@@ -42,6 +42,7 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Size(max = 255, message = "La descripción debe tener como máximo 255 caracteres")
     @Column(length = 255)
     private String description;
 
