@@ -1,4 +1,4 @@
-package com.thecommonroom.TheCommonRoom.controller;
+package com.thecommonroom.TheCommonRoom.controller.rest;
 
 import com.thecommonroom.TheCommonRoom.dto.MovieDetailsDTO;
 import com.thecommonroom.TheCommonRoom.dto.MoviePreviewDTO;

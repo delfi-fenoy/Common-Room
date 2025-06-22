@@ -1,4 +1,4 @@
-package com.thecommonroom.TheCommonRoom.controller;
+package com.thecommonroom.TheCommonRoom.controller.view;
 
 import com.thecommonroom.TheCommonRoom.client.TMDbClient;
 import com.thecommonroom.TheCommonRoom.dto.MovieDetailsDTO;

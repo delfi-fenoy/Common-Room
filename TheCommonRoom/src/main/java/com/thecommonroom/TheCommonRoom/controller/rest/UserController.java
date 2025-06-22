@@ -1,4 +1,4 @@
-package com.thecommonroom.TheCommonRoom.controller;
+package com.thecommonroom.TheCommonRoom.controller.rest;
 
 import com.thecommonroom.TheCommonRoom.auth.service.JwtService;
 import com.thecommonroom.TheCommonRoom.dto.UserPreviewDTO;

@@ -1,4 +1,4 @@
-package com.thecommonroom.TheCommonRoom.controller;
+package com.thecommonroom.TheCommonRoom.controller.rest;
 
 import com.thecommonroom.TheCommonRoom.dto.ReviewRequestDTO;
 import com.thecommonroom.TheCommonRoom.dto.ReviewResponseDTO;
