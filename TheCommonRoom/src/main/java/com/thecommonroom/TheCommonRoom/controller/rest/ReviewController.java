@@ -32,9 +32,17 @@ public class ReviewController {
         return ResponseEntity.created(location).body(reviewResponseDTO); // Devolver código de estado + reseña completa
     }
 
+    // Obtener reseñas por usuario
     @GetMapping("/users/{username}/reviews")
     public ResponseEntity<List<ReviewResponseDTO>> getUserReviews(@PathVariable String username){
         List<ReviewResponseDTO> reviews = reviewService.getReviewsByUsername(username);
+        return ResponseEntity.ok(reviews);
+    }
+
+    // Obtener reseñas por película
+    @GetMapping("/movie/{id}/reviews")
+    public ResponseEntity<List<ReviewResponseDTO>> getMovieReviews(@PathVariable Long id){
+        List<ReviewResponseDTO> reviews = reviewService.getReviewsByMovieId(id);
         return ResponseEntity.ok(reviews);
     }
 }

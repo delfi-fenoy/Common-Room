@@ -12,5 +12,6 @@ import java.util.Optional;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     Optional<Review> findByUserIdAndMovieId(Long userId, Long movieId);
-    List<Review> findByUser(User user);
+    List<Review> findByUser(User user); // Obtener listas de reseñas de un usuario determinado
+    List<Review> findByMovieId(Long movieId); // Obtener listas de reseñas de una película determinada
 }

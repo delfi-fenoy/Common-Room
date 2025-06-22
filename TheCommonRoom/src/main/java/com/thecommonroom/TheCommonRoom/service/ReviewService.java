@@ -32,8 +32,7 @@ public class ReviewService {
     public ReviewResponseDTO createReview(ReviewRequestDTO reviewRequestDTO){
 
         // Obtener el usuario actual
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // Obtener usuario autenticado
-        String username = authentication.getName(); // Obtener username de usuario
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); // Obtener username de usuario autenticado (actual)
         User currentUser = userService.findUserByUsername(username); // Obtener usuario completo
 
         // Comprobar existencia de película
@@ -72,9 +71,23 @@ public class ReviewService {
         for (Review review : entityReviews){
             // Obtener pre-visualización de película reseñada
             MoviePreviewDTO moviePreviewDTO = movieService.findMoviePreviewById(review.getMovieId());
-            // Mapearla a dto (reseña + moviePreview)
-            responseReviews.add(ReviewMapper.entityToResponseDTO(review, moviePreviewDTO));
+            // Mapearla a dto (reseña + moviePreview) (user null, para menor redundancia)
+            responseReviews.add(ReviewMapper.entityToResponseDTO(review, moviePreviewDTO, null));
         }
         return responseReviews;
     }
+
+    public List<ReviewResponseDTO> getReviewsByMovieId(Long movieId){
+        List<Review> entityReviews = reviewRepository.findByMovieId(movieId); // Obtener reseñas completas de película
+
+        return entityReviews.stream()
+                .map(review ->
+                        ReviewMapper.entityToResponseDTO( // Mapear reseñas a ReviewResponseDTO para visualización
+                                review, // Pasar la reseña
+                                null, // Movie null, para menor redundancia (es siempre la misma)
+                                UserMapper.toPreviewDTO(review.getUser()) // Mapear user a su preview, y pasar
+                        ))
+                .toList();
+    }
+
 }
