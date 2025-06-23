@@ -26,7 +26,7 @@ body {
     gap: 30px;
 }
 
-/* --------- Panel izquierdo con foto y datos --------- */
+/* ------------------ Panel izquierdo con foto y datos ------------------ */
 .user-left-panel {
     width: 270px;
     background-color: #5a4e42;
@@ -74,7 +74,7 @@ body {
     border-radius: 5px;
 }
 
-/* --------- Panel derecho con contenido --------- */
+/* ------------------ Panel derecho con contenido ------------------ */
 .user-main-content {
     flex-grow: 1;
     padding: 40px;
@@ -83,7 +83,7 @@ body {
     flex-direction: column;
 }
 
-/* --------- Favoritas (fila de Peliculas) --------- */
+/* ------------------ Favoritas (fila de Peliculas) ------------------ */
 .favorites-container {
     background: #4a6d4a;
     padding: 20px;
@@ -158,7 +158,7 @@ body {
     opacity: 1;
 }
 
-/* --------- Tabs perfil al estilo movie-details --------- */
+/* ------------------ Tabs perfil------------------ */
 .tab {
     padding: 10px 20px;
     background: #e0e0e0;
@@ -212,7 +212,7 @@ body {
     z-index: 1;
 }
 
-/* Contenedor del contenido de pestañas */
+/* ------------------ Contenedores General------------------ */
 .reviews-box,
 .lists-box {
     margin-top: 0;
@@ -230,18 +230,18 @@ body {
     background: #b4957a;
     border-color: #6c574f;
 }
-/* Contenedor de todas las reviews dentro de la tab */
+
+/* ------------------ Contenedor Review------------------ */
 .reviews-box {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin-top: 10px;
     padding: 10px;
-    max-height: 600px; /* opcional, para scroll si hay muchas */
+    max-height: 600px;
     overflow-y: auto;
 }
 
-/* Tarjeta individual de review */
+/* ------------------ Cada Review ------------------ */
 .review-card {
     background-color: #4a6d4a;
     padding: 10px;

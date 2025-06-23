@@ -44,7 +44,7 @@ public class HomeController {
         RawMovieListDTO movieList = tmdbClient.getAllMovies(page);
         model.addAttribute("movies", movieList.getResults());
         model.addAttribute("currentPage", page);
-        return "moviesmenu";
+        return "movies-menu";
     }
 
 }
