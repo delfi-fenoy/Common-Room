@@ -59,10 +59,14 @@ public class User {
     private String profilePictureUrl;
 
     // Tokens del usuario (un user puede tener muchos tokens)
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY) // user => La relación está mapeada por el atributo user (en entidad Token)
+    /*  • "user" => La relación está mapeada por el atributo user (en entidad Token)
+        • FetchType.LAZY => Los tokens no se cargan automáticamente al traer al user, solo al consultarlos
+        • CascadeType.REMOVE => Al eliminar un usuario, se propaga la operación a los tokens que le pertenecen
+        • orphanRemoval (true) => Si se borra un token de la lista, ese token también se elimina de la bdd */
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Token> tokens;
 
     // Un user puede tener muchas reseñas
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Review> reviews;
 }
