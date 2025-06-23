@@ -1,10 +1,12 @@
 package com.thecommonroom.TheCommonRoom.controller.rest;
 
 import com.thecommonroom.TheCommonRoom.dto.MovieListDTO;
+import com.thecommonroom.TheCommonRoom.dto.MovieListPreviewDTO;
 import com.thecommonroom.TheCommonRoom.model.MovieList;
 import com.thecommonroom.TheCommonRoom.service.MovieListService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.hibernate.sql.Alias;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -89,5 +91,32 @@ public class MovieListController
         movieListService.removeFromCustomList(listId,contentId,principal.getName());
 
         return ResponseEntity.noContent().build();
+    }
+
+    ///Muestra todas las listas publicas
+    @GetMapping("/public")
+    public ResponseEntity<List<MovieListPreviewDTO>> getAllPublicLists()
+    {
+        List<MovieListPreviewDTO> lists= movieListService.getAllPublicLists();
+
+        return ResponseEntity.ok(lists);
+    }
+
+    ///Muestra listas publicas por usuario
+    @GetMapping("/public/{userId}")
+    public ResponseEntity<List<MovieListPreviewDTO>> getPublicByUserId(@PathVariable Long userId)
+    {
+        List<MovieListPreviewDTO> lists= movieListService.getPublicListsByUserId(userId);
+
+        return ResponseEntity.ok(lists);
+    }
+
+    ///Filtrar listas
+    @GetMapping("/filter")
+    public ResponseEntity<List<MovieListPreviewDTO>> filterLists(@RequestParam(required = false) String nombre, @RequestParam(required = false) String usuario, @RequestParam(required = false) Boolean esPublica)
+    {
+        List<MovieListPreviewDTO> filtered = movieListService.filterLists(nombre, usuario, esPublica);
+
+        return ResponseEntity.ok(filtered);
     }
 }

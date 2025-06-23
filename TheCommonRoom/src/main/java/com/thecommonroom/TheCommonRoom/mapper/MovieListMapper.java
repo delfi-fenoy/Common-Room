@@ -1,6 +1,7 @@
 package com.thecommonroom.TheCommonRoom.mapper;
 
 import com.thecommonroom.TheCommonRoom.dto.MovieListDTO;
+import com.thecommonroom.TheCommonRoom.dto.MovieListPreviewDTO;
 import com.thecommonroom.TheCommonRoom.model.MovieList;
 import com.thecommonroom.TheCommonRoom.model.User;
 
@@ -24,6 +25,15 @@ public class MovieListMapper
                 .user(user)
                 .isPublic(dto.getIsPublic())
                 .movies(dto.getMovies())
+                .build();
+    }
+
+    public static MovieListPreviewDTO toPreviewDTO(MovieList list)
+    {
+        return MovieListPreviewDTO.builder()
+                .id(list.getId())
+                .nameList(list.getNameList())
+                .cantidadElementos(list.getMovies() != null ? list.getMovies().size() : 0)
                 .build();
     }
 }

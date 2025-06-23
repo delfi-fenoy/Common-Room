@@ -1,6 +1,7 @@
 package com.thecommonroom.TheCommonRoom.service;
 
 import com.thecommonroom.TheCommonRoom.dto.MovieListDTO;
+import com.thecommonroom.TheCommonRoom.dto.MovieListPreviewDTO;
 import com.thecommonroom.TheCommonRoom.exception.*;
 import com.thecommonroom.TheCommonRoom.mapper.MovieListMapper;
 import com.thecommonroom.TheCommonRoom.model.MovieList;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.thecommonroom.TheCommonRoom.model.User;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.DuplicateFormatFlagsException;
 import java.util.List;
 
 @Service
@@ -63,6 +63,7 @@ public class MovieListService
     }
 
     ///Obtengo las listas de usuario
+    ///Mis propias listas
     public List<MovieListDTO> getUserLists(String username)
     {
         return movieListRepository.findByUserUsername(username).stream()
@@ -151,5 +152,38 @@ public class MovieListService
 
         list.getMovies().remove(movieId);
         movieListRepository.save(list);
+    }
+
+    ///Mostrar listas publicas
+    public List<MovieListPreviewDTO> getAllPublicLists()
+    {
+        List<MovieList> publicLists= movieListRepository.findAllByIsPublicTrue();
+
+        return publicLists.stream()
+                .map(MovieListMapper::toPreviewDTO)
+                .toList();
+    }
+
+    ///Muestro listas de usuario
+    public List<MovieListPreviewDTO> getPublicListsByUserId(Long userId)
+    {
+        List<MovieList> lists= movieListRepository.findByUserIdAndIsPublicTrue(userId);
+
+        return lists.stream()
+                .map(MovieListMapper::toPreviewDTO)
+                .toList();
+    }
+
+    ///Filtrar listas
+    public List<MovieListPreviewDTO> filterLists(String name, String username, Boolean isPublic)
+    {
+        List<MovieList> allLists = movieListRepository.findAll(); // O usar filtros si tu repo los tiene
+
+        return allLists.stream()
+                .filter(l -> name == null || l.getNameList().toLowerCase().contains(name.toLowerCase()))
+                .filter(l -> username == null || l.getUser().getUsername().equalsIgnoreCase(username))
+                .filter(l -> isPublic == null || l.getIsPublic().equals(isPublic))
+                .map(MovieListMapper::toPreviewDTO)
+                .toList();
     }
 }
