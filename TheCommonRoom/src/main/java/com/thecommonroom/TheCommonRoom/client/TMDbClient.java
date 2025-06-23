@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 public class TMDbClient {
 
     // Inyecta el valor de la propiedad "themoviedb.api.key" definida en el application.properties
+    // todo: .env
     @Value("${themoviedb.api.key}")
     private String key;
 

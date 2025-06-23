@@ -11,8 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "reviews",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "movie_id"})) // El user puede tener una unica reseña para la misma película
+@Table(name = "reviews", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "movie_id"})) // El user puede tener una unica reseña para la misma película
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

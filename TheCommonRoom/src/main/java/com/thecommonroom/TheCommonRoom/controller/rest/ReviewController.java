@@ -50,7 +50,7 @@ public class ReviewController {
     }
 
     // Obtener reseñas por película
-    @GetMapping("/movie/{id}/reviews")
+    @GetMapping("/movies/{id}/reviews")
     public ResponseEntity<List<ReviewResponseDTO>> getMovieReviews(@PathVariable Long id){
         List<ReviewResponseDTO> reviews = reviewService.getReviewsByMovieId(id);
         return ResponseEntity.ok(reviews);

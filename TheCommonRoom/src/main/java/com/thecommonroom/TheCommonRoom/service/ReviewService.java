@@ -79,7 +79,7 @@ public class ReviewService {
         return responseReviews;
     }
 
-    public List<ReviewResponseDTO> getReviewsByMovieId(Long movieId){
+  public List<ReviewResponseDTO> getReviewsByMovieId(Long movieId){
         List<Review> entityReviews = reviewRepository.findByMovieId(movieId); // Obtener reseñas completas de película
 
         return entityReviews.stream()
