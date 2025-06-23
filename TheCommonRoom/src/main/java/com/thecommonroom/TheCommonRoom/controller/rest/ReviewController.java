@@ -8,6 +8,7 @@ import com.thecommonroom.TheCommonRoom.service.MovieService;
 import com.thecommonroom.TheCommonRoom.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -62,6 +63,7 @@ public class ReviewController {
         return ResponseEntity.ok(reviews);
     }
 
+    ///Likear review
     @PostMapping("/reviews/{id}/like")
     public ResponseEntity<String> likeReview(@PathVariable Long id, Principal principal)
     {
@@ -69,18 +71,29 @@ public class ReviewController {
         return ResponseEntity.ok("Like agregado");
     }
 
+    ///Deslikear review
     @DeleteMapping("/reviews/{id}/like")
-    public ResponseEntity<String> unliikeReview(@PathVariable Long id, Principal principal)
+    public ResponseEntity<String> unlikeReview(@PathVariable Long id, Principal principal)
     {
         likeReviewService.unlikeReview(id, principal.getName());
         return ResponseEntity.ok("Like eliminado");
     }
 
+    ///Obtener reviews por id
     @GetMapping("/reviews/{id}")
     public ResponseEntity<ReviewResponseDTO> getReviewById(@PathVariable Long id)
     {
         ReviewResponseDTO response= reviewService.getReviewResponseById(id);
 
         return ResponseEntity.ok(response);
+    }
+
+    ///Filtrar reviews
+    @GetMapping("/reviews")
+    public ResponseEntity<List<ReviewResponseDTO>> filterReviews(@RequestParam(required = false) String titulo, @RequestParam(required = false) Integer puntuacionMinima, @RequestParam(required = false) String username)
+    {
+        List<ReviewResponseDTO> filered= reviewService.filterReviews(titulo, puntuacionMinima, username);
+
+        return ResponseEntity.ok(filered);
     }
 }

@@ -109,4 +109,29 @@ public class ReviewService {
 
         return  ReviewMapper.entityToResponseDTO(review,moviePreview,userPreview);
     }
+
+    @Transactional(readOnly = true)
+    public List<ReviewResponseDTO> filterReviews(String titulo, Integer puntuacionMinima, String username)
+    {
+        List<Review> reviews= reviewRepository.findAll();
+
+        List<Review> filtered= reviews.stream()
+                .filter(r -> puntuacionMinima == null || r.getRating() >= puntuacionMinima)
+                .filter(r -> username == null || r.getUser().getUsername().equalsIgnoreCase(username))
+                .filter(r -> {
+                    if (titulo == null) return true;
+
+                    //Buscar el título de la película desde la API
+                    MoviePreviewDTO movie = movieService.findMoviePreviewById(r.getMovieId());
+                    return movie.getTitle().toLowerCase().contains(titulo.toLowerCase());
+                })
+                .toList();
+
+        return filtered.stream()
+                .map(review -> {
+                    MoviePreviewDTO movie = movieService.findMoviePreviewById(review.getMovieId());
+                    UserPreviewDTO user = UserMapper.toPreviewDTO(review.getUser());
+                    return ReviewMapper.entityToResponseDTO(review, movie, user);
+                }).toList();
+    }
 }
