@@ -2,6 +2,8 @@ package com.thecommonroom.TheCommonRoom.controller.rest;
 
 import com.thecommonroom.TheCommonRoom.dto.ReviewRequestDTO;
 import com.thecommonroom.TheCommonRoom.dto.ReviewResponseDTO;
+import com.thecommonroom.TheCommonRoom.repository.LikeReviewRepository;
+import com.thecommonroom.TheCommonRoom.service.LikeReviewService;
 import com.thecommonroom.TheCommonRoom.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -19,6 +22,7 @@ import java.util.List;
 public class ReviewController {
 
     private final ReviewService reviewService;
+    private final LikeReviewService likeReviewService;
 
     @PostMapping("/reviews")
     public ResponseEntity<ReviewResponseDTO> createReview(@Valid @RequestBody ReviewRequestDTO reviewRequestDTO){
@@ -54,5 +58,19 @@ public class ReviewController {
     public ResponseEntity<List<ReviewResponseDTO>> getMovieReviews(@PathVariable Long id){
         List<ReviewResponseDTO> reviews = reviewService.getReviewsByMovieId(id);
         return ResponseEntity.ok(reviews);
+    }
+
+    @PostMapping("/reviews/{id}/like")
+    public ResponseEntity<String> likeReview(@PathVariable Long id, Principal principal)
+    {
+        likeReviewService.likeReview(id, principal.getName());
+        return ResponseEntity.ok("Like agregado");
+    }
+
+    @DeleteMapping("/reviews/{id}/like")
+    public ResponseEntity<String> unliikeReview(@PathVariable Long id, Principal principal)
+    {
+        likeReviewService.unlikeReview(id, principal.getName());
+        return ResponseEntity.ok("Like eliminado");
     }
 }
