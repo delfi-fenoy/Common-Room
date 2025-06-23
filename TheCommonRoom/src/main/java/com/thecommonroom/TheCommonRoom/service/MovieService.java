@@ -72,6 +72,20 @@ public class MovieService {
         return rawList;
     }
 
+    ///Filtrado de peliculas
+    public List<MoviePreviewDTO> filterMovies(String title, Integer year, String genere, Double puntuacionMinima, int page)
+    {
+        RawMovieListDTO rawList = api.getAllMovies(page); //Trae una página de películas
+        List<RawMovieDTO> results = rawList.getResults();
 
-
+        return results.stream()
+                .filter(movie -> title == null || movie.getTitle().toLowerCase().contains(title.toLowerCase()))
+                .filter(movie -> year == null || (movie.getRelease_date() != null && movie.getRelease_date().startsWith(year.toString())))
+                .filter(movie -> puntuacionMinima == null || movie.getVote_average() >= puntuacionMinima)
+                .filter(movie -> genere == null || movie.getGenres().stream()
+                        .map(RawMovieDTO.GenreDTO::getName) // sacar el nombre del género
+                        .anyMatch(name -> name.equalsIgnoreCase(genere)))
+                .map(MovieMapper::rawToPreviewDTO)
+                .toList();
+    }
 }

@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -125,5 +126,21 @@ public class UserService {
 
     public boolean existsById(Long id){
         return userRepository.existsById(id);
+    }
+
+    ///Filtrado de usuarios
+    @Transactional(readOnly = true)
+    public List<UserPreviewDTO> filterUser(String username, String rol)
+    {
+        List<User> users= userRepository.findAll();
+
+        List<User> filtered=users.stream()
+                .filter(u-> username ==null || u.getUsername().toLowerCase().contains(username.toLowerCase()))
+                .filter(u-> rol ==null || u.getRole().name().equalsIgnoreCase(rol))
+                .toList();
+
+        return filtered.stream()
+                .map(UserMapper::toPreviewDTO)
+                .toList();
     }
 }

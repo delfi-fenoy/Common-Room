@@ -9,6 +9,7 @@ import com.thecommonroom.TheCommonRoom.repository.UserRepository;
 import com.thecommonroom.TheCommonRoom.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -76,4 +77,12 @@ public class UserController {
                 .build();
     }
 
+    ///Filtrar usuarios
+    @GetMapping("/users")
+    public ResponseEntity<List<UserPreviewDTO>> filterUsers(@RequestParam(required = false) String username, @RequestParam(required = false) String rol)
+    {
+        List<UserPreviewDTO> filtered =userService.filterUser(username, rol);
+
+        return ResponseEntity.ok(filtered);
+    }
 }

@@ -5,6 +5,7 @@ import com.thecommonroom.TheCommonRoom.dto.MoviePreviewDTO;
 import com.thecommonroom.TheCommonRoom.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,5 +51,14 @@ public class MovieController {
     @ResponseStatus(HttpStatus.OK)
     public List<MoviePreviewDTO> getUncomingMovies(@RequestParam(defaultValue = "1") int page) {
         return movieService.getUncomingMovies(page);
+    }
+
+    ///Filtrar peliculas
+    @GetMapping("/movies/filter")
+    public ResponseEntity<List<MoviePreviewDTO>> filterMovies(@RequestParam(required = false) String title, @RequestParam(required = false) Integer year, @RequestParam(required = false) String genere, @RequestParam(required = false) Double puntuacionMinima, @RequestParam(defaultValue = "1") int page)
+    {
+        List<MoviePreviewDTO> filtered= movieService.filterMovies(title, year, genere, puntuacionMinima, page);
+
+        return ResponseEntity.ok(filtered);
     }
 }
