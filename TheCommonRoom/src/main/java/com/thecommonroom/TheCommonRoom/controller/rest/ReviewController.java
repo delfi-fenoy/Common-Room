@@ -37,7 +37,7 @@ public class ReviewController {
     // Llamar metodo de UserSecurity, para comprobar permisos
     @PreAuthorize("@userSecurity.canDeleteReview(#reviewId, authentication)")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("reviews/{reviewId}")
+    @DeleteMapping("/reviews/{reviewId}")
     public void deleteReview(@PathVariable Long reviewId){
         reviewService.deleteReview(reviewId);
     }
@@ -50,7 +50,7 @@ public class ReviewController {
     }
 
     // Obtener reseñas por película
-    @GetMapping("/movie/{id}/reviews")
+    @GetMapping("/movies/{id}/reviews")
     public ResponseEntity<List<ReviewResponseDTO>> getMovieReviews(@PathVariable Long id){
         List<ReviewResponseDTO> reviews = reviewService.getReviewsByMovieId(id);
         return ResponseEntity.ok(reviews);
