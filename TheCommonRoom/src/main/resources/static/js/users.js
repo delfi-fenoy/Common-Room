@@ -10,7 +10,7 @@ const usersPerPage = 20;
 // =================== FETCH DE USUARIOS =================== //
 async function fetchUsers() {
     try {
-        const res = await fetch("/users");
+        const res = await fetch("/users/all");
         if (!res.ok) throw new Error("Error al obtener usuarios");
 
         users = await res.json();

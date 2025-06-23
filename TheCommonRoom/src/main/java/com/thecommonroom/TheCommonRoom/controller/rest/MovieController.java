@@ -17,6 +17,13 @@ public class MovieController {
     // =========== Atributos =========== \\
     private final MovieService movieService;
 
+    // =========== Lista paginada de todas las películas =========== \\
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    public List<MoviePreviewDTO> getAllMovies(@RequestParam(defaultValue = "1") int page) {
+        return movieService.getAllMovies(page);
+    }
+
     // =========== Devuelve una película por ID =========== \\
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -36,13 +43,6 @@ public class MovieController {
     @ResponseStatus(HttpStatus.OK)
     public List<MoviePreviewDTO> getRecentMovies(@RequestParam(defaultValue = "1") int page) {
         return movieService.getRecentMovies(page);
-    }
-
-    // =========== Lista paginada de todas las películas =========== \\
-    @GetMapping("/all")
-    @ResponseStatus(HttpStatus.OK)
-    public List<MoviePreviewDTO> getAllMovies(@RequestParam(defaultValue = "1") int page) {
-        return movieService.getAllMovies(page);
     }
 
     // =========== Lista paginada de próximos estrenos =========== \\

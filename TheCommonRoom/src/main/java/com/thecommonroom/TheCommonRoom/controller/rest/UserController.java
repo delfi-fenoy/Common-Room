@@ -29,7 +29,7 @@ public class UserController {
     private final UserRepository userRepository;
 
     // =========== Lista todos los usuarios en formato reducido =========== \\
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<UserPreviewDTO>> listUsers() {
         List<UserPreviewDTO> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
