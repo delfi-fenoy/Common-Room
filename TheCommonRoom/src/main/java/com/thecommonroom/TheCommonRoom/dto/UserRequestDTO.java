@@ -35,4 +35,7 @@ public class UserRequestDTO {
     // + una URL válida que empiece con http://, https:// o ftp://.
     @Pattern(regexp = "^$|^(https?|ftp)://.*$", message = "La URL de la foto de perfil debe ser valida")
     private String profilePictureUrl;
+
+    @Size(max = 255, message = "La descripción debe tener como máximo 255 caracteres")
+    private String description;
 }
