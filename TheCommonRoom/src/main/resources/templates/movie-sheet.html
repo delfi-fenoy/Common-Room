@@ -1,111 +1,113 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8"/>
-        <title th:text="'Detalles | ' + ${movie.title}">Movie Details</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="icon" href="/img/iconLetter.png" type="image/png"/>
-        <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
+    <!DOCTYPE html>
+    <html lang="es" xmlns:th="http://www.thymeleaf.org">
+        <head>
+            <meta charset="UTF-8"/>
+            <title th:text="'Detalles | ' + ${movie.title}">Movie Details</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <link rel="icon" href="/img/iconLetter.png" type="image/png"/>
+            <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-        <!-- CSS -->
-        <link rel="stylesheet" href="/css/common.css"/>
-        <link rel="stylesheet" href="/css/movie-details.css"/>
-        <link rel="stylesheet" href="/css/reviewModal.css"/>
-        <link rel="stylesheet" href="/css/errorModal.css"/>
-    </head>
+            <!-- CSS -->
+            <link rel="stylesheet" href="/css/common.css"/>
+            <link rel="stylesheet" href="/css/movie-details.css"/>
+            <link rel="stylesheet" href="/css/reviewModal.css"/>
+            <link rel="stylesheet" href="/css/errorModal.css"/>
+            <link rel="stylesheet" href="/css/review-movies.css"/>
+        </head>
 
-    <body>
-        <!-- ============================== HEADER y SIDEBAR (y modals) ============================== -->
-        <div th:insert="~{fragments/header :: header}"></div>
-        <div th:insert="~{fragments/sidebar :: sidebar}"></div>
-        <div th:insert="~{fragments/modal-review :: modalReview}"></div>
-        <div th:replace="~{fragments/modal-error :: modalError}"></div>
+        <body>
+            <!-- ============================== HEADER y SIDEBAR (y modals) ============================== -->
+            <div th:insert="~{fragments/header :: header}"></div>
+            <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+            <div th:insert="~{fragments/modal-review :: modalReview}"></div>
+            <div th:replace="~{fragments/modal-error :: modalError}"></div>
 
-        <!-- ============================== LAYOUT PRINCIPAL ============================== -->
-        <div class="main-layout">
-            <!-- ============================== PANEL IZQUIERDO ============================== -->
-            <div class="left-panel-wrapper">
-                <div class="left-panel">
+            <!-- ============================== LAYOUT PRINCIPAL ============================== -->
+            <div class="main-layout">
+                <!-- ============================== PANEL IZQUIERDO ============================== -->
+                <div class="left-panel-wrapper">
+                    <div class="left-panel">
 
-                    <!-- Si tiene poster -->
-                    <img class="movie-poster"
-                         th:src="${movie.posterUrl != null ? movie.posterUrl : '/img/default-poster.jpg'}"
-                         alt="Poster de la película" />
+                        <!-- Si tiene poster -->
+                        <img class="movie-poster"
+                             th:src="${movie.posterUrl != null ? movie.posterUrl : '/img/default-poster.jpg'}"
+                             alt="Poster de la película" />
 
-                    <div class="movie-title" th:text="${movie.title}">Título de película</div>
+                        <div class="movie-title" th:text="${movie.title}">Título de película</div>
 
-                    <!-- Rating -->
-                    <div class="rating-box">
-                        <div class="score" th:text="${movie.voteAverage}">Puntuacion => 3.6</div>
+                        <!-- Rating -->
+                        <div class="rating-box">
+                            <div class="score" th:text="${movie.voteAverage}">Puntuacion => 3.6</div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- ============================== PANEL CENTRAL ============================== -->
+                <main class="movie-detail">
+                    <section class="center-panel">
+                        <!-- Tabs -->
+                        <div class="tabs-container">
+                            <div class="tabs">
+                                <button class="tab selected synopsis-tab" data-tab="description">Synopsis</button>
+                                <button class="tab details-tab" data-tab="details">Details</button>
+                            </div>
+
+                            <!-- Contenido de las Tabs -->
+                            <div class="tab-wrapper">
+                                <div id="synopsis" class="tab-content synopsis-box">
+                                    <p th:text="${movie.synopsis}">Sinopsis de la película...</p>
+                                </div>
+
+                                <div id="details" class="tab-content details-box" style="display: none;">
+                                    <ul>
+                                        <li><strong><u>Fecha de Estreno</u></strong> => <em th:text="${movie.releaseDate}">00/00/0000</em>
+                                        </li>
+                                        <li><strong><u>Duración</u></strong> => <em th:text="${movie.duration}">120</em> Min</li>
+                                        <li>
+                                            <strong><u>Géneros</u></strong> =>
+                                            <em>
+                                                <span th:each="genre : ${movie.genres}" th:text="${genre + ', '}"
+                                                      th:remove="tag"></span>
+                                            </em>
+                                        </li>
+                                        <li><strong><u>Presupuesto</u></strong> => <em>$<span
+                                                th:text="${movie.budget}">1000000</span></em></li>
+                                        <li><strong><u>Recaudación</u></strong> => <em>$<span
+                                                th:text="${movie.revenue}">5000000</span></em></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botón para crear reseña -->
+                        <h2 class="review-section-title">People's thoughts</h2>
+                        <button id="add-review-btn"
+                                class="review-btn"
+                                th:data-movie-id="${movie.id}"
+                                th:data-movie-title="${movie.title}"
+                                th:data-movie-poster="${movie.posterUrl}"
+                                th:data-movie-year="${movie.releaseDate?.substring(0,4)}">
+                            Review +
+                        </button>
+
+                        <!-- Lista de reseñas -->
+                        <div id="reviews-container" class="reviews" th:data-movie-id="${movie.id}">
+                            <p class="empty-reviews">Cargando reseñas...</p>
+                        </div>
+
+                    </section>
+                </main>
             </div>
 
-            <!-- ============================== PANEL CENTRAL ============================== -->
-            <main class="movie-detail">
-                <section class="center-panel">
-                    <!-- Tabs -->
-                    <div class="tabs-container">
-                        <div class="tabs">
-                            <button class="tab selected synopsis-tab" data-tab="description">Synopsis</button>
-                            <button class="tab details-tab" data-tab="details">Details</button>
-                        </div>
+            <!-- ============================== FOOTER ============================== -->
+            <footer>© 2025 | Common Room | Fenoy Rivas, Francano y Perez</footer>
 
-                        <!-- Contenido de las Tabs -->
-                        <div class="tab-wrapper">
-                            <div id="synopsis" class="tab-content synopsis-box">
-                                <p th:text="${movie.synopsis}">Sinopsis de la película...</p>
-                            </div>
-
-                            <div id="details" class="tab-content details-box" style="display: none;">
-                                <ul>
-                                    <li><strong><u>Fecha de Estreno</u></strong> => <em th:text="${movie.releaseDate}">00/00/0000</em>
-                                    </li>
-                                    <li><strong><u>Duración</u></strong> => <em th:text="${movie.duration}">120</em> Min</li>
-                                    <li>
-                                        <strong><u>Géneros</u></strong> =>
-                                        <em>
-                                            <span th:each="genre : ${movie.genres}" th:text="${genre + ', '}"
-                                                  th:remove="tag"></span>
-                                        </em>
-                                    </li>
-                                    <li><strong><u>Presupuesto</u></strong> => <em>$<span
-                                            th:text="${movie.budget}">1000000</span></em></li>
-                                    <li><strong><u>Recaudación</u></strong> => <em>$<span
-                                            th:text="${movie.revenue}">5000000</span></em></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botón para crear reseña -->
-                    <h2 class="review-section-title">People's thoughts</h2>
-                    <button id="add-review-btn"
-                            class="review-btn"
-                            th:data-movie-id="${movie.id}"
-                            th:data-movie-title="${movie.title}"
-                            th:data-movie-poster="${movie.posterUrl}"
-                            th:data-movie-year="${movie.releaseDate?.substring(0,4)}">
-                        Review +
-                    </button>
-
-                    <!-- Lista de reseñas -->
-                    <div id="reviews-container" class="reviews" th:data-movie-id="${movie.id}">
-                        <p class="empty-reviews">Cargando reseñas...</p>
-                    </div>
-
-                </section>
-            </main>
-        </div>
-
-        <!-- ============================== FOOTER ============================== -->
-        <footer>© 2025 | Common Room | Fenoy Rivas, Francano y Perez</footer>
-
-        <!-- ============================== JS ============================== -->
-        <script src="/js/movies/alternateTabs.js"></script>
-        <script src="/js/movies/movies-review.js"></script>
-        <script src="/js/movies/modalReview.js"></script>
-        <script src="/js/modalError.js"></script>
-        <script src="/js/header.js"></script>
-    </body>
-</html>
+            <!-- ============================== JS ============================== -->
+            <script src="/js/movies/alternateTabs.js"></script>
+            <script src="/js/movies/movies-review.js"></script>
+            <script src="/js/movies/modalReview.js"></script>
+            <script src="/js/modalError.js"></script>
+            <script src="/js/header.js"></script>
+        </body>
+    </html>

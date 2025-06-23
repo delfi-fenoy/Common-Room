@@ -2,6 +2,7 @@
 let selectedRating = 0;
 let currentMovieId = null;
 let currentMovieYear = null;
+let editingReviewId = null;
 
 // =================== Mostrar modal de review =================== //
 function showReviewModal(movieId, title, posterUrl, year) {
@@ -11,6 +12,7 @@ function showReviewModal(movieId, title, posterUrl, year) {
     currentMovieId = movieId;
     currentMovieYear = year;
     selectedRating = 0;
+    editingReviewId = null;
 
     // Seteo de datos en el modal
     document.getElementById('review-modal-title').textContent = 'Review +';
@@ -28,6 +30,41 @@ function showReviewModal(movieId, title, posterUrl, year) {
     void modalBox.offsetWidth; // reflow para reiniciar animación
     modalBox.classList.add('animate-in');
 }
+
+// Función para mostrar modal en modo editar, cargando datos de la review
+function showEditReviewModal(review) {
+    editingReviewId = review.id;
+
+    // Fallback: si no viene moviePreview, tomamos los datos visibles del DOM
+    const posterEl = document.querySelector(".movie-poster");
+    const titleEl = document.querySelector(".movie-title");
+    const yearText = document.querySelector("#details em")?.textContent || '';
+
+    const title = review.moviePreview?.title || titleEl?.textContent || '';
+    const posterUrl = review.moviePreview?.posterUrl || posterEl?.getAttribute("src") || '/img/default-poster.jpg';
+    const releaseYear = review.moviePreview?.releaseYear || yearText.match(/\d{4}/)?.[0] || '';
+
+    // Seteo en el modal
+    document.getElementById('review-modal-title').textContent = 'Modificar Review';
+    document.getElementById('review-movie-poster').src = posterUrl;
+    document.getElementById('review-movie-title').textContent = title;
+    document.getElementById('review-movie-year').textContent = releaseYear ? `(${releaseYear})` : '';
+    document.getElementById('review-comment').value = review.comment || '';
+
+    selectedRating = review.rating || 0;
+    renderStars(selectedRating);
+
+    document.querySelector('.review-btn-submit').textContent = 'Actualizar';
+
+    // Mostrar el modal con animación
+    const modal = document.getElementById('review-modal');
+    const modalBox = modal.querySelector('.review-modal-box');
+    modal.style.display = 'flex';
+    modalBox.classList.remove('animate-out');
+    void modalBox.offsetWidth;
+    modalBox.classList.add('animate-in');
+}
+
 
 // =================== Cerrar modal de review =================== //
 function closeReviewModal() {
@@ -107,6 +144,7 @@ function updateStarsPreview(previewRating) {
 }
 
 // =================== Enviar review =================== //
+// Modificar la función submitReview para que use PUT si estamos editando
 function submitReview() {
     if (selectedRating === 0) {
         showErrorModal("El rating es obligatorio");
@@ -119,11 +157,14 @@ function submitReview() {
     const reviewData = {
         movieId: currentMovieId,
         rating: selectedRating,
-        comment: comment
+        comment: comment || null,
     };
 
-    fetch('/reviews', {
-        method: 'POST',
+    const url = editingReviewId ? `/reviews/${editingReviewId}` : '/reviews';
+    const method = editingReviewId ? 'PUT' : 'POST';
+
+    fetch(url, {
+        method: method,
         headers: {
             'Content-Type': 'application/json',
             "Authorization": "Bearer " + token
@@ -136,9 +177,7 @@ function submitReview() {
         })
         .then(data => {
             closeReviewModal();
-            if (typeof loadReviewsForMovie === 'function') {
-                loadReviewsForMovie(currentMovieId);
-            }
+            location.reload();
         })
         .catch(err => {
             showErrorModal(err.message || 'Error desconocido');
