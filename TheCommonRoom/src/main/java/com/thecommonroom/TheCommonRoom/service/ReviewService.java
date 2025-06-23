@@ -97,4 +97,16 @@ public class ReviewService {
         return reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException("Review does not exist"));
     }
+
+    @Transactional(readOnly = true)
+    public ReviewResponseDTO getReviewResponseById(Long reviewId)
+    {
+        Review review= getReviewById(reviewId);
+
+        MoviePreviewDTO moviePreview= movieService.findMoviePreviewById(review.getMovieId());
+
+        UserPreviewDTO userPreview= UserMapper.toPreviewDTO(review.getUser());
+
+        return  ReviewMapper.entityToResponseDTO(review,moviePreview,userPreview);
+    }
 }

@@ -4,6 +4,7 @@ import com.thecommonroom.TheCommonRoom.dto.ReviewRequestDTO;
 import com.thecommonroom.TheCommonRoom.dto.ReviewResponseDTO;
 import com.thecommonroom.TheCommonRoom.repository.LikeReviewRepository;
 import com.thecommonroom.TheCommonRoom.service.LikeReviewService;
+import com.thecommonroom.TheCommonRoom.service.MovieService;
 import com.thecommonroom.TheCommonRoom.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final LikeReviewService likeReviewService;
+    private final MovieService movieService;
 
     @PostMapping("/reviews")
     public ResponseEntity<ReviewResponseDTO> createReview(@Valid @RequestBody ReviewRequestDTO reviewRequestDTO){
@@ -72,5 +74,13 @@ public class ReviewController {
     {
         likeReviewService.unlikeReview(id, principal.getName());
         return ResponseEntity.ok("Like eliminado");
+    }
+
+    @GetMapping("/reviews/{id}")
+    public ResponseEntity<ReviewResponseDTO> getReviewById(@PathVariable Long id)
+    {
+        ReviewResponseDTO response= reviewService.getReviewResponseById(id);
+
+        return ResponseEntity.ok(response);
     }
 }
