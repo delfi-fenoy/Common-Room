@@ -189,4 +189,22 @@ public class GlobalExceptionHandler {
                 .body(error);
     }
 
+    // |=== EXCEPCIONES DE MOVIELIST ===|
+    @ExceptionHandler(MovieListNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public Map<String, String> handleMovieListNotFound(MovieListNotFoundException ex)
+    {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return error;
+    }
+
+    @ExceptionHandler(NoPermissionException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public Map<String, String> handleNoPermission(NoPermissionException ex)
+    {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return error;
+    }
 }
