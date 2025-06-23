@@ -14,16 +14,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true) // Solo toma en cuenta los atributos que se incluyen explícitamente
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter
-@Setter
 @Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Incremento automático
+    @EqualsAndHashCode.Include // Atributo que se incluye en equals() y hashcode()
     private Long id;
 
     @NotBlank(message = "El username no debe estar vacío")

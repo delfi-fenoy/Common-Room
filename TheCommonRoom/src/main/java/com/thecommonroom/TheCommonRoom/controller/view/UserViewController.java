@@ -24,4 +24,11 @@ public class UserViewController {
         model.addAttribute("user", user);
         return "user-profile";
     }
+
+    // =========== Usuarios =========== \\
+    @GetMapping("/users/all")
+    public String exploreUsers() {
+        return "users-menu";
+    }
+
 }

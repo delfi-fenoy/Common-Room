@@ -12,6 +12,8 @@ import com.thecommonroom.TheCommonRoom.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -119,4 +121,10 @@ public class AuthService {
         // Devolver ambos token + info adicional del usuario
         return new TokenResponse(accessToken, refreshToken, user.getUsername(), user.getRole().name());
     }
+
+    // ========== AUTHENTICATION ==========
+    public static Authentication getAuthetication(){
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
 }

@@ -30,6 +30,10 @@ body {
     padding: 110px 20px 40px 20px;
     max-width: 1200px;
     margin: 0 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* ------------------ Título ------------------ */
@@ -39,7 +43,9 @@ body {
     color: #d3ffb0;
     padding: 1rem;
     border-radius: 10px;
-    margin-bottom: 1rem;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 1rem auto;
 }
 
 /* ------------------ Contenedor de todas las tarjetas ------------------ */
@@ -122,14 +128,28 @@ body {
     border-radius: 5px;
     margin: 0;
     font-size: 0.9rem;
+    line-height: 1.7em;
+
+    /* Truncado a 4 líneas con "..." */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* Esto es clave para que funcione en todos lados */
+    word-break: break-word;
+    max-height: calc(1.8em * 4); /* 4 líneas exactas según el line-height */
 }
+
 
 /* ------------------ Paginación ------------------ */
 .section-divider {
-    margin: 60px auto 20px auto;
+    margin: 0 auto 20px auto;
     border: none;
     height: 3px;
-    width: 80%;
+    width: 100%;
+    max-width: 800px;
     background-color: #000000;
     border-radius: 5px;
 }

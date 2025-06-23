@@ -1,0 +1,164 @@
+/* ------------------ Reinicio de márgenes, paddings y modelo de caja ------------------ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ------------------ Enlaces ------------------ */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ------------------ Fondo y cuerpo ------------------ */
+body {
+    height: 100vh;
+    background: linear-gradient(to bottom right, #9cab86, #3b5445);
+    font-family: 'Grenze', 'Helvetica Neue', Helvetica, sans-serif;
+    color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* ------------------ Contenedor principal ------------------ */
+.container {
+    padding: 110px 20px 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ------------------ Título ------------------ */
+.title {
+    background-color: #3a6845;
+    text-align: center;
+    color: #d3ffb0;
+    padding: 1rem;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto 1rem auto;
+}
+
+/* ------------------ Grilla de usuarios ------------------ */
+.user-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 32px;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 3rem;
+}
+
+/* ------------------ Tarjeta de usuario ------------------ */
+.user-card {
+    background-color: #a2b18a;
+    border: 3px solid black;
+    border-radius: 15px;
+    width: 140px;
+    text-align: center;
+    padding: 15px;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+}
+
+.user-card {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-card:hover {
+    transform: scale(1.08);
+}
+
+.user-card img {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    border: 2px solid #000;
+    object-fit: cover;
+}
+
+/* ------------------ Texto dentro de la tarjeta ------------------ */
+.username {
+    display: block;
+    font-style: italic;
+    margin-top: 8px;
+    color: #1d3327;
+    font-size: 1.1rem;
+}
+
+.role {
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #333;
+    margin-top: 4px;
+}
+
+.role.admin {
+    color: gold;
+}
+
+/* ------------------ Paginación ------------------ */
+.section-divider {
+    margin: 0 auto 20px auto;
+    border: none;
+    height: 3px;
+    width: 100%;
+    max-width: 800px;
+    background-color: #000000;
+    border-radius: 5px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 20px auto;
+    padding: 0 10px;
+}
+
+.pagination a {
+    background-color: #1c3a2a;
+    font-size: 30px;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #36b96b;
+}
+
+.page-indicator {
+    background-color: #7e6b5d;
+    padding: 0.6rem 1.4rem;
+    border-radius: 20px;
+    font-weight: bold;
+    color: white;
+    font-size: 24px;
+    white-space: nowrap;
+}
+
+/* ------------------ Footer ------------------ */
+footer {
+    background-color: #1c3a2a;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: #aaa;
+    width: 100%;
+}

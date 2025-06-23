@@ -180,7 +180,7 @@ public class GlobalExceptionHandler {
                 .body(error);
     }
 
-    @ExceptionHandler({AccessDeniedException.class, AuthorizationDeniedException.class})
+    @ExceptionHandler({AccessDeniedException.class, org.springframework.security.access.AccessDeniedException.class, AuthorizationDeniedException.class})
     public ResponseEntity<Map<String, String>> handleAccessDenied(Exception ex){
         Map<String, String> error = new HashMap<>();
         error.put("error", "Access denied");

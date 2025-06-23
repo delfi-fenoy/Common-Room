@@ -37,12 +37,23 @@ document.addEventListener("DOMContentLoaded", () => {
             </button>
         `;
 
-            // Acción de logout
+            // Acción de logout | Ahora si funcionara
             document.getElementById("logout-btn").addEventListener("click", () => {
-                localStorage.removeItem("accessToken");
-                localStorage.removeItem("refreshToken");
-                window.location.href = "/signin";
+                const token = localStorage.getItem("accessToken");
+
+                fetch("/logout", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                })
+                    .finally(() => {
+                        localStorage.removeItem("accessToken");
+                        localStorage.removeItem("refreshToken");
+                        window.location.href = "/signin";
+                    });
             });
+
         })
         .catch(() => {
             // 4️⃣ Token vencido o inválido: limpiar y mostrar opciones para no logueados

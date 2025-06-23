@@ -109,10 +109,12 @@ Entre las más relevantes se incluyen:
 
 ## 🏫 Contexto Académico
 
-Este proyecto fue desarrollado en el marco de la **Tecnicatura Universitaria en Programación** en la **Universidad Tecnológica Nacional (UTN) – Facultad Regional Mar del Plata**, como trabajo final integrador de la materia Programación 2.
+Este proyecto fue desarrollado en el marco de la **Tecnicatura Universitaria en Programación** en la **Universidad Tecnológica Nacional (UTN) – Facultad Regional Mar del Plata**, como trabajo final integrador de las materias Programación III y Metodología de Sistemas I.
 
 Fecha de entrega: **9 de junio de 2025**  
-Docente: **Sofía Galbato**
+Docentes: 
+- **Sofía Galbato**
+- **Rodrigo Soto**
 
 ---
 

@@ -1,20 +1,20 @@
 package com.thecommonroom.TheCommonRoom.service;
 
+import com.thecommonroom.TheCommonRoom.auth.service.AuthService;
 import com.thecommonroom.TheCommonRoom.dto.UserPreviewDTO;
 import com.thecommonroom.TheCommonRoom.dto.UserRequestDTO;
 import com.thecommonroom.TheCommonRoom.dto.UserResponseDTO;
 import com.thecommonroom.TheCommonRoom.exception.EmailAlreadyExistsException;
 import com.thecommonroom.TheCommonRoom.exception.NoUsersFoundException;
+import com.thecommonroom.TheCommonRoom.exception.UserNotFoundException;
 import com.thecommonroom.TheCommonRoom.exception.UsernameAlreadyExistsException;
 import com.thecommonroom.TheCommonRoom.mapper.UserMapper;
-import com.thecommonroom.TheCommonRoom.model.CustomUserDetails;
 import com.thecommonroom.TheCommonRoom.model.Role;
 import com.thecommonroom.TheCommonRoom.model.User;
 import com.thecommonroom.TheCommonRoom.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -66,9 +66,8 @@ public class UserService {
     }
 
     public User findUserByUsername(String username){
-        User user = userRepository.findByUsername(username)
+        return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-        return user;
     }
 
     //Busco el usuario, verifico si es el mismo, verifico si el username o el emial ya esta usados y luego lo setteo
@@ -103,7 +102,14 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public boolean existsById(Long id){
+    /*public boolean existsById(Long id){
         return userRepository.existsById(id);
+    }*/
+
+    // ========== OBTENER USUARIO ACTUAL ==========
+    public User getCurrentUser(){
+        Authentication auth = AuthService.getAuthetication();
+        return userRepository.findByUsername(auth.getName())
+                .orElseThrow(() -> new UserNotFoundException("You must be authenticated"));
     }
 }

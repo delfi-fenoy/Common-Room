@@ -26,7 +26,7 @@ body {
     gap: 30px;
 }
 
-/* --------- Panel izquierdo con foto y datos --------- */
+/* ------------------ Panel izquierdo con foto y datos ------------------ */
 .user-left-panel {
     width: 270px;
     background-color: #5a4e42;
@@ -74,18 +74,16 @@ body {
     border-radius: 5px;
 }
 
-/* --------- Panel derecho con contenido --------- */
+/* ------------------ Panel derecho con contenido ------------------ */
 .user-main-content {
     flex-grow: 1;
     padding: 40px;
-    background-color: #9cab86;
-    border: 5px solid #637860;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
 }
 
-/* --------- Favoritas (fila de Peliculas) --------- */
+/* ------------------ Favoritas (fila de Peliculas) ------------------ */
 .favorites-container {
     background: #4a6d4a;
     padding: 20px;
@@ -160,7 +158,7 @@ body {
     opacity: 1;
 }
 
-/* --------- Tabs perfil al estilo movie-details --------- */
+/* ------------------ Tabs perfil------------------ */
 .tab {
     padding: 10px 20px;
     background: #e0e0e0;
@@ -177,6 +175,9 @@ body {
     font-style: italic;
     font-weight: normal;
     text-decoration: none;
+}
+.tabs-container {
+    margin-bottom: 30px;
 }
 
 .tab.selected {
@@ -211,7 +212,7 @@ body {
     z-index: 1;
 }
 
-/* Contenedor del contenido de pestañas */
+/* ------------------ Contenedores General------------------ */
 .reviews-box,
 .lists-box {
     margin-top: 0;
@@ -230,35 +231,96 @@ body {
     border-color: #6c574f;
 }
 
-/* --------- Otros detalles - botones, títulos, etc --------- */
-.review-section-title {
-    margin-top: 30px;
-    background: #3a664e;
-    padding: 15px;
-    border-radius: 5px;
-    font-size: 1.5rem;
-    text-align: center;
-    font-weight: bold;
-    color: #38e79e;
+/* ------------------ Contenedor Review------------------ */
+.reviews-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    max-height: 600px;
+    overflow-y: auto;
 }
 
-.review-btn {
-    margin-top: 10px;
-    background: #ff4f4f;
-    color: white;
+/* ------------------ Cada Review ------------------ */
+.review-card {
+    background-color: #4a6d4a;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.review-layout {
+    display: flex;
+    gap: 10px;
+}
+
+.review-left {
+    flex-shrink: 0;
+}
+
+.review-poster {
+    width: 120px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 2px solid black;
+}
+
+.review-right {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.review-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #7ec16e;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.review-movie-title {
+    font-weight: bold;
+    color: black;
+    text-decoration: underline;
+}
+
+.review-menu-btn {
+    background: #ff5e5e;
     border: none;
-    padding: 10px 40px;
-    border-radius: 25px;
+    border-radius: 4px;
+    padding: 2px 6px;
     font-weight: bold;
     cursor: pointer;
-    font-size: 1.1rem;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    transition: transform 0.3s ease, filter 0.3s ease;
+    color: white;
 }
 
-.review-btn:hover {
-    transform: scale(1.1);
-    filter: brightness(150%);
+.review-meta {
+    background-color: #7ec16e;
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    color: black;
+}
+
+.review-comment {
+    background-color: #7ec16e;
+    padding: 10px;
+    border-radius: 5px;
+    color: black;
+}
+
+.review-footer {
+    background-color: #3b8b65;
+    padding: 3px 10px;
+    border-radius: 5px;
+    text-align: right;
+    font-size: 0.85rem;
+    color: black;
 }

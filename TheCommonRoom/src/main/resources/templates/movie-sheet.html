@@ -5,18 +5,20 @@
         <title th:text="'Detalles | ' + ${movie.title}">Movie Details</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="icon" href="/img/iconLetter.png" type="image/png"/>
-        <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap"
-              rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
 
         <!-- CSS -->
         <link rel="stylesheet" href="/css/common.css"/>
         <link rel="stylesheet" href="/css/movie-details.css"/>
+        <link rel="stylesheet" href="/css/reviewModal.css"/>
     </head>
 
     <body>
-        <!-- ============================== HEADER y SIDEBAR ============================== -->
+        <!-- ============================== HEADER y SIDEBAR (y modals) ============================== -->
         <div th:insert="~{fragments/header :: header}"></div>
         <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+        <div th:insert="~{fragments/modal-review :: modalReview}"></div>
+        <div th:replace="~{fragments/modal-error :: error-modal}"></div>
 
         <!-- ============================== LAYOUT PRINCIPAL ============================== -->
         <div class="main-layout">
@@ -77,21 +79,18 @@
 
                     <!-- Botón para crear reseña -->
                     <h2 class="review-section-title">People's thoughts</h2>
-                    <button class="review-btn">Review +</button>
+                    <button id="add-review-btn"
+                            class="review-btn"
+                            th:data-movie-id="${movie.id}"
+                            th:data-movie-title="${movie.title}"
+                            th:data-movie-poster="${movie.posterUrl}"
+                            th:data-movie-year="${movie.releaseDate?.substring(0,4)}">
+                        Review +
+                    </button>
 
                     <!-- Lista de reseñas -->
-                    <div class="reviews">
-                        <div class="review">
-                            <div class="review-header">
-                                <img src="/img/user.png" class="review-avatar"/>
-                                <div>
-                                    <strong>Review by MangelRogel</strong>
-                                    <span class="stars">★★★★★</span>
-                                    <span class="likes">💚 -1</span>
-                                </div>
-                            </div>
-                            <div class="review-title">CINE CINE CINE</div>
-                        </div>
+                    <div id="reviews-container" class="reviews" th:data-movie-id="${movie.id}">
+                        <p class="empty-reviews">Cargando reseñas...</p>
                     </div>
 
                 </section>
@@ -102,7 +101,10 @@
         <footer>© 2025 | Common Room | Fenoy Rivas, Francano y Perez</footer>
 
         <!-- ============================== JS ============================== -->
-        <script src="/js/alternateTabs.js"></script>
+        <script src="/js/movies/alternateTabs.js"></script>
         <script src="/js/header.js"></script>
+        <script src="/js/movies/modalReview.js"></script>
+        <script src="/js/modalError.js"></script>
+        <script src="/js/movies/movies-review.js"></script>
     </body>
 </html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Users | Common Room</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/img/iconLetter.png" type="image/png" />
+        <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="/css/common.css" />
+        <link rel="stylesheet" href="/css/users.css" />
+    </head>
+
+    <body>
+        <!-- ============================== HEADER y SIDEBAR ============================== -->
+        <div th:insert="~{fragments/header :: header}"></div>
+        <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+        <!-- ============================== LAYOUT PRINCIPAL ============================== -->
+        <main class="container">
+            <h1 class="title">Time to socialize</h1>
+
+            <hr class="section-divider"/>
+
+            <!-- ============================== Grid de usuarios ============================== -->
+            <div class="user-grid" id="user-grid">
+                <!-- Tarjetas de usuario generadas por JS -->
+            </div>
+
+            <hr class="section-divider"/>
+
+            <!-- ============================== Paginación ============================== -->
+            <div class="pagination">
+                <button class="pagination-btn" id="prevPage">← Back</button>
+                <button class="pagination-btn" id="nextPage">Next →</button>
+            </div>
+        </main>
+
+        <!-- ============================== FOOTER ============================== -->
+        <footer>© 2025 | Common Room | Fenoy Rivas, Francano y Perez</footer>
+
+        <!-- ============================== JS ============================== -->
+        <script src="/js/header.js"></script>
+        <script src="/js/users.js"></script>
+    </body>
+</html>

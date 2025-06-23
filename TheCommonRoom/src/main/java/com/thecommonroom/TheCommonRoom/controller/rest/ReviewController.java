@@ -2,6 +2,7 @@ package com.thecommonroom.TheCommonRoom.controller.rest;
 
 import com.thecommonroom.TheCommonRoom.dto.ReviewRequestDTO;
 import com.thecommonroom.TheCommonRoom.dto.ReviewResponseDTO;
+import com.thecommonroom.TheCommonRoom.dto.ReviewUpdateDTO;
 import com.thecommonroom.TheCommonRoom.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,13 @@ public class ReviewController {
     @DeleteMapping("/reviews/{reviewId}")
     public void deleteReview(@PathVariable Long reviewId){
         reviewService.deleteReview(reviewId);
+    }
+
+    @PutMapping("/reviews/{reviewId}")
+    public ResponseEntity<ReviewResponseDTO> modifyReview(@PathVariable Long reviewId,
+                                                          @Valid @RequestBody ReviewUpdateDTO reviewUpdateDTO){
+        ReviewResponseDTO reviewResponseDTO = reviewService.modifyReview(reviewId, reviewUpdateDTO);
+        return ResponseEntity.ok(reviewResponseDTO);
     }
 
     // Obtener reseñas por usuario
