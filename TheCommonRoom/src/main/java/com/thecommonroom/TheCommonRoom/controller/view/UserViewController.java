@@ -26,7 +26,7 @@ public class UserViewController {
     }
 
     // =========== Usuarios =========== \\
-    @GetMapping("/users/all")
+    @GetMapping("/users")
     public String exploreUsers() {
         return "users-menu";
     }

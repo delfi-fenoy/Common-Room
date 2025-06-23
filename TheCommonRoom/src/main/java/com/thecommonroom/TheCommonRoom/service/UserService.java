@@ -44,16 +44,16 @@ public class UserService {
         return userRepository.save(user); // Guardar en la base de datos
     }
 
+    // Eliminar usuarios (dueño o admin)
     public void deleteUser(String username){
         User user = findUserByUsername(username);
         userRepository.delete(user);
     }
 
-    ///Obtiene todos los usuarios guardados en la base de datos y si no hay ninguno lanza la exception
-    ///Si hay usuarios los convierte en una lista de DTOs
+    // Obtiene todos los usuarios guardados en la base de datos y si no hay ninguno lanza la exception
+    // Si hay usuarios los convierte en una lista de DTOs
     public List<UserPreviewDTO> getAllUsers(){
         List<User> users = userRepository.findAll();
-
         if(users.isEmpty()){
             throw new NoUsersFoundException("No registered users found");
         }
@@ -70,7 +70,7 @@ public class UserService {
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
     }
 
-    //Busco el usuario, verifico si es el mismo, verifico si el username o el emial ya esta usados y luego lo setteo
+    /*//Busco el usuario, verifico si es el mismo, verifico si el username o el emial ya esta usados y luego lo setteo
     public void updateUser(Long id, UserRequestDTO dto) {
         User user=userRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("Usuario no encontrado"));
@@ -100,10 +100,6 @@ public class UserService {
         user.setProfilePictureUrl(dto.getProfilePictureUrl());
 
         userRepository.save(user);
-    }
-
-    /*public boolean existsById(Long id){
-        return userRepository.existsById(id);
     }*/
 
     // ========== OBTENER USUARIO ACTUAL ==========

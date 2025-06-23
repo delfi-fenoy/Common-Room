@@ -69,7 +69,6 @@ public class SecurityConfig {
                                 "/fragments/**",
                                 "/profile/**").permitAll()
 
-                        .requestMatchers("/users").denyAll()
                         .anyRequest().permitAll()
                 )
                 // No usa sesiones HTTP para almacenar información de autenticación,
