@@ -90,7 +90,7 @@ public class ReviewController {
 
     ///Filtrar reviews
     @GetMapping("/reviews")
-    public ResponseEntity<List<ReviewResponseDTO>> filterReviews(@RequestParam(required = false) String titulo, @RequestParam(required = false) Integer puntuacionMinima, @RequestParam(required = false) String username)
+    public ResponseEntity<List<ReviewResponseDTO>> filterReviews(@RequestParam(required = false) String titulo, @RequestParam(required = false) Double puntuacionMinima, @RequestParam(required = false) String username)
     {
         List<ReviewResponseDTO> filered= reviewService.filterReviews(titulo, puntuacionMinima, username);
 

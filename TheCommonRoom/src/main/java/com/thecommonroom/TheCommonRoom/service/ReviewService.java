@@ -111,7 +111,7 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReviewResponseDTO> filterReviews(String titulo, Integer puntuacionMinima, String username)
+    public List<ReviewResponseDTO> filterReviews(String titulo, Double puntuacionMinima, String username)
     {
         List<Review> reviews= reviewRepository.findAll();
 
