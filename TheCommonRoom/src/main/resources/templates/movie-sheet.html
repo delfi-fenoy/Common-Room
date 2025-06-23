@@ -83,14 +83,10 @@
                             class="review-btn"
                             th:data-movie-id="${movie.id}"
                             th:data-movie-title="${movie.title}"
-                            th:data-movie-poster="${movie.posterUrl}">
+                            th:data-movie-poster="${movie.posterUrl}"
+                            th:data-movie-year="${movie.releaseDate?.substring(0,4)}">
                         Review +
                     </button>
-
-<!--                    <button class="review-btn"-->
-<!--                            th:attr="onclick=|showReviewModal(${movie.id}, '${movie.title}', '${movie.posterUrl}')|">-->
-<!--                        Review +-->
-<!--                    </button>-->
 
                     <!-- Lista de reseñas -->
                     <div id="reviews-container" class="reviews" th:data-movie-id="${movie.id}">
@@ -105,10 +101,10 @@
         <footer>© 2025 | Common Room | Fenoy Rivas, Francano y Perez</footer>
 
         <!-- ============================== JS ============================== -->
-        <script src="/js/alternateTabs.js"></script>
+        <script src="/js/movies/alternateTabs.js"></script>
         <script src="/js/header.js"></script>
-        <script src="/js/modalReview.js"></script>
+        <script src="/js/movies/modalReview.js"></script>
         <script src="/js/modalError.js"></script>
-        <script src="/js/movies-review.js"></script>
+        <script src="/js/movies/movies-review.js"></script>
     </body>
 </html>
