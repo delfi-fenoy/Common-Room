@@ -31,14 +31,4 @@ public class ReviewMapper {
                 .userPreview(userPreviewDTO)
                 .build();
     }
-
-    public static ReviewResponseDTO entityToResponseDTO(Review review, MoviePreviewDTO moviePreviewDTO){
-        return ReviewResponseDTO.builder()
-                .id(review.getId())
-                .rating(review.getRating())
-                .comment(review.getComment())
-                .createdAt(review.getCreatedAt())
-                .moviePreview(moviePreviewDTO)
-                .build();
-    }
 }

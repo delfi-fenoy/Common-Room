@@ -4,17 +4,14 @@ import com.thecommonroom.TheCommonRoom.dto.MoviePreviewDTO;
 import com.thecommonroom.TheCommonRoom.dto.ReviewRequestDTO;
 import com.thecommonroom.TheCommonRoom.dto.ReviewResponseDTO;
 import com.thecommonroom.TheCommonRoom.dto.UserPreviewDTO;
-import com.thecommonroom.TheCommonRoom.exception.InvalidReviewException;
-import com.thecommonroom.TheCommonRoom.exception.MovieNotFoundException;
-import com.thecommonroom.TheCommonRoom.exception.ReviewAlreadyExistsException;
-import com.thecommonroom.TheCommonRoom.exception.UserNotFoundException;
+import com.thecommonroom.TheCommonRoom.exception.*;
 import com.thecommonroom.TheCommonRoom.mapper.ReviewMapper;
 import com.thecommonroom.TheCommonRoom.mapper.UserMapper;
 import com.thecommonroom.TheCommonRoom.model.Review;
 import com.thecommonroom.TheCommonRoom.model.User;
 import com.thecommonroom.TheCommonRoom.repository.ReviewRepository;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +29,7 @@ public class ReviewService {
     public ReviewResponseDTO createReview(ReviewRequestDTO reviewRequestDTO){
 
         // Obtener el usuario actual
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // Obtener usuario autenticado
-        String username = authentication.getName(); // Obtener username de usuario
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); // Obtener username de usuario autenticado (actual)
         User currentUser = userService.findUserByUsername(username); // Obtener usuario completo
 
         // Comprobar existencia de película
@@ -62,6 +58,11 @@ public class ReviewService {
         return ReviewMapper.entityToResponseDTO(review, moviePreviewDTO, userPreviewDTO); // Mapear reseña a responseDTO
     }
 
+    public void deleteReview(Long reviewId){
+        Review review = getReviewById(reviewId);
+        reviewRepository.delete(review);
+    }
+
     public List<ReviewResponseDTO> getReviewsByUsername(String username){
         User foundUser = userService.findUserByUsername(username); // Obtener usuario buscado
         List<Review> entityReviews = reviewRepository.findByUser(foundUser); // Obtener reseñas completas (entidad) de usuario
@@ -72,23 +73,28 @@ public class ReviewService {
         for (Review review : entityReviews){
             // Obtener pre-visualización de película reseñada
             MoviePreviewDTO moviePreviewDTO = movieService.findMoviePreviewById(review.getMovieId());
-            // Mapearla a dto (reseña + moviePreview)
-            responseReviews.add(ReviewMapper.entityToResponseDTO(review, moviePreviewDTO));
+            // Mapearla a dto (reseña + moviePreview) (user null, para menor redundancia)
+            responseReviews.add(ReviewMapper.entityToResponseDTO(review, moviePreviewDTO, null));
         }
         return responseReviews;
     }
 
-    // review en peliculas
-    public List<ReviewResponseDTO> getReviewsByMovieId(Long movieId) {
-        List<Review> entityReviews = reviewRepository.findByMovieId(movieId);
+  public List<ReviewResponseDTO> getReviewsByMovieId(Long movieId){
+        List<Review> entityReviews = reviewRepository.findByMovieId(movieId); // Obtener reseñas completas de película
 
-        List<ReviewResponseDTO> responseReviews = new ArrayList<>();
-        for (Review review : entityReviews) {
-            UserPreviewDTO userPreview = UserMapper.toPreviewDTO(review.getUser());
-            responseReviews.add(ReviewMapper.entityToResponseDTO(review, null, userPreview));
-        }
-        return responseReviews;
+        return entityReviews.stream()
+                .map(review ->
+                        ReviewMapper.entityToResponseDTO( // Mapear reseñas a ReviewResponseDTO para visualización
+                                review, // Pasar la reseña
+                                null, // Movie null, para menor redundancia (es siempre la misma)
+                                UserMapper.toPreviewDTO(review.getUser()) // Mapear user a su preview, y pasar
+                        ))
+                .toList();
     }
 
-
+    @Transactional(readOnly = true) // Operación solo de lectura
+    public Review getReviewById(Long reviewId){
+        return reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ReviewNotFoundException("Review does not exist"));
+    }
 }
