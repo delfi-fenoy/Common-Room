@@ -8,6 +8,7 @@ import com.thecommonroom.TheCommonRoom.exception.NoUsersFoundException;
 import com.thecommonroom.TheCommonRoom.exception.UsernameAlreadyExistsException;
 import com.thecommonroom.TheCommonRoom.mapper.UserMapper;
 import com.thecommonroom.TheCommonRoom.model.CustomUserDetails;
+import com.thecommonroom.TheCommonRoom.model.MovieList;
 import com.thecommonroom.TheCommonRoom.model.Role;
 import com.thecommonroom.TheCommonRoom.model.User;
 import com.thecommonroom.TheCommonRoom.repository.UserRepository;
@@ -19,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,6 +42,16 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(dto.getPassword()); // Encriptar la contraseña
         User user = UserMapper.toEntity(dto, encodedPassword); // Mapear DTO a entidad User
         user.setRole(Role.USER); // Settear rol de usuario por deafult
+
+        ///Agrega la lista de favoritos default
+        MovieList favorites= MovieList.builder()
+                .nameList("Favorites")
+                .isPublic(true)
+                .user(user)
+                .movies(new ArrayList<>())
+                .build();
+
+        user.getMovieLists().add(favorites);
 
         return userRepository.save(user); // Guardar en la base de datos
     }
