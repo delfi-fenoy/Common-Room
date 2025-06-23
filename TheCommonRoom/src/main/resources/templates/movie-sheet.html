@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="/css/common.css"/>
         <link rel="stylesheet" href="/css/movie-details.css"/>
         <link rel="stylesheet" href="/css/reviewModal.css"/>
+        <link rel="stylesheet" href="/css/errorModal.css"/>
     </head>
 
     <body>
@@ -18,7 +19,7 @@
         <div th:insert="~{fragments/header :: header}"></div>
         <div th:insert="~{fragments/sidebar :: sidebar}"></div>
         <div th:insert="~{fragments/modal-review :: modalReview}"></div>
-        <div th:replace="~{fragments/modal-error :: error-modal}"></div>
+        <div th:replace="~{fragments/modal-error :: modalError}"></div>
 
         <!-- ============================== LAYOUT PRINCIPAL ============================== -->
         <div class="main-layout">
@@ -102,9 +103,9 @@
 
         <!-- ============================== JS ============================== -->
         <script src="/js/movies/alternateTabs.js"></script>
-        <script src="/js/header.js"></script>
+        <script src="/js/movies/movies-review.js"></script>
         <script src="/js/movies/modalReview.js"></script>
         <script src="/js/modalError.js"></script>
-        <script src="/js/movies/movies-review.js"></script>
+        <script src="/js/header.js"></script>
     </body>
 </html>
