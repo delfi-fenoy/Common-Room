@@ -1,10 +1,11 @@
-const form = document.querySelector('.login-box');
-
+// =================== VALIDACIÓN DE TOKEN JWT =================== //
+// Comprueba si un string es un JWT válido
 function isValidJwt(token) {
-    // Un JWT válido tiene 3 partes separadas por puntos
     return typeof token === 'string' && token.split('.').length === 3;
 }
 
+// =================== EVENTO DE ENVÍO DEL FORMULARIO =================== //
+const form = document.querySelector('.login-box');
 form.addEventListener('submit', e => {
     e.preventDefault();
 
@@ -13,7 +14,7 @@ form.addEventListener('submit', e => {
         password: form.password.value,
     };
 
-    // ================ Validaciones básicas antes del fetch ================ \\
+    // =================== VALIDACIONES BÁSICAS =================== //
     if (!data.username.trim()) {
         showErrorModal("El campo 'Username' está incompleto.");
         return;
@@ -24,43 +25,36 @@ form.addEventListener('submit', e => {
         return;
     }
 
-    // Deshabilitar botón para evitar múltiples clicks
     const submitBtn = form.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
 
-    // ================ Se hace la solicitud de Login al backend ================ \\
+    // =================== SOLICITUD AL BACKEND =================== //
     fetch('/auth/login', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     })
-        .then(res => {
+        .then(async res => {
             if (!res.ok) {
-                // Mostramos el modal con el mensaje de error
-                showErrorModal("Credenciales inválidas");
-                throw new Error('Error en credenciales');
+                const err = await res.json();
+                throw new Error(err.error || "Credenciales inválidas");
             }
             return res.json();
         })
         .then(data => {
-            // Validar que venga token y sea JWT válido
             if (!data.access_token || !isValidJwt(data.access_token)) {
                 showErrorModal("Token inválido recibido");
-                throw new Error('Token inválido');
+                throw new Error("Token inválido");
             }
 
-            // Guardar tokens en localStorage
             localStorage.setItem('accessToken', data.access_token);
             localStorage.setItem('refreshToken', data.refresh_token);
-
-            // Redirigir a home
             window.location.href = '/home';
         })
         .catch(err => {
-            showErrorModal(err.message);
+            showErrorModal(err.message || "Error al iniciar sesión.");
         })
         .finally(() => {
-            // Reactivar botón siempre
             submitBtn.disabled = false;
         });
 });

@@ -1,7 +1,8 @@
+// =================== EVENTO DE ENVÍO DEL FORMULARIO =================== //
 document.getElementById("form-register").addEventListener("submit", function (e) {
-    e.preventDefault(); // Evita que la página recargue al hacer click en "Register"
+    e.preventDefault();
 
-    // ================ Se arma el objeto de datos para enviar al backend ================ \\
+    // =================== ARMADO DE DATOS =================== //
     const data = {
         username: document.getElementById("new-username").value,
         email: document.getElementById("new-email").value,
@@ -9,7 +10,7 @@ document.getElementById("form-register").addEventListener("submit", function (e)
         profilePictureUrl: document.getElementById("new-profilePictureUrl").value || null
     };
 
-    // ================ Validaciones antes del fetch ================ \\
+    // =================== VALIDACIONES =================== //
     if (!data.username.trim()) {
         showErrorModal("El campo 'Username' está incompleto.");
         return;
@@ -20,7 +21,6 @@ document.getElementById("form-register").addEventListener("submit", function (e)
         return;
     }
 
-    // Validación de email con regex simple
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(data.email)) {
         showErrorModal("El email ingresado no es válido.");
@@ -37,36 +37,31 @@ document.getElementById("form-register").addEventListener("submit", function (e)
         return;
     }
 
-    // ================ Se hace la solicitud de registro al backend ================ \\
+    // =================== SOLICITUD AL BACKEND =================== //
     fetch("/auth/register", {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
     })
-        .then(res => {
+        .then(async res => {
             if (!res.ok) {
-                // Mostramos el modal con el mensaje de error
-                showErrorModal("Error en el registro");
-                throw new Error('Error en credenciales');
+                const err = await res.json();
+                throw new Error(err.username || err.email || err.error || "Error en el registro");
             }
             return res.json();
         })
         .then(data => {
-            // ================ Verificamos que lleguen los tokens ================ \\
             if (!data.access_token || !data.refresh_token) {
                 showErrorModal("La respuesta no contenía tokens de acceso");
-                throw new Error('Token inválido');
+                throw new Error("Tokens inválidos");
             }
 
-            // ================ Mostramos mensaje de éxito al usuario ================ \\
             alert("¡Registro exitoso!");
-
-            // ================ Guardamos los tokens y vamos al Home inmediatamente ================ \\
             localStorage.setItem('accessToken', data.access_token);
             localStorage.setItem('refreshToken', data.refresh_token);
             window.location.href = '/home';
         })
         .catch(err => {
-            showErrorModal(err.message);
+            showErrorModal(err.message || "Error al registrarse.");
         });
 });

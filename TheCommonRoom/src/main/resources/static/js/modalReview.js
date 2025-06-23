@@ -136,7 +136,15 @@ function submitReview() {
         .then(res => {
             if (!res.ok) {
                 return res.json().then(err => {
-                    throw new Error(err.message || "Error al enviar la reseña");
+                    // Si es un error esperado del back, mostramos el mensaje que vino
+                    if (err && err.error) {
+                        showErrorModal(err.error);
+                    } else if (err && err.message) {
+                        showErrorModal(err.message);
+                    } else {
+                        showErrorModal("Error desconocido al enviar la reseña");
+                    }
+                    throw new Error("Error al enviar reseña");
                 });
             }
             return res.json();
@@ -146,7 +154,7 @@ function submitReview() {
             location.reload();
         })
         .catch(err => {
-            showErrorModal(err.message || "Ocurrió un error inesperado.");
+            console.error("Error en submitReview:", err);
         });
 }
 
