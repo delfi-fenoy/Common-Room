@@ -48,7 +48,7 @@ public class TMDbClient {
         return restTemplate.getForObject(url, RawMovieListDTO.class);
     }
 
-    public RawMovieListDTO getUncomingMovies(int page){
+    public RawMovieListDTO getUpcomingMovies(int page){
         String url = String.format("%s/movie/upcoming?api_key=%s" +
                                     "&page=%d" +
                                     "&language=es-AR" +

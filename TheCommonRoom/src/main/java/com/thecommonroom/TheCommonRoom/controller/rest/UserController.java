@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -41,19 +42,20 @@ public class UserController {
         return userService.getUser(username);
     }
 
-    // =========== Actualiza un usuario por su ID =========== \\
+    // =========== Elimina un usuario por su username =========== \\
+    @PreAuthorize("@userSecurity.canDeleteUser(#username, authentication)")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{username}")
+    public void deleteUser(@PathVariable String username){
+        userService.deleteUser(username);
+    }
+
+    /*// =========== Actualiza un usuario por su ID =========== \\
     @PutMapping("/{id}")
     public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody @Valid UserRequestDTO dto) {
         userService.updateUser(id, dto);
         return ResponseEntity.ok("Usuario actualizado correctamente");
-    }
-
-    // =========== Elimina un usuario por su ID =========== \\
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return ResponseEntity.ok("Usuario eliminado correctamente");
-    }
+    }*/
 
     // =========== Devuelve el perfil del usuario autenticado (por token JWT) =========== \\
     @GetMapping("/me")

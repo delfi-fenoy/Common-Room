@@ -46,5 +46,4 @@ public class HomeController {
         model.addAttribute("currentPage", page);
         return "movies-menu";
     }
-
 }

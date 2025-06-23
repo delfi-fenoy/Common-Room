@@ -44,6 +44,11 @@ public class UserService {
         return userRepository.save(user); // Guardar en la base de datos
     }
 
+    public void deleteUser(String username){
+        User user = findUserByUsername(username);
+        userRepository.delete(user);
+    }
+
     ///Obtiene todos los usuarios guardados en la base de datos y si no hay ninguno lanza la exception
     ///Si hay usuarios los convierte en una lista de DTOs
     public List<UserPreviewDTO> getAllUsers(){
@@ -95,22 +100,6 @@ public class UserService {
         user.setProfilePictureUrl(dto.getProfilePictureUrl());
 
         userRepository.save(user);
-    }
-
-    //Aca borro mi propio usuario yo mismo
-    public void deleteUser(Long id) {
-        User user= userRepository.findById(id)
-                .orElseThrow(()->new RuntimeException("Usuario no encontrado"));
-
-        //Verifico que no sea un usuario externo que desee borrar este usuario
-        String loggedUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        if(!user.getUsername().equals(loggedUsername))
-        {
-            throw new RuntimeException("No tenes permiso para eliminar este perfil");
-        }
-
-        userRepository.delete(user);
     }
 
     /*public boolean existsById(Long id){

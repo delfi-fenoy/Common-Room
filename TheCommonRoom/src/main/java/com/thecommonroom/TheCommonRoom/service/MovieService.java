@@ -58,8 +58,8 @@ public class MovieService {
         return MovieMapper.rawToPreviewDTOList(rawList.getResults());
     }
 
-    public List<MoviePreviewDTO> getUncomingMovies(int page){
-        RawMovieListDTO rawList = api.getUncomingMovies(page);
+    public List<MoviePreviewDTO> getUpcomingMovies(int page){
+        RawMovieListDTO rawList = api.getUpcomingMovies(page);
         if(page > rawList.getTotal_pages()) throw new PageOutOfBoundsException("This page does not exist. Max page: " + rawList.getTotal_pages());
         return MovieMapper.rawToPreviewDTOList(rawList.getResults());
     }

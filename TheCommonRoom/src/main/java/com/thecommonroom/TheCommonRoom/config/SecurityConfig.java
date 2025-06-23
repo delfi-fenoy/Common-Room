@@ -7,6 +7,7 @@ import com.thecommonroom.TheCommonRoom.auth.config.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -33,8 +34,42 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Para desarrollo; en producción deberías activarlo
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/movie/*/reviews", "/users/*/reviews","/auth/**", "/index", "/signin", "/register", "/static/**", "/css/**", "/js/**", "/img/**", "/fragments/**", "/profile/**").permitAll()
-                        .requestMatchers("/reviews/*","/profile/**", "/favorites/**", "/like/**", "/comment/**").authenticated()
+                        .requestMatchers(HttpMethod.GET,
+                                "/users/me"
+                                ).authenticated()
+
+                        .requestMatchers(HttpMethod.POST,
+                                "/reviews"
+                                ).authenticated()
+
+                        .requestMatchers(HttpMethod.DELETE,
+                                "/users/*",
+                                "/reviews/*"
+                                ).authenticated()
+
+                        .requestMatchers(HttpMethod.PUT,
+                                "/users/*"
+                                ).authenticated()
+
+                        .requestMatchers(
+                                "/users/*",
+                                "/users/*/reviews",
+                                "/movies/*/reviews",
+                                "/movies/*",
+                                "/auth/*",
+                                "/",
+                                "/index",
+                                "/home",
+                                "/signin",
+                                "/register",
+                                "/static/**",
+                                "/css/**",
+                                "/js/**",
+                                "/img/**",
+                                "/fragments/**",
+                                "/profile/**").permitAll()
+
+                        .requestMatchers("/users").denyAll()
                         .anyRequest().permitAll()
                 )
                 // No usa sesiones HTTP para almacenar información de autenticación,

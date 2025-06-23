@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/movie")
+@RequestMapping("/movies")
 @RequiredArgsConstructor
 public class MovieController {
 
@@ -46,9 +46,9 @@ public class MovieController {
     }
 
     // =========== Lista paginada de próximos estrenos =========== \\
-    @GetMapping("/uncoming")
+    @GetMapping("/upcoming")
     @ResponseStatus(HttpStatus.OK)
-    public List<MoviePreviewDTO> getUncomingMovies(@RequestParam(defaultValue = "1") int page) {
-        return movieService.getUncomingMovies(page);
+    public List<MoviePreviewDTO> getUpcomingMovies(@RequestParam(defaultValue = "1") int page) {
+        return movieService.getUpcomingMovies(page);
     }
 }

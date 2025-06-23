@@ -38,7 +38,7 @@ public class ReviewController {
     // Llamar metodo de UserSecurity, para comprobar permisos
     @PreAuthorize("@userSecurity.canDeleteReview(#reviewId, authentication)")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("reviews/{reviewId}")
+    @DeleteMapping("/reviews/{reviewId}")
     public void deleteReview(@PathVariable Long reviewId){
         reviewService.deleteReview(reviewId);
     }
