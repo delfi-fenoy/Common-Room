@@ -1,10 +1,5 @@
 package com.thecommonroom.TheCommonRoom.dto;
 
-import com.thecommonroom.TheCommonRoom.model.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;

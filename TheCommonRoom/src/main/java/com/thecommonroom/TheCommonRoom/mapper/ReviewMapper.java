@@ -7,9 +7,6 @@ import com.thecommonroom.TheCommonRoom.dto.UserPreviewDTO;
 import com.thecommonroom.TheCommonRoom.model.Review;
 import com.thecommonroom.TheCommonRoom.model.User;
 
-import java.util.List;
-import java.util.Map;
-
 public class ReviewMapper {
 
     public static Review toEntity(ReviewRequestDTO requestDTO, User user){
