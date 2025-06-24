@@ -1,66 +1,96 @@
 // =================== Variables globales =================== //
-// Rating seleccionado y datos actuales de la película
 let selectedRating = 0;
 let currentMovieId = null;
 let currentMovieYear = null;
+let editingReviewId = null;
 
-
-// =================== Mostrar y ocultar modal =================== //
-// Abre el modal de reseña con datos precargados
+// =================== Mostrar modal de review =================== //
 function showReviewModal(movieId, title, posterUrl, year) {
-    const modal = document.getElementById("review-modal");
-    const box = modal.querySelector(".modal-review-box");
+    const modal = document.getElementById('review-modal');
+    const modalBox = modal.querySelector('.review-modal-box');
 
-    // Reinicia animaciones y hace visible el modal
-    box.classList.remove("animate-out");
-    void box.offsetWidth;
-
-    // Rellena datos de película
-    document.getElementById("review-movie-title").textContent = title;
-    document.getElementById("review-movie-year").textContent = `(${year || '20XX'})`;
-    document.getElementById("review-movie-poster").src = posterUrl || "/img/default-poster.jpg";
-    document.getElementById("review-comment").value = "";
-    document.getElementById("review-comment").placeholder = "";
-
-    // Guarda datos y reinicia estrellas
-    selectedRating = 0;
     currentMovieId = movieId;
     currentMovieYear = year;
+    selectedRating = 0;
+    editingReviewId = null;
+
+    // Seteo de datos en el modal
+    document.getElementById('review-modal-title').textContent = 'Review +';
+    document.getElementById('review-movie-poster').src = posterUrl || '/img/default-poster.jpg';
+    document.getElementById('review-movie-title').textContent = title;
+    document.getElementById('review-movie-year').textContent = year ? `(${year})` : '';
+    document.getElementById('review-comment').value = '';
+
+    // Renderizamos las estrellas con rating 0 (vacías)
     renderStars(selectedRating);
 
-    // Muestra el modal
-    modal.style.display = "flex";
-    box.classList.add("animate-in");
+    // Mostrar modal con animación
+    modal.style.display = 'flex';
+    modalBox.classList.remove('animate-out');
+    void modalBox.offsetWidth; // reflow para reiniciar animación
+    modalBox.classList.add('animate-in');
 }
 
-// Cierra el modal con animación de salida
+// Función para mostrar modal en modo editar, cargando datos de la review
+function showEditReviewModal(review) {
+    editingReviewId = review.id;
+
+    // Fallback: si no viene moviePreview, tomamos los datos visibles del DOM
+    const posterEl = document.querySelector(".movie-poster");
+    const titleEl = document.querySelector(".movie-title");
+    const yearText = document.querySelector("#details em")?.textContent || '';
+
+    const title = review.moviePreview?.title || titleEl?.textContent || '';
+    const posterUrl = review.moviePreview?.posterUrl || posterEl?.getAttribute("src") || '/img/default-poster.jpg';
+    const releaseYear = review.moviePreview?.releaseYear || yearText.match(/\d{4}/)?.[0] || '';
+
+    // Seteo en el modal
+    document.getElementById('review-modal-title').textContent = 'Modificar Review';
+    document.getElementById('review-movie-poster').src = posterUrl;
+    document.getElementById('review-movie-title').textContent = title;
+    document.getElementById('review-movie-year').textContent = releaseYear ? `(${releaseYear})` : '';
+    document.getElementById('review-comment').value = review.comment || '';
+
+    selectedRating = review.rating || 0;
+    renderStars(selectedRating);
+
+    document.querySelector('.review-btn-submit').textContent = 'Actualizar';
+
+    // Mostrar el modal con animación
+    const modal = document.getElementById('review-modal');
+    const modalBox = modal.querySelector('.review-modal-box');
+    modal.style.display = 'flex';
+    modalBox.classList.remove('animate-out');
+    void modalBox.offsetWidth;
+    modalBox.classList.add('animate-in');
+}
+
+// =================== Cerrar modal de review =================== //
 function closeReviewModal() {
-    const modal = document.getElementById("review-modal");
-    const box = modal.querySelector(".modal-review-box");
+    const modal = document.getElementById('review-modal');
+    const modalBox = modal.querySelector('.review-modal-box');
 
-    box.classList.remove("animate-in");
-    box.classList.add("animate-out");
+    modalBox.classList.remove('animate-in');
+    modalBox.classList.add('animate-out');
 
-    box.addEventListener("animationend", () => {
-        modal.style.display = "none";
-        box.classList.remove("animate-out");
+    modalBox.addEventListener('animationend', () => {
+        modal.style.display = 'none';
+        modalBox.classList.remove('animate-out');
     }, { once: true });
 }
 
-
-// =================== Estrellas (rating) =================== //
-// Genera las estrellas según el rating actual
+// =================== RENDER ESTRELLAS FUNCIONAL CON TU CSS =================== //
 function renderStars(ratingToDisplay) {
     const container = document.getElementById("star-container");
     container.innerHTML = "";
 
     for (let i = 1; i <= 5; i++) {
         const star = document.createElement("span");
-        star.className = "star";
+        star.className = "review-star";
         star.innerHTML = "★";
         star.dataset.value = i;
 
-        // Determina estado visual (llena, media o vacía)
+        // Aplica clases de estilo
         if (ratingToDisplay >= i) {
             star.classList.add("star-full");
         } else if (ratingToDisplay > (i - 1) && ratingToDisplay < i) {
@@ -69,7 +99,7 @@ function renderStars(ratingToDisplay) {
             star.classList.add("star-empty");
         }
 
-        // Hover - previsualiza
+        // Hover para previsualizar media estrella
         star.onmousemove = (event) => {
             const rect = star.getBoundingClientRect();
             const x = event.clientX - rect.left;
@@ -77,10 +107,10 @@ function renderStars(ratingToDisplay) {
             updateStarsPreview(tempRating);
         };
 
-        // Mouse fuera - vuelve al rating guardado
+        // Mouse fuera
         star.onmouseleave = () => updateStarsPreview(selectedRating);
 
-        // Click - guarda el rating definitivo
+        // Click para guardar
         star.onclick = (event) => {
             const rect = star.getBoundingClientRect();
             const x = event.clientX - rect.left;
@@ -92,11 +122,14 @@ function renderStars(ratingToDisplay) {
     }
 }
 
-// Actualiza visualmente las estrellas (sin guardar)
+// =================== PREVIEW EN HOVER =================== //
 function updateStarsPreview(previewRating) {
-    const stars = document.querySelectorAll('#star-container .star');
-    stars.forEach((star) => {
-        const starValue = parseInt(star.dataset.value);
+    const container = document.getElementById("star-container");
+    const stars = container.children;
+
+    for (let i = 0; i < stars.length; i++) {
+        const star = stars[i];
+        const starValue = i + 1;
         star.classList.remove("star-full", "star-half", "star-empty");
 
         if (previewRating >= starValue) {
@@ -106,84 +139,72 @@ function updateStarsPreview(previewRating) {
         } else {
             star.classList.add("star-empty");
         }
-    });
+    }
 }
 
-
-// =================== Enviar reseña =================== //
-// Envia los datos al backend con fetch
+// =================== Enviar review =================== //
+// Modificar la función submitReview para que use PUT si estamos editando
 function submitReview() {
     if (selectedRating === 0) {
         showErrorModal("El rating es obligatorio");
         return;
     }
 
-    const comment = document.getElementById("review-comment").value.trim();
+    const comment = document.getElementById('review-comment').value.trim();
     const token = localStorage.getItem("accessToken");
 
-    fetch("/reviews", {
-        method: "POST",
+    const reviewData = {
+        movieId: currentMovieId,
+        rating: selectedRating,
+        comment: comment || null,
+    };
+
+    const url = editingReviewId ? `/reviews/${editingReviewId}` : '/reviews';
+    const method = editingReviewId ? 'PUT' : 'POST';
+
+    fetch(url, {
+        method: method,
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             "Authorization": "Bearer " + token
         },
-        body: JSON.stringify({
-            rating: selectedRating,
-            comment: comment || null,
-            movieId: currentMovieId
-        })
+        body: JSON.stringify(reviewData),
     })
-        .then(res => {
-            if (!res.ok) {
-                return res.json().then(err => {
-                    // Si es un error esperado del back, mostramos el mensaje que vino
-                    if (err && err.error) {
-                        showErrorModal(err.error);
-                    } else if (err && err.message) {
-                        showErrorModal(err.message);
-                    } else {
-                        showErrorModal("Error desconocido al enviar la reseña");
-                    }
-                    throw new Error("Error al enviar reseña");
-                });
-            }
-            return res.json();
+        .then(response => {
+            if (!response.ok) throw new Error('Error al enviar la reseña');
+            return response.json();
         })
-        .then(() => {
+        .then(data => {
             closeReviewModal();
             location.reload();
         })
         .catch(err => {
-            console.error("Error en submitReview:", err);
+            showErrorModal(err.message || 'Error desconocido');
         });
 }
 
+// =================== Inicialización =================== //
+document.addEventListener('DOMContentLoaded', () => {
+    renderStars(selectedRating);
 
-// =================== Modal de error reutilizable =================== //
-// Abre el modal de error con un mensaje
-function showErrorModal(message) {
-    const modal = document.getElementById('error-modal');
-    const modalBox = modal.querySelector('.modal-box');
-    const messageContainer = document.getElementById('error-message');
+    const addReviewBtn = document.getElementById('add-review-btn');
+    if (addReviewBtn) {
+        addReviewBtn.addEventListener('click', () => {
+            const movieId = addReviewBtn.dataset.movieId;
+            const title = addReviewBtn.dataset.movieTitle;
+            const posterUrl = addReviewBtn.dataset.moviePoster;
+            const year = addReviewBtn.dataset.movieYear;
+            showReviewModal(movieId, title, posterUrl, year);
+        });
+    }
 
-    modalBox.classList.remove('animate-out');
-    void modalBox.offsetWidth;
+    const closeBtn = document.querySelector('.review-modal-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeReviewModal);
+    }
 
-    messageContainer.textContent = message;
-    modal.style.display = 'flex';
-    modalBox.classList.add('animate-in');
-}
-
-// Cierra el modal de error
-function closeErrorModal() {
-    const modal = document.getElementById('error-modal');
-    const modalBox = modal.querySelector('.modal-box');
-
-    modalBox.classList.remove('animate-in');
-    modalBox.classList.add('animate-out');
-
-    modalBox.addEventListener('animationend', () => {
-        modal.style.display = 'none';
-        modalBox.classList.remove('animate-out');
-    }, { once: true });
-}
+    const submitBtn = document.querySelector('.review-btn-submit');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', submitReview);
+    }
+});

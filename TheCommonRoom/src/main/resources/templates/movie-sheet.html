@@ -6,11 +6,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="icon" href="/img/iconLetter.png" type="image/png"/>
         <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
         <!-- CSS -->
         <link rel="stylesheet" href="/css/common.css"/>
         <link rel="stylesheet" href="/css/movie-details.css"/>
         <link rel="stylesheet" href="/css/reviewModal.css"/>
+        <link rel="stylesheet" href="/css/errorModal.css"/>
+        <link rel="stylesheet" href="/css/review-movies.css"/>
     </head>
 
     <body>
@@ -18,7 +21,7 @@
         <div th:insert="~{fragments/header :: header}"></div>
         <div th:insert="~{fragments/sidebar :: sidebar}"></div>
         <div th:insert="~{fragments/modal-review :: modalReview}"></div>
-        <div th:replace="~{fragments/modal-error :: error-modal}"></div>
+        <div th:replace="~{fragments/modal-error :: modalError}"></div>
 
         <!-- ============================== LAYOUT PRINCIPAL ============================== -->
         <div class="main-layout">
@@ -29,7 +32,7 @@
                     <!-- Si tiene poster -->
                     <img class="movie-poster"
                          th:src="${movie.posterUrl != null ? movie.posterUrl : '/img/default-poster.jpg'}"
-                         alt="Poster de la película" />
+                         alt="Poster de la película"/>
 
                     <div class="movie-title" th:text="${movie.title}">Título de película</div>
 
@@ -102,9 +105,9 @@
 
         <!-- ============================== JS ============================== -->
         <script src="/js/movies/alternateTabs.js"></script>
-        <script src="/js/header.js"></script>
+        <script src="/js/movies/movies-review.js"></script>
         <script src="/js/movies/modalReview.js"></script>
         <script src="/js/modalError.js"></script>
-        <script src="/js/movies/movies-review.js"></script>
+        <script src="/js/header.js"></script>
     </body>
 </html>

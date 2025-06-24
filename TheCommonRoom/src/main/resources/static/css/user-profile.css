@@ -16,7 +16,7 @@ body {
     font-family: 'DM Sans', sans-serif;
 }
 
-/* ------------------ Layout principal con márgenes laterales ------------------ */
+/* ------------------ Layout principal y estructura general ------------------ */
 .user-profile-layout {
     display: flex;
     min-height: 100vh;
@@ -41,7 +41,7 @@ body {
     border-right: 8px solid #2d271f;
 }
 
-/* Foto perfil con borde y sombra */
+/* ------------------ Foto de perfil ------------------ */
 .user-picture {
     width: 250px;
     height: 250px;
@@ -52,6 +52,7 @@ body {
     margin-bottom: 15px;
 }
 
+/* ------------------ Nombre de usuario ------------------ */
 .user-username {
     font-size: 1.25rem;
     font-weight: bold;
@@ -64,6 +65,7 @@ body {
     margin-bottom: 10px;
 }
 
+/* ------------------ Descripción del usuario ------------------ */
 .user-description {
     font-style: italic;
     font-size: 1rem;
@@ -74,7 +76,7 @@ body {
     border-radius: 5px;
 }
 
-/* ------------------ Panel derecho con contenido ------------------ */
+/* ------------------ Panel derecho con contenido principal ------------------ */
 .user-main-content {
     flex-grow: 1;
     padding: 40px;
@@ -83,7 +85,7 @@ body {
     flex-direction: column;
 }
 
-/* ------------------ Favoritas (fila de Peliculas) ------------------ */
+/* ------------------ Contenedor de favoritas ------------------ */
 .favorites-container {
     background: #4a6d4a;
     padding: 20px;
@@ -92,6 +94,7 @@ body {
     text-align: center;
 }
 
+/* ------------------ Título favoritas ------------------ */
 .favorites-title {
     font-size: 1.3rem;
     font-weight: bold;
@@ -99,6 +102,7 @@ body {
     color: #f0f0f0;
 }
 
+/* ------------------ Fila de favoritas ------------------ */
 .favorites-row {
     display: flex;
     justify-content: center;
@@ -106,6 +110,7 @@ body {
     flex-wrap: wrap;
 }
 
+/* ------------------ Tarjeta individual favorita ------------------ */
 .favorite-card {
     position: relative;
     width: 150px;
@@ -118,13 +123,13 @@ body {
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-/* Cuando la tarjeta está visible */
+/* ------------------ Efecto al mostrar la tarjeta ------------------ */
 .favorite-card.visible {
     opacity: 1;
     transform: translateX(0);
 }
 
-/* Imagen interna */
+/* ------------------ Imagen de la tarjeta favorita ------------------ */
 .favorite-card img {
     width: 100%;
     height: 100%;
@@ -133,13 +138,13 @@ body {
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-/* Hover con zoom y oscurecimiento */
+/* ------------------ Hover zoom y oscurecimiento ------------------ */
 .favorite-card:hover img {
     transform: scale(1.05) translateY(-5px);
     filter: brightness(30%);
 }
 
-/* Texto sobre la imagen*/
+/* ------------------ Texto sobre imagen (favorita) ------------------ */
 .favorite-info {
     position: absolute;
     top: 50%;
@@ -153,12 +158,12 @@ body {
     z-index: 2;
 }
 
-/* Mostrar texto al hacer hover */
+/* ------------------ Mostrar texto al hacer hover ------------------ */
 .favorite-card:hover .favorite-info {
     opacity: 1;
 }
 
-/* ------------------ Tabs perfil------------------ */
+/* ------------------ Estilos para tabs ------------------ */
 .tab {
     padding: 10px 20px;
     background: #e0e0e0;
@@ -176,17 +181,19 @@ body {
     font-weight: normal;
     text-decoration: none;
 }
+
 .tabs-container {
     margin-bottom: 30px;
 }
 
+/* ------------------ Tab seleccionado ------------------ */
 .tab.selected {
     font-style: normal;
     font-weight: bold;
     text-decoration: underline;
 }
 
-/* Reviews tab activo/inactivo */
+/* ------------------ Tabs Reviews ------------------ */
 .tab.selected.reviews-tab {
     background-color: #9cab86;
     color: white;
@@ -198,7 +205,7 @@ body {
     z-index: 1;
 }
 
-/* Lists tab activo/inactivo */
+/* ------------------ Tabs Lists ------------------ */
 .tab.selected.lists-tab {
     background-color: #b4957a;
     color: white;
@@ -212,7 +219,7 @@ body {
     z-index: 1;
 }
 
-/* ------------------ Contenedores General------------------ */
+/* ------------------ Contenedores reviews y listas ------------------ */
 .reviews-box,
 .lists-box {
     margin-top: 0;
@@ -229,98 +236,4 @@ body {
 .lists-box {
     background: #b4957a;
     border-color: #6c574f;
-}
-
-/* ------------------ Contenedor Review------------------ */
-.reviews-box {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 10px;
-    max-height: 600px;
-    overflow-y: auto;
-}
-
-/* ------------------ Cada Review ------------------ */
-.review-card {
-    background-color: #4a6d4a;
-    padding: 10px;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-}
-
-.review-layout {
-    display: flex;
-    gap: 10px;
-}
-
-.review-left {
-    flex-shrink: 0;
-}
-
-.review-poster {
-    width: 120px;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 5px;
-    border: 2px solid black;
-}
-
-.review-right {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.review-title-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #7ec16e;
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-
-.review-movie-title {
-    font-weight: bold;
-    color: black;
-    text-decoration: underline;
-}
-
-.review-menu-btn {
-    background: #ff5e5e;
-    border: none;
-    border-radius: 4px;
-    padding: 2px 6px;
-    font-weight: bold;
-    cursor: pointer;
-    color: white;
-}
-
-.review-meta {
-    background-color: #7ec16e;
-    padding: 3px 10px;
-    border-radius: 5px;
-    font-size: 0.95rem;
-    color: black;
-}
-
-.review-comment {
-    background-color: #7ec16e;
-    padding: 10px;
-    border-radius: 5px;
-    color: black;
-}
-
-.review-footer {
-    background-color: #3b8b65;
-    padding: 3px 10px;
-    border-radius: 5px;
-    text-align: right;
-    font-size: 0.85rem;
-    color: black;
 }

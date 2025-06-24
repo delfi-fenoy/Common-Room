@@ -1,0 +1,144 @@
+/* ------------------ Fondo oscuro del modal de error ------------------ */
+.error-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 999;
+    display: none; /* Se muestra con JS */
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
+}
+
+/* ------------------ Caja del modal de error ------------------ */
+.error-modal-box {
+    width: 400px;
+    max-width: 95vw;
+    background-color: #2e2e2e;
+    border-radius: 6px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+    animation-duration: 0.4s;
+    animation-fill-mode: both;
+    overflow: hidden;
+}
+
+/* ------------------ Animaciones de entrada/salida ------------------ */
+@keyframes error-fadeInScale {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+@keyframes error-fadeOutScale {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.8); }
+}
+.error-modal-box.animate-in {
+    animation-name: error-fadeInScale;
+}
+.error-modal-box.animate-out {
+    animation-name: error-fadeOutScale;
+}
+
+/* ------------------ Encabezado del modal de error ------------------ */
+.error-modal-header {
+    background-color: #1f1f1f;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #fff;
+    position: relative;
+}
+
+/* Icono dentro del header */
+.error-modal-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+/* Título del modal */
+.error-modal-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    flex-grow: 1;
+}
+
+/* Botón de cierre */
+.error-modal-close {
+    cursor: pointer;
+    font-size: 1.2rem;
+    background: transparent;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: background-color 0.2s;
+    user-select: none;
+}
+.error-modal-close:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* ------------------ Cuerpo del modal de error ------------------ */
+.error-modal-body {
+    padding: 20px;
+    color: #eee;
+    font-size: 1rem;
+}
+
+/* ------------------ Pie del modal de error ------------------ */
+.error-modal-footer {
+    background-color: #1f1f1f;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Botón de aceptar error */
+.error-btn-accept {
+    background-color: #c3cc9c;
+    border: none;
+    padding: 8px 25px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: #000;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+.error-btn-accept:hover {
+    background-color: #e6f5bb;
+}
+
+/* ------------------ Botón flotante para volver a home ------------------ */
+.error-back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 60px;
+    height: 60px;
+    z-index: 999;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+.error-back-button:hover {
+    transform: scale(1.2);
+}
+.error-logo-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    cursor: pointer;
+    filter: drop-shadow(0 0 4px rgba(0,0,0,0.5));
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+.error-back-button:hover .error-logo-img {
+    transform: scale(1.2);
+    filter: brightness(150%);
+}

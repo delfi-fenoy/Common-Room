@@ -6,15 +6,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="icon" href="/img/iconLetter.png" type="image/png"/>
         <link href="https://fonts.googleapis.com/css2?family=Grenze&family=Macondo+Swash+Caps&family=Uncial+Antiqua&display=swap" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
         <!-- CSS -->
         <link rel="stylesheet" href="/css/common.css">
+        <link rel="stylesheet" href="/css/errorModal.css">
+        <link rel="stylesheet" href="/css/reviewModal.css">
         <link rel="stylesheet" href="/css/user-profile.css">
+        <link rel="stylesheet" href="/css/review-profile.css">
     </head>
     <body>
         <!-- ============================== HEADER y SIDEBAR ============================== -->
         <div th:insert="~{fragments/header :: header}"></div>
         <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+        <div th:insert="~{fragments/modal-review :: modalReview}"></div>
+        <div th:replace="~{fragments/modal-error :: modalError}"></div>
 
         <!-- ============================== LAYOUT PRINCIPAL ============================== -->
         <main class="user-profile-layout">
@@ -25,8 +31,7 @@
                      th:src="${user.profilePictureUrl != null ? user.profilePictureUrl : '/img/user.png'}"
                      alt="Foto de perfil" />
                 <h2 class="user-username" th:text="${user.username}">Nombre Usuario</h2>
-                <p class="user-description">Fanático del cine noir y de los gatos detectives.</p>
-                <!--<p class="user-description" th:text="${user.description}">Fanático del cine noir y de los gatos detectives.</p>-->
+                <p class="user-description" th:text="${user.description}">Fanático del cine noir y de los gatos detectives.</p>
             </aside>
 
             <!-- ============================== PANEL CENTRAL ============================== -->
@@ -62,7 +67,7 @@
                         <button class="tab lists-tab" data-tab="lists">Lists</button>
                     </div>
 
-                    <!-- Contenido de las Tabs (EJEMPLOS-->
+                    <!-- Contenido de las Tabs -->
                     <div class="tab-wrapper">
                         <div id="reviews" class="tab-content reviews-box">
                             <!-- Aquí el JS insertará las reviews -->
@@ -79,9 +84,10 @@
         <footer>© 2025 | Common Room | Fenoy Rivas, Francano y Perez</footer>
 
         <!-- ============================== JS ============================== -->
-        <script src="/js/profile/userProfileTabs.js"></script>
         <script src="/js/profile/userProfileReviews.js"></script>
+        <script src="/js/profile/userProfileTabs.js"></script>
+        <script src="/js/movies/modalReview.js"></script>
+        <script src="/js/modalError.js"></script>
         <script src="/js/header.js"></script>
-
     </body>
 </html>

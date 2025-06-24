@@ -1,5 +1,5 @@
-/* ------------------ Fondo oscuro del modal ------------------ */
-.modal-review-overlay {
+/* ------------------ Fondo oscuro del modal de review ------------------ */
+.review-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -13,8 +13,8 @@
     backdrop-filter: blur(4px);
 }
 
-/* ------------------ Caja del modal ------------------ */
-.modal-review-box {
+/* ------------------ Caja del modal de review ------------------ */
+.review-modal-box {
     width: 700px;
     max-width: 95vw;
     background-color: #5d6e57;
@@ -28,23 +28,23 @@
 }
 
 /* ------------------ Animaciones de entrada/salida ------------------ */
-@keyframes fadeInUp {
+@keyframes review-fadeInUp {
     0% { opacity: 0; transform: translateY(50px); }
     100% { opacity: 1; transform: translateY(0); }
 }
-@keyframes fadeOutDown {
+@keyframes review-fadeOutDown {
     0% { opacity: 1; transform: translateY(0); }
     100% { opacity: 0; transform: translateY(50px); }
 }
-.modal-review-box.animate-in {
-    animation-name: fadeInUp;
+.review-modal-box.animate-in {
+    animation-name: review-fadeInUp;
 }
-.modal-review-box.animate-out {
-    animation-name: fadeOutDown;
+.review-modal-box.animate-out {
+    animation-name: review-fadeOutDown;
 }
 
 /* ------------------ Cabecera del modal (titulo y cerrar) ------------------ */
-.modal-review-header {
+.review-modal-header {
     background-color: #3f5e3e;
     color: #ffffff;
     font-size: 1.4rem;
@@ -54,7 +54,7 @@
     justify-content: space-between;
     align-items: center;
 }
-.modal-review-header .modal-close {
+.review-modal-close {
     cursor: pointer;
     font-size: 1.2rem;
     background: transparent;
@@ -64,12 +64,12 @@
     border: 1px solid rgba(255, 255, 255, 0.3);
     transition: background-color 0.2s;
 }
-.modal-review-header .modal-close:hover {
+.review-modal-close:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* ------------------ Cuerpo del modal ------------------ */
-.modal-review-body {
+.review-modal-body {
     display: flex;
     padding: 20px;
     gap: 20px;
@@ -77,19 +77,24 @@
     flex-wrap: wrap;
 }
 
+/* ------------------ Columna base para todas las columnas ------------------ */
+.review-modal-column {
+    display: flex;
+    flex-direction: column;
+}
+
 /* ------------------ Columna del póster ------------------ */
-.poster-column {
+.review-poster-column {
     flex-basis: 150px;
     flex-shrink: 0;
     height: 220px;
     border: 1px solid black;
     background-color: #7a8d71;
-    display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
 }
-.modal-review-poster {
+.review-modal-poster {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -98,12 +103,12 @@
 }
 
 /* ------------------ Columna del título y rating ------------------ */
-.details-column {
+.review-details-column {
     flex-grow: 1;
     flex-basis: 250px;
     padding-right: 10px;
 }
-.modal-review-title {
+.review-movie-title {
     font-size: 1.6rem;
     font-weight: bold;
     color: #000;
@@ -114,10 +119,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.modal-review-title #review-movie-title {
+#review-movie-title {
     color: #000;
 }
-.modal-review-title em {
+.review-movie-title em {
     font-weight: normal;
     font-style: normal;
     color: #6a8063;
@@ -126,27 +131,27 @@
 }
 
 /* ------------------ Sección de rating ------------------ */
-.rating-section {
+.review-rating-section {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
 }
-.rating-label {
+.review-rating-label {
     color: #000;
     font-weight: bold;
     font-size: 1.1rem;
 }
-.rating-label .required {
+.review-rating-label .required {
     color: #e74c3c;
     font-size: 0.9em;
 }
-.star-container {
+.review-star-container {
     display: flex;
     gap: 0px;
     user-select: none;
 }
-.star {
+.review-star {
     font-size: 2.5rem;
     line-height: 1;
     position: relative;
@@ -157,7 +162,7 @@
     cursor: pointer;
     transition: transform 0.1s;
 }
-.star::before {
+.review-star::before {
     content: "★";
     position: absolute;
     top: 0;
@@ -169,7 +174,7 @@
     display: block;
     text-align: left;
 }
-.star::after {
+.review-star::after {
     content: "★";
     position: absolute;
     top: 0;
@@ -179,33 +184,33 @@
     color: #f1c40f;
     overflow: hidden;
     pointer-events: none;
-    /*transition: width 0.3s ease;*/
+    transition: width 0.3s ease;
     display: block;
     text-align: left;
 }
-.star.star-empty::after { width: 0%; }
-.star.star-full::after { width: 100%; }
-.star.star-half::after { width: 42%; }
-/*.star:hover { transform: scale(1.05); }*/
+.review-star.star-empty::after { width: 0%; }
+.review-star.star-full::after { width: 100%; }
+.review-star.star-half::after { width: 42%; }
+.review-star:hover { transform: scale(1.05); }
 
 /* ------------------ Columna de comentario ------------------ */
-.description-column {
+.review-description-column {
     flex-grow: 1.5;
     flex-basis: 250px;
 }
-.description-label {
+.review-description-label {
     font-size: 1rem;
     font-weight: bold;
     color: #000;
     margin-bottom: 8px;
     display: block;
 }
-.description-label em {
+.review-description-label em {
     font-weight: normal;
     font-style: italic;
     color: #6a8063;
 }
-.review-description {
+.review-description-textarea {
     width: 100%;
     height: 180px;
     padding: 10px;
@@ -218,18 +223,18 @@
     font-family: inherit;
     box-sizing: border-box;
 }
-.review-description::placeholder {
+.review-description-textarea::placeholder {
     color: rgba(255, 255, 255, 0.6);
 }
 
 /* ------------------ Pie del modal (botón de enviar) ------------------ */
-.modal-review-footer {
+.review-modal-footer {
     background-color: #3f5e3e;
     padding: 10px 20px;
     display: flex;
     justify-content: flex-end;
 }
-.btn-submit {
+.review-btn-submit {
     background-color: #c3cc9c;
     border: none;
     padding: 8px 20px;
@@ -241,43 +246,43 @@
     font-size: 0.95rem;
     text-transform: uppercase;
 }
-.btn-submit:hover {
+.review-btn-submit:hover {
     background-color: #e6f5bb;
 }
 
 /* ------------------ Responsive para pantallas chicas ------------------ */
 @media (max-width: 768px) {
-    .modal-review-box {
+    .review-modal-box {
         width: 95vw;
     }
-    .modal-review-body {
+    .review-modal-body {
         flex-direction: column;
         align-items: center;
         gap: 15px;
     }
-    .modal-column {
+    .review-modal-column {
         width: 100%;
         max-width: 300px;
         text-align: center;
     }
-    .poster-column {
+    .review-poster-column {
         width: 150px;
         height: 220px;
     }
-    .details-column,
-    .description-column {
+    .review-details-column,
+    .review-description-column {
         text-align: left;
         width: 90%;
     }
-    .rating-section {
+    .review-rating-section {
         justify-content: center;
     }
-    .modal-review-title {
+    .review-movie-title {
         white-space: normal;
         text-overflow: clip;
         text-align: center;
     }
-    .description-label {
+    .review-description-label {
         text-align: left;
     }
 }

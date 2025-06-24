@@ -1,44 +1,42 @@
-<!-- templates/fragments/modal-review.html -->
-<div th:fragment="modalReview" id="review-modal" class="modal-review-overlay">
-  <div class="modal-review-box animate-in">
-    <!-- Header -->
-    <div class="modal-review-header">
-      <h2 class="modal-title">Review +</h2>
-      <span class="modal-close" onclick="closeReviewModal()">X</span>
+<!-- =================== MODAL DE REVIEW =================== -->
+<!-- Fragmento Thymeleaf con IDs y clases renombradas para evitar choques con modal-error -->
+<div th:fragment="modalReview" id="review-modal" class="review-modal-overlay">
+  <div class="review-modal-box animate-in">
+    <!-- Encabezado -->
+    <div class="review-modal-header">
+      <h2 class="review-movie-title" id="review-modal-title">Review +</h2>
+      <span class="review-modal-close" onclick="closeReviewModal()">X</span>
     </div>
 
-    <!-- Body -->
-    <div class="modal-review-body">
-      <!-- Columna Poster -->
-      <div class="modal-column poster-column">
-        <img id="review-movie-poster" src="/img/default-poster.jpg" alt="Poster Película" class="modal-review-poster" />
+    <!-- Cuerpo -->
+    <div class="review-modal-body">
+      <!-- Poster -->
+      <div class="review-modal-column review-poster-column">
+        <img id="review-movie-poster" src="/img/default-poster.jpg" alt="Poster Película" class="review-modal-poster" />
       </div>
 
-      <!-- Columna Detalles -->
-      <div class="modal-column details-column">
-        <!-- Titulo y Año -->
-        <h3 class="modal-review-title">
+      <!-- Detalles -->
+      <div class="review-modal-column review-details-column">
+        <h3 class="review-movie-title">
           <span id="review-movie-title">Título película</span>
           <em id="review-movie-year">(20XX)</em>
         </h3>
-
-        <!-- Rating -->
-        <div class="rating-section">
-          <span class="rating-label">Rating <span class="required">*</span></span>
-          <div id="star-container" class="star-container"></div>
+        <div class="review-rating-section">
+          <span class="review-rating-label">Rating <span class="required">*</span></span>
+          <div id="star-container" class="review-star-container"></div>
         </div>
       </div>
 
-      <!-- Apartado de descripcion -->
-      <div class="modal-column description-column">
-        <label for="review-comment" class="description-label">Descripción <em>(opcional)</em></label>
-        <textarea id="review-comment" class="review-description" placeholder=""></textarea>
+      <!-- Comentario -->
+      <div class="review-modal-column review-description-column">
+        <label for="review-comment" class="review-description-label">Descripción <em>(opcional)</em></label>
+        <textarea id="review-comment" class="review-description-textarea" placeholder=""></textarea>
       </div>
     </div>
 
-    <!-- Boton para subir reseña -->
-    <div class="modal-review-footer">
-      <button class="btn-submit" onclick="submitReview()">NEW</button>
+    <!-- Footer -->
+    <div class="review-modal-footer">
+      <button class="review-btn-submit">NEW</button>
     </div>
   </div>
 </div>
