@@ -1,10 +1,12 @@
 package com.thecommonroom.TheCommonRoom.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
 
+@Schema(description = "DTO para actualizar los datos básicos de un usuario")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

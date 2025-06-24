@@ -1,7 +1,9 @@
 package com.thecommonroom.TheCommonRoom.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+@Schema(description = "DTO que representa la información personalizada mostrada en una página de error 404.")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

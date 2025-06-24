@@ -1,5 +1,6 @@
 package com.thecommonroom.TheCommonRoom.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,8 @@ import java.util.List;
  * Clase que contiene todos los datos de una película que devuelve la API. Se mapeará a MovieDetailsDTO para
  * guardar solamente la informacion que nos interesa.
  */
+@Schema(description = "DTO que representa todos los datos de una película recibidos desde la API " +
+        "externa, antes de mapearlos a la entidad interna.")
 @Getter
 @Setter
 @NoArgsConstructor // Para crear la instancia

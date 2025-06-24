@@ -67,7 +67,12 @@ public class SecurityConfig {
                                 "/js/**",
                                 "/img/**",
                                 "/fragments/**",
-                                "/profile/**").permitAll()
+                                "/profile/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/swagger-ui/index.html",
+                                "/api-docs/**"
+                        ).permitAll()
 
                         .anyRequest().permitAll()
                 )
