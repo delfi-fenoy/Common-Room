@@ -87,14 +87,14 @@ function buildReviewCard(r, isMyReview) {
                 <div class="review-info">
                     <a href="/moviesheet/${movie.id}" class="titleMovie">${movieTitle} ${movieYear}</a>
                 </div>
-                ${isMyReview ? `
-                    <div class="more-options options" data-review-id="${r.id}" data-is-my-review="true">
-                        <div class="options-button"><span></span></div>
-                        <ul class="dropdown-menu">
-                            <li data-action="modify"><i class="fas fa-pencil-alt"></i> Modificar</li>
-                            <li data-action="delete"><i class="fas fa-trash-alt"></i> Eliminar</li>
-                        </ul>
-                    </div>` : ""}
+                <div class="options" data-review-id="${r.id}" data-is-my-review="${isMyReview}">
+                    ${isMyReview ? `
+                            <div class="options-button"><span></span></div>
+                            <ul class="dropdown-menu">
+                                <li data-action="modify"><i class="fas fa-pencil-alt"></i> Modificar</li>
+                                <li data-action="delete"><i class="fas fa-trash-alt"></i> Eliminar</li>
+                            </ul> ` : ''}
+                 </div>
             </div>
 
             <div class="review-body">
@@ -165,6 +165,8 @@ function attachDropdownListeners() {
                         const reviewToEdit = reviews.find(r => r.id.toString() === reviewId);
                         if (reviewToEdit) {
                             showEditReviewModal(reviewToEdit);
+                        } else {
+                            showErrorModal('No se encontró la reseña para modificar.');
                         }
                     } else if (action === 'delete') {
                         if (confirm('¿Estás seguro de que querés eliminar esta reseña?')) {

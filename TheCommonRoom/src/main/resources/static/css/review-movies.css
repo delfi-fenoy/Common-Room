@@ -1,9 +1,10 @@
-/* Estilos para las tarjetas de reseñas */
+/* ===================== ESTILO GENERAL ===================== */
 body {
     font-family: Arial, sans-serif;
     box-sizing: border-box;
 }
 
+/* ===================== CONTENEDOR PRINCIPAL ===================== */
 .reviews {
     display: flex;
     flex-direction: column;
@@ -13,6 +14,7 @@ body {
     width: 100%;
 }
 
+/* ===================== TARJETA DE RESEÑA ===================== */
 .review-card {
     background-color: #3b5c47;
     border-radius: 15px;
@@ -23,6 +25,7 @@ body {
     position: relative;
 }
 
+/* ===================== ENCABEZADO DE RESEÑA ===================== */
 .review-header {
     display: flex;
     align-items: center;
@@ -30,6 +33,7 @@ body {
     background-color: #314d3c;
 }
 
+/* ---------- Userneme ---------- */
 .profile-link-container {
     display: flex;
     align-items: center;
@@ -37,29 +41,6 @@ body {
     text-decoration: none;
     color: inherit;
     flex-grow: 1;
-}
-
-.profile-link-container:hover .username {
-    text-decoration: underline;
-}
-
-.profile-link-container:hover .review-avatar {
-    opacity: 0.8;
-}
-
-.review-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
-    border: 2px solid #fff;
-    flex-shrink: 0;
-    transition: opacity 0.2s;
-}
-
-.review-avatar.avatar-circle-fallback {
-    background-color: black;
 }
 
 .review-info {
@@ -79,12 +60,38 @@ body {
     transition: text-decoration 0.2s;
 }
 
+.profile-link-container:hover .username {
+    text-decoration: underline;
+}
+
+.profile-link-container:hover .review-avatar {
+    opacity: 0.8;
+}
+
+/* ---------- Profile Picture ---------- */
+.review-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    border: 2px solid #fff;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+}
+
+/* Fallback si no hay imagen de perfil */
+.review-avatar.avatar-circle-fallback {
+    background-color: black;
+}
+
+/* ===================== BOTÓN DE OPCIONES ===================== */
 .options {
     position: relative;
     flex-shrink: 0;
 }
 
-/* Estilo para el botón de los 3 puntos (círculo rojo con puntos blancos) */
+/* Botón redondo con tres puntos */
 .options-button {
     background-color: #e74c3c;
     width: 25px;
@@ -102,6 +109,7 @@ body {
     background-color: #c0392b;
 }
 
+/* Puntos verticales del botón */
 .options-button::before,
 .options-button::after {
     content: '';
@@ -128,7 +136,7 @@ body {
     border-radius: 50%;
 }
 
-/* Estilos para el menú desplegable */
+/* ===================== MENÚ DESPLEGABLE ===================== */
 .dropdown-menu {
     position: absolute;
     top: 100%;
@@ -141,6 +149,8 @@ body {
     margin: 0;
     min-width: 150px;
     z-index: 1000;
+
+    /* Animación para mostrar/ocultar */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -153,6 +163,7 @@ body {
     transform: translateY(0);
 }
 
+/* Ítems del menú */
 .dropdown-menu li {
     padding: 8px 15px;
     color: #ffffff;
@@ -171,7 +182,7 @@ body {
     color: #c0c0c0;
 }
 
-/* Contenido de la reseña */
+/* ===================== CONTENIDO DE LA RESEÑA ===================== */
 .review-content-section {
     padding: 15px;
 }
@@ -192,7 +203,7 @@ body {
     color: #fff;
 }
 
-/* Footer de la reseña */
+/* ===================== PIE ===================== */
 .review-footer {
     display: flex;
     justify-content: space-between;
@@ -217,9 +228,10 @@ body {
     text-align: right;
 }
 
+/* ===================== MENSAJE CUANDO NO HAY RESEÑAS ===================== */
 .empty-reviews {
     text-align: center;
-    color: #666;
+    color: #fbfbfb;
     margin-top: 20px;
     font-style: italic;
 }

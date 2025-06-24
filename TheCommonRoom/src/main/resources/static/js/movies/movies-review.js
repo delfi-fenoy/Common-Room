@@ -197,7 +197,6 @@ function attachDropdownListeners() {
                     event.stopPropagation();
                     const action = item.dataset.action;
                     const reviewId = optionsContainer.dataset.reviewId;
-                    console.log(`Acción: ${action} para reseña ID: ${reviewId}`);
 
                     if (action === 'modify') {
                         const reviewToEdit = reviews.find(r => r.id.toString() === reviewId);
@@ -228,7 +227,6 @@ function attachDropdownListeners() {
                                 });
                         }
                     }
-
                     dropdownMenu.classList.remove('show');
                 });
             });
