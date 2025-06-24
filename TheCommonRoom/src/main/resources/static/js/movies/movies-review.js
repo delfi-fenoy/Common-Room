@@ -245,3 +245,22 @@ function attachDropdownListeners() {
         });
     });
 }
+
+// =================== BOTÓN +REVIEW =================== //
+document.addEventListener("DOMContentLoaded", () => {
+    const reviewButton = document.getElementById("add-review-btn");
+    if (!reviewButton) return;
+
+    const AUTH_ERROR_MESSAGE = "Tenés que iniciar sesión para escribir una reseña.";
+
+    const validateAuthentication = () => {
+        const token = localStorage.getItem("accessToken");
+        return token && isValidJwt(token);
+    };
+
+    reviewButton.addEventListener("click", () => {
+        if (!validateAuthentication()) {
+            showErrorModal(AUTH_ERROR_MESSAGE);
+        }
+    });
+});
