@@ -15,9 +15,9 @@ public class CustomErrorViewResolver implements ErrorViewResolver {
     @Override
     public ModelAndView resolveErrorView(HttpServletRequest request, HttpStatus status, Map<String, Object> model) {
         // Si el error es 404 (página no encontrada), redirige a una vista personalizada
-        /*if (status == HttpStatus.NOT_FOUND) {
+        if (status == HttpStatus.NOT_FOUND) {
             return new ModelAndView("redirect:/error/404");
-        }*/
+        }
         return null;
     }
 }
