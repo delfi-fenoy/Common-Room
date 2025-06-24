@@ -1,76 +1,203 @@
-// =================== CARGA DE REVIEWS DEL USUARIO =================== //
+// =================== VARIABLES GLOBALES =================== //
+// Guarda todas las reseñas del usuario
+let reviews = [];
+
+// =================== CARGA INICIAL =================== //
 document.addEventListener("DOMContentLoaded", () => {
     const reviewsContainer = document.getElementById("reviews");
     const usernameElem = document.querySelector(".user-username");
+
     if (!reviewsContainer || !usernameElem) return;
 
     const username = usernameElem.textContent.trim();
+    loadReviewsForUser(username);
+});
+
+// =================== CARGA DE REVIEWS DESDE BACKEND =================== //
+function loadReviewsForUser(username) {
+    const reviewsContainer = document.getElementById("reviews");
+    reviewsContainer.innerHTML = "<p class='empty-reviews'>Cargando reseñas...</p>";
 
     fetch(`/users/${username}/reviews`)
-        .then(async res => {
-            if (!res.ok) {
-                if (res.status === 404) return [];
-                const err = await res.json();
-                throw new Error(err.error || "Error al cargar reseñas");
-            }
-            return res.json();
+        .then(res => res.ok ? res.json() : res.json().then(err => Promise.reject(err)))
+        .then(data => {
+            reviews = data;
+            renderReviews(reviews);
         })
-        .then(reviews => renderReviews(reviews))
         .catch(err => {
             reviewsContainer.innerHTML = `<p class='empty-reviews'>${err.message}</p>`;
         });
-});
+}
 
-
-// =================== RENDERIZADO DE REVIEWS =================== //
+// =================== MOSTRAR LAS REVIEWS =================== //
 function renderReviews(reviews) {
     const container = document.getElementById("reviews");
     container.innerHTML = "";
 
-    if (!reviews || reviews.length === 0) {
-        container.innerHTML = "<p class='empty-reviews'>Este usuario no tiene reseñas aún.</p>";
-        return;
-    }
+    const currentUserId = getCurrentUserId();
 
     reviews.forEach(r => {
-        const movie = r.moviePreview || {};
-        const poster = movie.posterUrl || '/img/default-poster.jpg';
-        const movieTitle = movie.title || 'Película desconocida';
-        const movieYear = movie.releaseDate ? movie.releaseDate.slice(0, 4) : '';
-        const commentText = r.comment?.trim() ? r.comment : "<em>Sin comentario</em>";
-        const rating = r.rating || 0;
-        const fullStars = Math.floor(rating);
-        const halfStar = (rating % 1) >= 0.5 ? "½" : "";
-        const ratingStars = "★".repeat(fullStars) + halfStar;
-        const createdAtDate = r.createdAt ? new Date(r.createdAt).toLocaleString("es-AR") : '';
-
-        const reviewCard = document.createElement("div");
-        reviewCard.classList.add("review-card");
-
-        reviewCard.innerHTML = `
-            <div class="review-layout">
-                <div class="review-left">
-                    <img src="${poster}" alt="Póster ${movieTitle}" class="review-poster">
-                </div>
-                <div class="review-right">
-                    <div class="review-title-row">
-                        <a href="/moviesheet/${movie.id}" class="review-movie-title">${movieTitle} - (${movieYear})</a>
-                        <button class="review-menu-btn">...</button>
-                    </div>
-                    <div class="review-meta">
-                        <span class="review-rating">${ratingStars}</span> |
-                        <span class="review-date">${createdAtDate}</span>
-                    </div>
-                    <div class="review-comment">${commentText}</div>
-                    <div class="review-footer">
-                        <span class="review-likes">💙 me gustas totales</span>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        container.appendChild(reviewCard);
+        const isMyReview = r.userPreview?.userId === currentUserId;
+        container.appendChild(buildReviewCard(r, isMyReview));
     });
+
+    attachDropdownListeners();
 }
 
+// =================== CONSTRUIR UNA TARJETA DE RESEÑA =================== //
+function buildReviewCard(r, isMyReview) {
+    const div = document.createElement("div");
+    div.classList.add("review-card");
 
+    const movie = r.moviePreview || {};
+    const poster = movie.posterUrl || '/img/default-poster.jpg';
+    const movieTitle = movie.title || 'Película desconocida';
+    const movieYear = movie.releaseDate ? `(${movie.releaseDate.slice(0, 4)})` : '';
+    const comment = r.comment?.trim() || "<em>Sin comentario</em>";
+    const rating = r.rating || 0;
+    const likes = r.likesCount || 0;
+
+    // Formato de fecha y hora
+    const fecha = new Date(r.createdAt);
+    const fechaStr = fecha.toLocaleDateString("es-AR");
+    const horaStr = fecha.toLocaleTimeString("es-AR");
+
+    // Estrellas de rating
+    let stars = "";
+    for (let i = 0; i < 5; i++) {
+        if (rating >= i + 1) {
+            stars += '<i class="fas fa-star"></i>';
+        } else if (rating >= i + 0.5) {
+            stars += '<i class="fas fa-star-half-alt"></i>';
+        } else {
+            stars += '<i class="far fa-star"></i>';
+        }
+    }
+
+    // HTML de la tarjeta
+    div.innerHTML = `
+        <div class="review-media">
+            <a href="/moviesheet/${movie.id}">
+                <img src="${poster}" alt="Póster" class="image-placeholder">
+            </a>
+        </div>
+
+        <div class="review-content-area">
+            <div class="review-header">
+                <div class="review-info">
+                    <a href="/moviesheet/${movie.id}" class="titleMovie">${movieTitle} ${movieYear}</a>
+                </div>
+                ${isMyReview ? `
+                    <div class="more-options options" data-review-id="${r.id}" data-is-my-review="true">
+                        <div class="options-button"><span></span></div>
+                        <ul class="dropdown-menu">
+                            <li data-action="modify"><i class="fas fa-pencil-alt"></i> Modificar</li>
+                            <li data-action="delete"><i class="fas fa-trash-alt"></i> Eliminar</li>
+                        </ul>
+                    </div>` : ""}
+            </div>
+
+            <div class="review-body">
+                <div class="star-rating">${stars}</div>
+                <p class="review-text">${comment}</p>
+            </div>
+
+            <div class="review-footer">
+                <div class="likes">
+                    <i class="fas fa-heart"></i>
+                    <span class="like-count">${likes} ${likes === 1 ? 'like' : 'likes'}</span>
+                </div>
+                <div class="review-date">
+                    <span class="date">${fechaStr}</span>
+                    <span class="time">${horaStr}</span>
+                </div>
+            </div>
+        </div>
+    `;
+
+    return div;
+}
+
+// =================== OBTENER ID DE USUARIO DESDE JWT =================== //
+function getCurrentUserId() {
+    const token = localStorage.getItem("accessToken");
+    if (!token) return null;
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.userId;
+    } catch (e) {
+        console.error("JWT inválido");
+        return null;
+    }
+}
+
+// =================== ESCUCHAR MENÚ DE 3 PUNTOS =================== //
+function attachDropdownListeners() {
+    // Limpiar listeners viejos
+    document.querySelectorAll('.options-button').forEach(btn => {
+        const cloned = btn.cloneNode(true);
+        btn.parentNode.replaceChild(cloned, btn);
+    });
+
+    document.querySelectorAll('.dropdown-menu li').forEach(item => {
+        const cloned = item.cloneNode(true);
+        item.parentNode.replaceChild(cloned, item);
+    });
+
+    document.querySelectorAll('.review-card .options').forEach(optionsContainer => {
+        const btn = optionsContainer.querySelector('.options-button');
+        const menu = optionsContainer.querySelector('.dropdown-menu');
+
+        if (btn && menu) {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+                menu.classList.toggle('show');
+            });
+
+            menu.querySelectorAll('li').forEach(item => {
+                item.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    const action = item.dataset.action;
+                    const reviewId = optionsContainer.dataset.reviewId;
+
+                    if (action === 'modify') {
+                        const reviewToEdit = reviews.find(r => r.id.toString() === reviewId);
+                        if (reviewToEdit) {
+                            showEditReviewModal(reviewToEdit);
+                        }
+                    } else if (action === 'delete') {
+                        if (confirm('¿Estás seguro de que querés eliminar esta reseña?')) {
+                            try {
+                                const res = await fetch(`/reviews/${reviewId}`, {
+                                    method: "DELETE",
+                                    headers: {
+                                        "Authorization": "Bearer " + localStorage.getItem("accessToken")
+                                    }
+                                });
+
+                                if (!res.ok) {
+                                    const err = await res.json();
+                                    throw new Error(err.error || "No se pudo eliminar.");
+                                }
+
+                                location.reload();
+                            } catch (err) {
+                                showErrorModal(err.message);
+                            }
+                        }
+                    }
+
+                    menu.classList.remove("show");
+                });
+            });
+        }
+    });
+
+    // Cerrar menú al hacer clic fuera
+    document.addEventListener('click', (e) => {
+        document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+            if (!m.contains(e.target)) m.classList.remove("show");
+        });
+    });
+}

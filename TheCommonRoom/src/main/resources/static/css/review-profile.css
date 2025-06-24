@@ -1,0 +1,239 @@
+/* ============================== CONFIGURACIÓN GENERAL ============================== */
+body {
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+/* ============================== CONTENEDOR DE REVIEWS ============================== */
+#reviews {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem; /* Espacio entre tarjetas */
+    padding: 1rem;
+    background-color: transparent;
+    min-height: 300px;
+}
+
+/* ============================== TARJETA INDIVIDUAL ============================== */
+.review-card {
+    display: flex;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    background-color: #324032;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    font-size: 0.95rem;
+    max-width: 100%;
+    align-items: center;
+}
+
+/* ============================== PÓSTER ============================== */
+.review-media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+    width: auto;
+    border-radius: 0.5rem;
+    background-color: #324032;
+    overflow: hidden;
+}
+
+.review-media img {
+    height: 250px;
+    width: auto;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* ============================== ÁREA DE CONTENIDO ============================== */
+.review-content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.5rem;
+}
+
+/* ============================== HEADER ============================== */
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #355f49;
+    gap: 1rem;
+}
+
+.review-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.review-info .titleMovie {
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-decoration: none;
+    color: white;
+    transition: text-decoration 0.2s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ============================== CUERPO DE LA REVIEW ============================== */
+.review-body {
+    background-color: #355f49;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.star-rating {
+    margin-left: 10px;
+    padding-top: 10px;
+}
+
+.star-rating i {
+    color: #ffd700;
+    font-size: 1.45rem;
+    margin-bottom: 10px;
+}
+
+.review-text {
+    background-color: #637860;
+    padding: 15px;
+    margin: 0;
+    color: white;
+    line-height: 1.5;
+    flex-grow: 1;
+}
+
+/* ============================== FOOTER ============================== */
+.review-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9em;
+    color: #c0d1c8;
+    background-color: #637860;
+}
+
+.likes i {
+    color: #e74c3c;
+    margin-right: 5px;
+}
+
+.likes span {
+    color: #000000;
+}
+
+.review-date {
+    text-align: right;
+}
+
+/* ============================== MENSAJE DE SIN RESEÑAS ============================== */
+.empty-reviews {
+    text-align: center;
+    color: #666;
+    margin-top: 20px;
+    font-style: italic;
+}
+
+/* ============================== BOTÓN DE OPCIONES ============================== */
+.options {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.options-button {
+    background-color: #e74c3c;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+
+.options-button:hover {
+    background-color: #c0392b;
+}
+
+.options-button::before,
+.options-button::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.options-button::before {
+    transform: translateY(-6px);
+}
+
+.options-button::after {
+    transform: translateY(6px);
+}
+
+.options-button span {
+    display: block;
+    width: 3px;
+    height: 3px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+/* ============================== MENÚ DESPLEGABLE ============================== */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #333333;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    min-width: 150px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease-out, visibility 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu li {
+    padding: 8px 15px;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-menu li:hover {
+    background-color: #4a4a4a;
+}
+
+.dropdown-menu li i {
+    color: #c0c0c0;
+}

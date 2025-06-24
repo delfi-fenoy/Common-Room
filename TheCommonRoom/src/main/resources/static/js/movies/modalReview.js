@@ -65,7 +65,6 @@ function showEditReviewModal(review) {
     modalBox.classList.add('animate-in');
 }
 
-
 // =================== Cerrar modal de review =================== //
 function closeReviewModal() {
     const modal = document.getElementById('review-modal');
