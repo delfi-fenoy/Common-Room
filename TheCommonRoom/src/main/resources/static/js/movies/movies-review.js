@@ -160,8 +160,7 @@ function getCurrentUserId() {
 }
 
 // =================== VERIFICAR SI EL JWT ES VÁLIDO =================== //
-function isValidJwt(token) {
-    return typeof token === 'string' && token.split('.').length === 3;
+function isValidJwt(token) { return typeof token === 'string' && token.split('.').length === 3;
 }
 
 // =================== LISTENERS PARA EL MENÚ MODIFICAR / ELIMINAR =================== //
@@ -248,19 +247,21 @@ function attachDropdownListeners() {
 
 // =================== BOTÓN +REVIEW =================== //
 document.addEventListener("DOMContentLoaded", () => {
-    const reviewButton = document.getElementById("add-review-btn");
-    if (!reviewButton) return;
+    const addReviewBtn = document.getElementById("add-review-btn");
+    if (!addReviewBtn) return;
 
-    const AUTH_ERROR_MESSAGE = "Tenés que iniciar sesión para escribir una reseña.";
-
-    const validateAuthentication = () => {
+    addReviewBtn.addEventListener("click", () => {
         const token = localStorage.getItem("accessToken");
-        return token && isValidJwt(token);
-    };
 
-    reviewButton.addEventListener("click", () => {
-        if (!validateAuthentication()) {
-            showErrorModal(AUTH_ERROR_MESSAGE);
+        if (!token || !isValidJwt(token)) {
+            showErrorModal("Tenés que iniciar sesión para escribir una reseña.");
+            return;
+        }else{
+           const movieId = addReviewBtn.dataset.movieId;
+           const title = addReviewBtn.dataset.movieTitle;
+           const poster = addReviewBtn.dataset.moviePoster;
+           const year = document.getElementById("review-movie-year")?.textContent?.match(/\d{4}/)?.[0] || "20XX";
+           showReviewModal(movieId, title, poster, year);
         }
     });
 });

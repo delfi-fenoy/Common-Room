@@ -1,0 +1,75 @@
+<div th:fragment="modalEditProfile">
+  <div id="edit-profile-modal" class="edit-modal-overlay" style="display: none;">
+    <div class="edit-modal-box">
+      <div class="edit-modal-card" id="editModalCard">
+
+        <div class="edit-modal-face edit-modal-front">
+          <div class="modal-header">
+            <button class="edit-modal-close-btn" onclick="closeEditProfileModal()">✕</button>
+            <h2>Edit Profile</h2>
+          </div>
+
+          <div class="modal-body">
+            <div class="input-group">
+              <label class="input-label">Change Username</label>
+              <input type="text" id="edit-username" name="username" placeholder="Actual: TvSinIdeas">
+            </div>
+
+            <div class="input-group">
+              <label class="input-label">Change Email</label>
+              <input type="email" id="edit-email" name="email" placeholder="Actual: (no visible)">
+            </div>
+
+            <div class="input-group">
+              <label class="input-label">Change Profile Picture</label>
+              <input type="url" id="edit-picture" name="profilePictureUrl" placeholder="Actual: https://i.pinimg.com/736x/a4/1c/">
+            </div>
+
+            <div class="input-group">
+              <label class="input-label">Change Description</label>
+              <input type="text" id="edit-description" name="description" placeholder="Actual:">
+            </div>
+
+            <button class="action-button change-password-button" onclick="flipEditModal()">Change Password</button>
+          </div>
+
+          <div class="modal-footer">
+            <button class="action-button delete-profile-button">Delete Profile</button>
+            <button class="action-button confirm-button">Confirm</button>
+          </div>
+        </div>
+
+        <div class="edit-modal-face edit-modal-back">
+          <div class="modal-header">
+            <button class="edit-modal-close-btn" onclick="closeEditProfileModal()">✕</button>
+            <h2>Change Password</h2>
+          </div>
+
+          <div class="modal-body">
+            <div class="input-group">
+              <label class="input-label">Actual Password</label>
+              <input type="password" id="current-password" placeholder="Input">
+            </div>
+
+            <div class="input-group">
+              <label class="input-label">New Password</label>
+              <input type="password" id="new-password" placeholder="Input">
+            </div>
+
+            <div class="input-group">
+              <label class="input-label">Confirm Password</label>
+              <input type="password" id="confirm-password" placeholder="Input">
+            </div>
+
+            <button class="action-button back-button" onclick="flipEditModal()">Back</button>
+          </div>
+
+          <div class="modal-footer">
+            <button class="action-button confirm-button">Confirm</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

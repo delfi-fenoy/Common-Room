@@ -10,7 +10,6 @@ body {
     flex-direction: column;
     gap: 1.25rem; /* Espacio entre tarjetas */
     padding: 1rem;
-    background-color: transparent;
     min-height: 300px;
 }
 

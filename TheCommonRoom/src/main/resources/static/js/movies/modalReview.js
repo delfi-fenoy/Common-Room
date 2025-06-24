@@ -187,17 +187,6 @@ function submitReview() {
 document.addEventListener('DOMContentLoaded', () => {
     renderStars(selectedRating);
 
-    const addReviewBtn = document.getElementById('add-review-btn');
-    if (addReviewBtn) {
-        addReviewBtn.addEventListener('click', () => {
-            const movieId = addReviewBtn.dataset.movieId;
-            const title = addReviewBtn.dataset.movieTitle;
-            const posterUrl = addReviewBtn.dataset.moviePoster;
-            const year = addReviewBtn.dataset.movieYear;
-            showReviewModal(movieId, title, posterUrl, year);
-        });
-    }
-
     const closeBtn = document.querySelector('.review-modal-close');
     if (closeBtn) {
         closeBtn.addEventListener('click', closeReviewModal);

@@ -14,11 +14,13 @@
         <link rel="stylesheet" href="/css/reviewModal.css">
         <link rel="stylesheet" href="/css/user-profile.css">
         <link rel="stylesheet" href="/css/review-profile.css">
+        <link rel="stylesheet" href="/css/editProfileModal.css">
     </head>
     <body>
         <!-- ============================== HEADER y SIDEBAR ============================== -->
         <div th:insert="~{fragments/header :: header}"></div>
         <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+        <div th:replace="~{fragments/modal-edit-profile :: modalEditProfile}"></div>
         <div th:insert="~{fragments/modal-review :: modalReview}"></div>
         <div th:replace="~{fragments/modal-error :: modalError}"></div>
 
@@ -32,6 +34,8 @@
                      alt="Foto de perfil" />
                 <h2 class="user-username" th:text="${user.username}">Nombre Usuario</h2>
                 <p class="user-description" th:text="${user.description}">Fanático del cine noir y de los gatos detectives.</p>
+                <!-- Boton Show Edit Profile Modal -->
+                <button class="edit-profile-btn" onclick="showEditProfileModal()">Edit Profile</button>
             </aside>
 
             <!-- ============================== PANEL CENTRAL ============================== -->
@@ -84,6 +88,7 @@
         <footer>© 2025 | Common Room | Fenoy Rivas, Francano y Perez</footer>
 
         <!-- ============================== JS ============================== -->
+        <script src="/js/profile/modalEditProfile.js"></script>
         <script src="/js/profile/userProfileReviews.js"></script>
         <script src="/js/profile/userProfileTabs.js"></script>
         <script src="/js/movies/modalReview.js"></script>
