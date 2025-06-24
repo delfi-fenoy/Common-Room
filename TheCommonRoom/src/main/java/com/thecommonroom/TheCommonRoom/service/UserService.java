@@ -3,14 +3,8 @@ package com.thecommonroom.TheCommonRoom.service;
 import com.thecommonroom.TheCommonRoom.auth.dto.TokenResponse;
 import com.thecommonroom.TheCommonRoom.auth.service.AuthService;
 import com.thecommonroom.TheCommonRoom.auth.service.JwtService;
-import com.thecommonroom.TheCommonRoom.dto.UserPreviewDTO;
-import com.thecommonroom.TheCommonRoom.dto.UserRequestDTO;
-import com.thecommonroom.TheCommonRoom.dto.UserResponseDTO;
-import com.thecommonroom.TheCommonRoom.dto.UserUpdateDTO;
-import com.thecommonroom.TheCommonRoom.exception.EmailAlreadyExistsException;
-import com.thecommonroom.TheCommonRoom.exception.NoUsersFoundException;
-import com.thecommonroom.TheCommonRoom.exception.UserNotFoundException;
-import com.thecommonroom.TheCommonRoom.exception.UsernameAlreadyExistsException;
+import com.thecommonroom.TheCommonRoom.dto.*;
+import com.thecommonroom.TheCommonRoom.exception.*;
 import com.thecommonroom.TheCommonRoom.mapper.UserMapper;
 import com.thecommonroom.TheCommonRoom.model.Role;
 import com.thecommonroom.TheCommonRoom.model.User;
@@ -87,6 +81,26 @@ public class UserService {
             return new TokenResponse(newToken, newRefreshToken, foundUser.getUsername(), foundUser.getRole().name());
         }
         return null; // Devolver null en caso que no se haya modificado username
+    }
+
+    @Transactional
+    public void modifyPassword(String username, PasswordUpdateDTO dto){
+        // Obtener user completo
+        User currentUser = findUserByUsername(username);
+
+        // Validaciones
+        if(!passwordEncoder.matches(dto.getOldPassword(), currentUser.getPassword())) // Validar password antigua
+            throw new IncorrectPasswordException("The current password is incorrect.");
+
+        if(!dto.getNewPassword().equals(dto.getConfirmPassword())) // Verificar coincidencia entre passwords nuevas
+            throw new InvalidPasswordException("The new password and confirmation password do not match.");
+
+        if(passwordEncoder.matches(dto.getNewPassword(), currentUser.getPassword())) // Password actual debe ser diferente a la nueva
+            throw new InvalidPasswordException("The new password must be different from the current password.");
+
+        String encodedNewPassword = passwordEncoder.encode(dto.getNewPassword());
+        currentUser.setPassword(encodedNewPassword);
+        userRepository.save(currentUser);
     }
 
     // ========== OBTENER USUARIOS ==========

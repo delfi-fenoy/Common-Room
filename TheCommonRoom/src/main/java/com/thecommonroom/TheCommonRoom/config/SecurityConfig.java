@@ -48,7 +48,7 @@ public class SecurityConfig {
                                 ).authenticated()
 
                         .requestMatchers(HttpMethod.PUT,
-                                "/users/*"
+                                "/users/**"
                                 ).authenticated()
 
                         .requestMatchers(

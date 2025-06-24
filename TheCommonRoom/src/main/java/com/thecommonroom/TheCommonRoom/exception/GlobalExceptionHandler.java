@@ -22,6 +22,7 @@ public class GlobalExceptionHandler {
 
     // |=== EXCEPCIONES DE USUARIOS ===|
 
+    // Cuando fallan validaciones @Valid
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST) // Código de estado de la respuesta
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex){
@@ -72,6 +73,24 @@ public class GlobalExceptionHandler {
         Map<String, String> error = new HashMap<>();
         error.put("username", ex.getMessage());
         return error;
+    }
+
+    @ExceptionHandler(IncorrectPasswordException.class)
+    public ResponseEntity<Map<String, String>> handleIncorrectPassword(IncorrectPasswordException ex){
+        Map<String, String> error = new HashMap<>();
+        error.put("password", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(error);
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidPassword(InvalidPasswordException ex){
+        Map<String, String> error = new HashMap<>();
+        error.put("password", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
     }
 
     // |=== EXCEPCIONES DE API ===|
@@ -175,6 +194,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleBadCredentials(BadCredentialsException ex){
         Map<String, String> error = new HashMap<>();
         error.put("error", "Invalid username or password");
+        error.put("message", ex.getMessage());
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED) // La autenticación falló por username o password
                 .body(error);
@@ -183,7 +203,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({AccessDeniedException.class, org.springframework.security.access.AccessDeniedException.class, AuthorizationDeniedException.class})
     public ResponseEntity<Map<String, String>> handleAccessDenied(Exception ex){
         Map<String, String> error = new HashMap<>();
-        error.put("error", "Access denied");
+        error.put("error", ex.getMessage());
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN) // El usuario ya está autenticado, pero no tiene permiso para acceder al recurso
                 .body(error);
