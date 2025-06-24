@@ -1,11 +1,6 @@
 // =================== VARIABLES GLOBALES =================== //
 let originalUsername = null;
 
-// Función de utilidad para mostrar errores (asegúrate de que esta función exista en tu código)
-function showErrorModal(message) {
-    alert("Error: " + message); // Puedes reemplazar esto con tu propia implementación de modal de error
-}
-
 // =================== ABRIR MODAL =================== //
 function showEditProfileModal() {
     const modal = document.getElementById("edit-profile-modal");
@@ -26,16 +21,16 @@ function showEditProfileModal() {
     const inputPicture = document.getElementById("edit-picture");
 
     inputUsername.value = "";
-    inputUsername.placeholder = "Actual: " + username;
+    inputUsername.placeholder = username;
 
     inputEmail.value = "";
-    inputEmail.placeholder = "Actual: (no visible)"; // Si querés podés traer email del backend con fetch
+    inputEmail.placeholder = "(no visible)"; // Si querés podés traer email del backend con fetch
 
     inputDescription.value = "";
-    inputDescription.placeholder = "Actual: " + description;
+    inputDescription.placeholder = description;
 
     inputPicture.value = "";
-    inputPicture.placeholder = "Actual: " + profilePictureUrl;
+    inputPicture.placeholder = profilePictureUrl;
 
     // Limpiar campos de contraseña cada vez que se abre el modal
     document.getElementById("current-password").value = "";
@@ -98,9 +93,9 @@ document.querySelector(".edit-modal-front .confirm-button").addEventListener("cl
 
             alert("Perfil actualizado correctamente");
             closeEditProfileModal();
-            if (responseData && responseData.username && responseData.username !== originalUsername) {
-                if (responseData.token) localStorage.setItem("accessToken", responseData.data.access_toke);
-                if (responseData.refreshToken) localStorage.setItem("refreshToken", responseData.data.refresh_token);
+            if (responseData) {
+                if (responseData.access_token) localStorage.setItem("accessToken", responseData.access_token);
+                if (responseData.refresh_token) localStorage.setItem("refreshToken", responseData.refresh_token);
                 window.location.href = `/profile/${responseData.username}`;
             } else {
                 location.reload();
@@ -142,7 +137,7 @@ document.querySelector(".edit-modal-back .confirm-button").addEventListener("cli
     };
 
     try {
-        const res = await fetch(`/users/${originalUsername}/change-password`, {
+        const res = await fetch(`/users/${originalUsername}/password`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

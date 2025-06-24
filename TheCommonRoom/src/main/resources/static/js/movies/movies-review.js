@@ -160,8 +160,7 @@ function getCurrentUserId() {
 }
 
 // =================== VERIFICAR SI EL JWT ES VÁLIDO =================== //
-function isValidJwt(token) {
-    return typeof token === 'string' && token.split('.').length === 3;
+function isValidJwt(token) { return typeof token === 'string' && token.split('.').length === 3;
 }
 
 // =================== LISTENERS PARA EL MENÚ MODIFICAR / ELIMINAR =================== //
@@ -257,13 +256,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!token || !isValidJwt(token)) {
             showErrorModal("Tenés que iniciar sesión para escribir una reseña.");
             return;
+        }else{
+           const movieId = addReviewBtn.dataset.movieId;
+           const title = addReviewBtn.dataset.movieTitle;
+           const poster = addReviewBtn.dataset.moviePoster;
+           const year = document.getElementById("review-movie-year")?.textContent?.match(/\d{4}/)?.[0] || "20XX";
+           showReviewModal(movieId, title, poster, year);
         }
-
-        const movieId = addReviewBtn.dataset.movieId;
-        const title = addReviewBtn.dataset.movieTitle;
-        const poster = addReviewBtn.dataset.moviePoster;
-        const year = document.getElementById("review-movie-year")?.textContent?.match(/\d{4}/)?.[0] || "20XX";
-
-        showReviewModal(movieId, title, poster, year);
     });
 });

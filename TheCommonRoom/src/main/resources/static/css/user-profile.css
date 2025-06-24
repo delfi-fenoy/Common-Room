@@ -246,8 +246,8 @@ body {
 .lists-box {
     margin-top: 0;
     padding: 20px;
+    background-color: #9cab86;
     color: #f0f0f0;
-    background: #9cab86;
     border: 5px solid #637860;
     z-index: 1;
     position: relative;

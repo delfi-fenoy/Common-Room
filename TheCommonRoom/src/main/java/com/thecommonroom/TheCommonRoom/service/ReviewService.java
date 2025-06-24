@@ -93,8 +93,13 @@ public class ReviewService {
         for (Review review : entityReviews){
             // Obtener pre-visualización de película reseñada
             MoviePreviewDTO moviePreviewDTO = movieService.findMoviePreviewById(review.getMovieId());
-            // Mapearla a dto (reseña + moviePreview) (user null, para menor redundancia)
-            responseReviews.add(ReviewMapper.entityToResponseDTO(review, moviePreviewDTO, null));
+            UserPreviewDTO userPreviewDTO = UserMapper.toPreviewDTO(foundUser);
+            // Mapearla a dto (reseña + moviePreview + userPreview)
+            responseReviews.add(
+                    ReviewMapper.entityToResponseDTO(
+                            review,
+                            moviePreviewDTO,
+                            userPreviewDTO)); // (front necesita estos datos)
         }
         return responseReviews;
     }

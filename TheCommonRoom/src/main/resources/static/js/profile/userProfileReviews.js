@@ -6,12 +6,38 @@ let reviews = [];
 document.addEventListener("DOMContentLoaded", () => {
     const reviewsContainer = document.getElementById("reviews");
     const usernameElem = document.querySelector(".user-username");
+    const editProfileBtn = document.querySelector(".edit-profile-btn");
 
-    if (!reviewsContainer || !usernameElem) return;
+    if (!reviewsContainer || !usernameElem || !editProfileBtn) return;
 
-    const username = usernameElem.textContent.trim();
-    loadReviewsForUser(username);
+    const profileUsername = usernameElem.textContent.trim();
+    const currentUser = getCurrentUserInfo();
+
+
+    if (!currentUser || currentUser.username !== profileUsername) {
+        editProfileBtn.style.display = "none";
+    }
+
+    loadReviewsForUser(profileUsername);
 });
+
+// =================== OBTENER ID DE USUARIO DESDE JWT =================== //
+function getCurrentUserInfo() {
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) return null;
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return {
+            userId: payload.userId,
+            username: payload.sub,
+            isAdmin: payload.role === 'ADMIN'
+        };
+    } catch (e) {
+        console.error("JWT inválido");
+        return null;
+    }
+}
 
 // =================== CARGA DE REVIEWS DESDE BACKEND =================== //
 function loadReviewsForUser(username) {
@@ -34,18 +60,20 @@ function renderReviews(reviews) {
     const container = document.getElementById("reviews");
     container.innerHTML = "";
 
-    const currentUserId = getCurrentUserId();
+    const userInfo = getCurrentUserInfo();
+    const currentUserId = userInfo?.id;
+    const isAdmin = userInfo?.isAdmin;
 
     reviews.forEach(r => {
-        const isMyReview = r.userPreview?.userId === currentUserId;
-        container.appendChild(buildReviewCard(r, isMyReview));
+        const isMyReview = String(r.userPreview?.id) === String(currentUserId);
+        container.appendChild(buildReviewCard(r, isMyReview, isAdmin));
     });
 
     attachDropdownListeners();
 }
 
 // =================== CONSTRUIR UNA TARJETA DE RESEÑA =================== //
-function buildReviewCard(r, isMyReview) {
+function buildReviewCard(r, isMyReview, isAdmin) {
     const div = document.createElement("div");
     div.classList.add("review-card");
 
@@ -88,13 +116,13 @@ function buildReviewCard(r, isMyReview) {
                     <a href="/moviesheet/${movie.id}" class="titleMovie">${movieTitle} ${movieYear}</a>
                 </div>
                 <div class="options" data-review-id="${r.id}" data-is-my-review="${isMyReview}">
-                    ${isMyReview ? `
-                            <div class="options-button"><span></span></div>
-                            <ul class="dropdown-menu">
-                                <li data-action="modify"><i class="fas fa-pencil-alt"></i> Modificar</li>
-                                <li data-action="delete"><i class="fas fa-trash-alt"></i> Eliminar</li>
-                            </ul> ` : ''}
-                 </div>
+                    ${(isMyReview || isAdmin) ? `
+                        <div class="options-button"><span></span></div>
+                        <ul class="dropdown-menu">
+                            ${isMyReview ? `<li data-action="modify"><i class="fas fa-pencil-alt"></i> Modificar</li>` : ''}
+                            <li data-action="delete"><i class="fas fa-trash-alt"></i> Eliminar</li>
+                        </ul>` : ''}
+                </div>
             </div>
 
             <div class="review-body">
@@ -116,19 +144,6 @@ function buildReviewCard(r, isMyReview) {
     `;
 
     return div;
-}
-
-// =================== OBTENER ID DE USUARIO DESDE JWT =================== //
-function getCurrentUserId() {
-    const token = localStorage.getItem("accessToken");
-    if (!token) return null;
-    try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        return payload.userId;
-    } catch (e) {
-        console.error("JWT inválido");
-        return null;
-    }
 }
 
 // =================== ESCUCHAR MENÚ DE 3 PUNTOS =================== //

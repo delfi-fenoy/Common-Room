@@ -16,7 +16,7 @@ profileTabs.forEach((tab) => {
         tab.classList.add("selected");
 
         if (tab.dataset.tab === "reviews") {
-            tab.classList.add("reviews-tab");
+            tab.classList.add("reviews-box");
             reviewsBox.style.display = "block";
             listsBox.style.display = "none";
         } else {
