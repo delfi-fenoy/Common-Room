@@ -44,7 +44,6 @@ public class User {
     private String email;
 
     @Size(max = 255, message = "La descripción debe tener como máximo 255 caracteres")
-    @Column(length = 255)
     private String description;
 
     @NotNull(message = "El rol es obligatorio")
@@ -56,7 +55,6 @@ public class User {
     private LocalDateTime createdAt;
 
     @URL(message = "La URL de la foto de perfil debe ser valida")
-    @Column(nullable = true) // Puede estár vacía
     private String profilePictureUrl;
 
     // Tokens del usuario (un user puede tener muchos tokens)

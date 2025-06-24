@@ -2,6 +2,7 @@ package com.thecommonroom.TheCommonRoom.controller.rest;
 
 import com.thecommonroom.TheCommonRoom.auth.dto.TokenResponse;
 import com.thecommonroom.TheCommonRoom.auth.service.JwtService;
+import com.thecommonroom.TheCommonRoom.dto.PasswordUpdateDTO;
 import com.thecommonroom.TheCommonRoom.dto.UserPreviewDTO;
 import com.thecommonroom.TheCommonRoom.dto.UserResponseDTO;
 import com.thecommonroom.TheCommonRoom.dto.UserUpdateDTO;
@@ -64,12 +65,13 @@ public class UserController {
         }
     }
 
-    /*// =========== Actualiza un usuario por su ID =========== \\
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody @Valid UserRequestDTO dto) {
-        userService.updateUser(id, dto);
-        return ResponseEntity.ok("Usuario actualizado correctamente");
-    }*/
+    @PreAuthorize("#username == authentication.name")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{username}/password")
+    public void modifyPassword(@PathVariable String username,
+                               @Valid @RequestBody PasswordUpdateDTO passwordUpdateDTO){
+        userService.modifyPassword(username, passwordUpdateDTO);
+    }
 
     // =========== Devuelve el perfil del usuario autenticado (por token JWT) =========== \\
     @GetMapping("/me")
