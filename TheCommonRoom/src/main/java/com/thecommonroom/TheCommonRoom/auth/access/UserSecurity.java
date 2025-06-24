@@ -28,10 +28,4 @@ public class UserSecurity {
         return review.getUser().getUsername().equals(username) // La reseña debe pertenecer al usuario autenticado
                 || authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")); // O el usuairo debe ser admin
     }
-
-    // Una cuenta puede ser eliminada por el dueño o un administrador
-    public boolean canDeleteUser(String username, Authentication authentication){
-        return username.equals(authentication.getName()) // La cuenta debe pertencer al user autenticado
-                || authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")); // O el usuario debe ser admin
-    }
 }

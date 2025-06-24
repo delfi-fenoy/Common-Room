@@ -1,27 +1,28 @@
 package com.thecommonroom.TheCommonRoom.auth.service;
 
+import com.thecommonroom.TheCommonRoom.auth.repository.Token;
+import com.thecommonroom.TheCommonRoom.auth.repository.TokenRepository;
+import com.thecommonroom.TheCommonRoom.auth.repository.TokenType;
 import com.thecommonroom.TheCommonRoom.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Esta clase se encarga de generar, validar y extraer información de los tokens JWT.
- *
  * Básicamente, crea tokens seguros con datos del usuario, verifica que esos tokens sean válidos y no hayan expirado,
  * y extrae información como el usuario o el rol que están guardados dentro del token (Payload).
  * Así, facilita la autenticación y autorización en la aplicación usando JWT.
  */
 @Service
+@RequiredArgsConstructor
 public class JwtService {
 
     // Atributos
@@ -34,7 +35,10 @@ public class JwtService {
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
 
-    // Métodos
+    private final TokenRepository tokenRepository;
+
+    // ========== GENERAR TOKENS ==========
+
     public String generateToken(User user){
         return buildToken(user, jwtExpiration); // Crear access token, pasandole su tiempo de expiración
     }
@@ -71,6 +75,36 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    // ========== GUARDAR Y BORRAR TOKENS EN LA BDD ==========
+
+    // Guardar token asociado al usuario en la base de datos
+    public void saveUserToken(User user, String jwtToken){
+        var token = Token.builder()
+                .token(jwtToken)
+                .tokenType(TokenType.BEARER)
+                .revoked(false)
+                .expired(false)
+                .user(user) // Asociar usuario al token
+                .build(); // Generar instancia de Token
+        tokenRepository.save(token); // Guardar token en la base de datos
+    }
+
+    // Revocar tokens de un usuario
+    public void revokeAllUserTokens(User user){
+        // Buscar tokens validos del user
+        List<Token> validUserTokens = tokenRepository.findAllValidTokensByUserId(user.getId());
+        if (!validUserTokens.isEmpty()){ // Si se encontraron tokens validos
+            for(Token token : validUserTokens){
+                // Marcar verdadero a revocado y expirado
+                token.setRevoked(true);
+                token.setExpired(true);
+            }
+            tokenRepository.saveAll(validUserTokens); // Guardar los cambios
+        }
+    }
+
+    // ========== EXTRAER DE TOKENS ==========
+
     // Extraer username de un token
     public String extractUsername(String token){
         // Se parsea el token usando la clave secreta para validar la firma y obtener los claims (datos del user)
@@ -92,6 +126,8 @@ public class JwtService {
                 .getBody(); // info que contiene el token
         return jwtToken.getExpiration(); // Obtener la expiracion del token
     }
+
+    // ========== VALIDAR TOKENS ==========
 
     // Chequear si el token es valido
     public boolean isTokenValid(String token, User user){

@@ -1,9 +1,10 @@
 package com.thecommonroom.TheCommonRoom.controller.rest;
 
+import com.thecommonroom.TheCommonRoom.auth.dto.TokenResponse;
 import com.thecommonroom.TheCommonRoom.auth.service.JwtService;
 import com.thecommonroom.TheCommonRoom.dto.UserPreviewDTO;
-import com.thecommonroom.TheCommonRoom.dto.UserRequestDTO;
 import com.thecommonroom.TheCommonRoom.dto.UserResponseDTO;
+import com.thecommonroom.TheCommonRoom.dto.UserUpdateDTO;
 import com.thecommonroom.TheCommonRoom.model.User;
 import com.thecommonroom.TheCommonRoom.repository.UserRepository;
 import com.thecommonroom.TheCommonRoom.service.UserService;
@@ -39,15 +40,28 @@ public class UserController {
     @GetMapping("/{username}")
     @ResponseStatus(HttpStatus.OK)
     public UserResponseDTO getUserByUsername(@PathVariable String username) {
-        return userService.getUser(username);
+        return userService.getUserResponse(username);
     }
 
     // =========== Elimina un usuario por su username =========== \\
-    @PreAuthorize("@userSecurity.canDeleteUser(#username, authentication)")
+    @PreAuthorize("#username == authentication.name or hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{username}")
     public void deleteUser(@PathVariable String username){
         userService.deleteUser(username);
+    }
+
+    @PreAuthorize("#username == authentication.name")
+    @PutMapping("/{username}")
+    public ResponseEntity<?> modifyUser(@PathVariable String username,
+                                        @Valid @RequestBody UserUpdateDTO userUpdateDTO){
+        TokenResponse tokenResponse = userService.modifyUser(username, userUpdateDTO);
+
+        if(tokenResponse != null){ // Si se modifica el username, se genera nuevo token
+            return ResponseEntity.ok(tokenResponse);
+        } else {
+            return ResponseEntity.noContent().build(); // Caso contrario, no devuelve nada (no content)
+        }
     }
 
     /*// =========== Actualiza un usuario por su ID =========== \\
