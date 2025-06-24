@@ -2,10 +2,13 @@ package com.thecommonroom.TheCommonRoom.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Schema(description = "DTO que representa la respuesta de una reseña, incluyendo puntuación, " +
+        "comentario, fecha, y datos básicos del usuario y la película relacionados.")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
