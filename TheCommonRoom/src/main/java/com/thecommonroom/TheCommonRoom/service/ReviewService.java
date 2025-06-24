@@ -23,6 +23,8 @@ public class ReviewService {
     private final UserService userService;
     private final MovieService movieService;
 
+    // ========== ABM REVIEWS ==========
+
     @Transactional
     public ReviewResponseDTO createReview(ReviewRequestDTO reviewRequestDTO){
 
@@ -41,30 +43,6 @@ public class ReviewService {
         MoviePreviewDTO moviePreviewDTO = movieService.findMoviePreviewById(review.getMovieId()); // Obtener pre-visualización de película
         UserPreviewDTO userPreviewDTO = UserMapper.toPreviewDTO(currentUser); // Obtener pre-visualización de user
         return ReviewMapper.entityToResponseDTO(review, moviePreviewDTO, userPreviewDTO); // Mapear reseña a responseDTO
-    }
-
-    public void validateMovieExists(Long movieId){
-        // Comprobar existencia de película
-        if(!movieService.existsMovieById(movieId))
-            throw new MovieNotFoundException("Movie does not exist");
-    }
-
-    @Transactional(readOnly = true)
-    public void validateUserHasNotReviewedMovie(Long userId, Long movieId){
-        // Comprobar que el usuario no haya reseñado esta película anteriormente
-        if(reviewRepository.findByUserIdAndMovieId(userId, movieId)
-                .isPresent())
-            throw new ReviewAlreadyExistsException("User has already reviewed this movie");
-    }
-
-    public void validateReview(Double rating, String comment){
-        // Comprobar que el rating sea múltiplo válido de 0.5 (0.5, 1, 1.5, etc)
-        if(rating != null && rating % 0.5 != 0)
-            throw new InvalidReviewException("Rating must be a multiple of 0.5 between 0.5 and 5");
-
-        // Si se incluye un comentario (opcional), chequear que no sean solo espacios en blanco
-        if(comment != null && comment.isBlank())
-            throw new InvalidReviewException("Comment cannot contain only whitespace");
     }
 
     @Transactional
@@ -102,6 +80,8 @@ public class ReviewService {
                                             UserMapper.toPreviewDTO(review.getUser()));
     }
 
+    // ========== OBTENER REVIEWS ==========
+
     @Transactional(readOnly = true) // Para mayor rendimiento
     public List<ReviewResponseDTO> getReviewsByUsername(String username){
         User foundUser = userService.findUserByUsername(username); // Obtener usuario buscado
@@ -137,5 +117,31 @@ public class ReviewService {
     public Review getReviewById(Long reviewId){
         return reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ReviewNotFoundException("Review does not exist"));
+    }
+
+    // ========== VALIDACIONES ==========
+
+    public void validateMovieExists(Long movieId){
+        // Comprobar existencia de película
+        if(!movieService.existsMovieById(movieId))
+            throw new MovieNotFoundException("Movie does not exist");
+    }
+
+    @Transactional(readOnly = true)
+    public void validateUserHasNotReviewedMovie(Long userId, Long movieId){
+        // Comprobar que el usuario no haya reseñado esta película anteriormente
+        if(reviewRepository.findByUserIdAndMovieId(userId, movieId)
+                .isPresent())
+            throw new ReviewAlreadyExistsException("User has already reviewed this movie");
+    }
+
+    public void validateReview(Double rating, String comment){
+        // Comprobar que el rating sea múltiplo válido de 0.5 (0.5, 1, 1.5, etc)
+        if(rating != null && rating % 0.5 != 0)
+            throw new InvalidReviewException("Rating must be a multiple of 0.5 between 0.5 and 5");
+
+        // Si se incluye un comentario (opcional), chequear que no sean solo espacios en blanco
+        if(comment != null && comment.isBlank())
+            throw new InvalidReviewException("Comment cannot contain only whitespace");
     }
 }

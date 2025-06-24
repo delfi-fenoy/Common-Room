@@ -21,8 +21,7 @@ public class UserMapper {
                 .build();
     }
 
-    ///Convierto de un objeto a otro
-    ///De un User a un UserPreviewDTO
+    // De un User a un UserPreviewDTO
     public static UserPreviewDTO toPreviewDTO(User user) {
         return UserPreviewDTO.builder()
                 .id(user.getId())
@@ -32,14 +31,14 @@ public class UserMapper {
                 .build();
     }
 
-    ///Convierte una lista de User a una lista de UserPreviewDTO
+    // Convierte una lista de User a una lista de UserPreviewDTO
     public static List<UserPreviewDTO> toPreviewDTOList(List<User> users){
         return users.stream()
                 .map(UserMapper::toPreviewDTO)
                 .collect(Collectors.toList());
     }
   
-    public static UserResponseDTO toDTO(User user){
+    public static UserResponseDTO toResponseDTO(User user){
         return UserResponseDTO.builder()
                 .id(user.getId())
                 .username(user.getUsername())
