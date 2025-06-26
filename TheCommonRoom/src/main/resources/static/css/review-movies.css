@@ -21,7 +21,7 @@ body {
     width: 100%;
     color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
+    overflow: visible;
     position: relative;
 }
 
@@ -97,7 +97,7 @@ body {
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    display: flex;
+    display: flex !important;
     justify-content: center;
     align-items: center;
     cursor: pointer;

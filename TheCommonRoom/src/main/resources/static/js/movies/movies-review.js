@@ -44,7 +44,15 @@ function renderReviews(reviews) {
     const addReviewBtn = document.getElementById("add-review-btn");
     container.innerHTML = "";
 
-    const currentUserId = getCurrentUserId();
+//    const currentUserId = getCurrentUserId();
+    const currentUser= getCurrentUserId();
+    const currentUserId = currentUser?.userId;
+    const isAdmin = currentUser?.isAdmin;
+
+    console.log(currentUser);
+    console.log(currentUserId);
+    console.log(isAdmin);
+
     let myReview = null;
     const otherReviews = [];
 
@@ -73,14 +81,14 @@ function renderReviews(reviews) {
     }
 
     otherReviews.forEach(r => {
-        container.appendChild(buildReviewCard(r, false));
+        container.appendChild(buildReviewCard(r, false, isAdmin));
     });
 
     attachDropdownListeners();
 }
 
 // =================== CONSTRUCCIÓN DE TARJETA DE RESEÑA =================== //
-function buildReviewCard(r, isMyReview) {
+function buildReviewCard(r, isMyReview, isAdmin) {
     const div = document.createElement("div");
     div.classList.add("review-card");
 
@@ -121,10 +129,10 @@ function buildReviewCard(r, isMyReview) {
                 </div>
             </a>
             <div class="options" data-review-id="${r.id}" data-is-my-review="${isMyReview}">
-                ${isMyReview ? `
+                ${(isMyReview || isAdmin) ? `
                     <div class="options-button"><span></span></div>
                     <ul class="dropdown-menu">
-                        <li data-action="modify"><i class="fas fa-pencil-alt"></i> Modificar</li>
+                        ${isMyReview ? `<li data-action="modify"><i class="fas fa-pencil-alt"></i> Modificar</li>` : ''}
                         <li data-action="delete"><i class="fas fa-trash-alt"></i> Eliminar</li>
                     </ul>` : ''}
             </div>
@@ -150,7 +158,10 @@ function getCurrentUserId() {
     if (token) {
         try {
             const payload = JSON.parse(atob(token.split('.')[1]));
-            return payload.userId;
+            return {
+                userId: payload.userId,
+                isAdmin: payload.role === 'ADMIN'
+            };
         } catch (e) {
             console.error("Error al parsear JWT:", e);
             return null;
@@ -158,6 +169,20 @@ function getCurrentUserId() {
     }
     return null;
 }
+
+/*function getCurrentUserId() {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            return payload.userId;
+        } catch (e) {
+            console.error("Error al parsear JWT:", e);
+            return null;
+        }
+    }
+    return null;
+}*/
 
 // =================== VERIFICAR SI EL JWT ES VÁLIDO =================== //
 function isValidJwt(token) { return typeof token === 'string' && token.split('.').length === 3;
@@ -180,7 +205,7 @@ function attachDropdownListeners() {
         const optionsButton = optionsContainer.querySelector('.options-button');
         const dropdownMenu = optionsContainer.querySelector('.dropdown-menu');
 
-        if (optionsButton && dropdownMenu && optionsContainer.dataset.isMyReview === 'true') {
+        if (optionsButton && dropdownMenu) {
             optionsButton.addEventListener('click', (event) => {
                 event.stopPropagation();
                 document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
