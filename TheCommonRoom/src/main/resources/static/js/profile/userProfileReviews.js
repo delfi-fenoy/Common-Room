@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const profileUsername = usernameElem.textContent.trim();
     const currentUser = getCurrentUserInfo();
 
-
     if (!currentUser || currentUser.username !== profileUsername) {
         editProfileBtn.style.display = "none";
     }
@@ -61,7 +60,7 @@ function renderReviews(reviews) {
     container.innerHTML = "";
 
     const userInfo = getCurrentUserInfo();
-    const currentUserId = userInfo?.id;
+    const currentUserId = userInfo?.userId;
     const isAdmin = userInfo?.isAdmin;
 
     reviews.forEach(r => {
